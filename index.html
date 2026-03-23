@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="星能工作室 - 星光点缀黑暗，专注于迷你世界地图创作与青少年创意交流。">
+    <meta name="keywords" content="星能工作室,迷你世界,地图创作,青少年交流,星光点缀黑暗">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234c8eff'%3E%3Cpath d='M12,2L15,8L22,9L17,14L18,21L12,17L6,21L7,14L2,9L9,8L12,2Z'/%3E%3C/svg%3E">
+    <title>星能工作室 | 星光点缀黑暗</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default;
+        }
+        a, button, .btn, .nav-link, .dot, .value-card, .modal-close, .quick-wish-btn, .starblue-btn {
+            cursor: pointer;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', 'Inter', system-ui, -apple-system, 'Microsoft YaHei', sans-serif;
+            background: #f5f7fc;
+            color: #1e293b;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* 白色网格背景 + 科技光晕 */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f4fa 100%);
+        }
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(0, 30, 60, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 30, 60, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .tech-line {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #1a2a4f, #4c8eff, #1a2a4f);
+            z-index: 99;
+        }
+
+        /* 全屏滑动容器 */
+        .fullpage-container {
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .slides-wrapper {
+            height: 100%;
+            width: 100%;
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+        .slide {
+            height: 100vh;
+            width: 100%;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #4c8eff #d9e2f0;
+        }
+        .slide::-webkit-scrollbar {
+            width: 5px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #d9e2f0;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background: #4c8eff;
+            border-radius: 8px;
+        }
+        .container-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 90px 2rem 3rem;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* 导航栏 - 白底黑字 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2.5rem;
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-bottom: 1px solid #e0e7f0;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-img {
+            height: 60px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(125deg, #1a2a4f, #4c8eff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        .nav-link {
+            color: #1e293b;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: 0.2s;
+            padding: 0.4rem 0;
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4c8eff;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #4c8eff;
+        }
+
+        /* 卡片通用样式 */
+        .card, .vision-card, .wish-pool, .starblue-book {
+            position: relative;
+            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid #e0e7f0;
+            border-radius: 0px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+        .card::before, .vision-card::before, .wish-pool::before, .starblue-book::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid transparent;
+            border-image: linear-gradient(90deg, #4c8eff, #aac9ff, #4c8eff);
+            border-image-slice: 1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .card:hover::before, .vision-card:hover::before, .wish-pool:hover::before, .starblue-book:hover::before {
+            opacity: 1;
+            animation: borderFlow 2s linear infinite;
+        }
+        @keyframes borderFlow {
+            0% { border-image-source: linear-gradient(90deg, #4c8eff, #aac9ff, #4c8eff); }
+            100% { border-image-source: linear-gradient(450deg, #4c8eff, #aac9ff, #4c8eff); }
+        }
+        .card::after, .vision-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, transparent 50%, #4c8eff20 50%);
+            pointer-events: none;
+        }
+        .card:hover, .vision-card:hover, .wish-pool:hover, .starblue-book:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+            border-color: #4c8eff;
+        }
+
+        .card {
+            padding: 2.2rem;
+        }
+        .vision-card {
+            padding: 2.2rem;
+            margin-bottom: 2rem;
+        }
+        .wish-pool .wish-pool-overlay {
+            padding: 2.2rem;
+        }
+        .starblue-book {
+            padding: 2.2rem;
+            margin-top: 2rem;
+        }
+
+        /* 愿景流动文字特效 */
+        .flowing-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1a2a4f, #4c8eff, #1a2a4f);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: flow 6s ease infinite;
+            text-align: center;
+        }
+        @keyframes flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        /* 板块标题样式 */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            border-left: 4px solid #4c8eff;
+            padding-left: 16px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .section-title .en {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #6c86a8;
+            letter-spacing: 0.5px;
+        }
+
+        /* 按钮等通用 */
+        .btn {
+            display: inline-block;
+            background: #1a2a4f;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 0px;
+            color: white;
+            font-weight: 600;
+            transition: 0.2s;
+            cursor: pointer;
+            text-align: center;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #4c8eff;
+            color: #1a2a4f;
+        }
+        .btn-outline:hover {
+            background: #4c8eff;
+            color: white;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin: 2rem 0 2.5rem;
+        }
+        .info-item {
+            margin: 1.2rem 0;
+        }
+        .info-label {
+            font-size: 0.85rem;
+            color: #4c6a9e;
+            margin-bottom: 0.2rem;
+        }
+        .video-wrapper {
+            margin-top: 1.2rem;
+            border-radius: 0px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+        }
+
+        /* 价值观卡片翻转 */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        .flip-card {
+            background-color: transparent;
+            height: 180px;
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 0px;
+        }
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-front, .flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #ffffff;
+            border: 1px solid #e0e7f0;
+            border-radius: 0px;
+            padding: 1.5rem;
+        }
+        .flip-front {
+            background: #ffffff;
+        }
+        .flip-back {
+            background: #f0f4fa;
+            transform: rotateY(180deg);
+            color: #4c8eff;
+            font-weight: 500;
+        }
+        .value-word {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        .value-desc {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            color: #4c8eff;
+        }
+
+        /* 左右布局 */
+        .horizontal-layout {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .horizontal-layout .img-side {
+            flex: 0 0 200px;
+            text-align: center;
+        }
+        .section-img, .value-img {
+            max-width: 100%;
+            border-radius: 0px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* 心愿池 */
+        .wish-pool {
+            margin-top: 0;
+            background-image: url('https://raw.githubusercontent.com/mir-ch-ux/stellar/main/screenshot_20260317_004756_com.larus.nova.hm.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .wish-list {
+            max-height: 220px;
+            overflow-y: auto;
+            background: #f8fafd;
+            border-radius: 0px;
+            padding: 0.8rem;
+            margin: 1rem 0;
+        }
+        .wish-item {
+            background: #f0f4fa;
+            padding: 8px 14px;
+            border-left: 3px solid #4c8eff;
+            color: #1a2a4f;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        .wish-item.user {
+            border-left-color: #ffaa66;
+            background: #fff3e6;
+        }
+        .quick-wish-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        .quick-wish-btn {
+            background: #eef2fa;
+            border: 1px solid #c0d0e8;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .quick-wish-btn:hover {
+            background: #4c8eff;
+            color: white;
+        }
+        .custom-wish {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .custom-wish input {
+            flex: 2;
+            background: #f8fafd;
+            border: 1px solid #c0d0e8;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .custom-wish input:focus {
+            border-color: #4c8eff;
+        }
+        .warning-text {
+            font-size: 0.7rem;
+            color: #ff8866;
+            margin-top: 0.3rem;
+        }
+
+        /* 星小蓝寄语翻页 */
+        .starblue-container {
+            position: relative;
+            min-height: 280px;
+            perspective: 1200px;
+        }
+        .starblue-page {
+            background: #f8fafd;
+            border: 1px solid #e0e7f0;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.5s ease, opacity 0.3s ease;
+            transform-style: preserve-3d;
+            color: #1a2a4f;
+            line-height: 1.7;
+            font-size: 1rem;
+            backface-visibility: hidden;
+        }
+        .starblue-page.flip-out {
+            transform: rotateY(90deg);
+            opacity: 0;
+        }
+        .starblue-page.flip-in {
+            transform: rotateY(0deg);
+            opacity: 1;
+        }
+        .starblue-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+        .starblue-btn {
+            background: #eef2fa;
+            border: 1px solid #c0d0e8;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .starblue-btn:hover {
+            background: #4c8eff;
+            color: white;
+        }
+        .starblue-indicator {
+            text-align: center;
+            margin-top: 0.8rem;
+            font-size: 0.8rem;
+            color: #4c6a9e;
+        }
+
+        /* 全新页尾：黑色背景，两栏，标题蓝线 */
+        .footer-new {
+            margin-top: 3rem;
+            background: #0a0f2a;
+            padding: 2rem 2.5rem;
+            color: #eef5ff;
+        }
+        .footer-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+        .footer-col h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-left: 3px solid #4c8eff;
+            padding-left: 12px;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .footer-col p, .footer-col a {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #b8d0ff;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .footer-col a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+        .update-log {
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #2a3a7a;
+            font-size: 0.75rem;
+            color: #aac2ff;
+        }
+        @media (max-width: 780px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        /* 主页样式 */
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .main-title {
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(145deg, #1a2a4f, #4c8eff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: none;
+            margin-bottom: 1rem;
+        }
+        .sub-en {
+            font-size: 1.5rem;
+            color: #4c6a9e;
+            border-left: 2px solid #4c8eff;
+            padding-left: 1rem;
+        }
+        .slide-dots {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #c0d0e8;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .dot.active {
+            background: #4c8eff;
+            transform: scale(1.3);
+        }
+
+        /* 弹窗 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #ffffff;
+            border-radius: 0px;
+            border: 1px solid #e0e7f0;
+            padding: 2rem;
+            color: #1a2a4f;
+            max-width: 500px;
+            width: 85%;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #4c6a9e;
+        }
+        .contact-line {
+            margin: 1rem 0;
+            border-left: 3px solid #4c8eff;
+            padding-left: 1rem;
+        }
+        .bili-avatar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+            background: #f0f4fa;
+            padding: 0.5rem 1rem;
+        }
+        .bili-avatar img {
+            width: 52px;
+            height: 52px;
+            border-radius: 0px;
+            border: 2px solid #4c8eff;
+        }
+
+        @media (max-width: 780px) {
+            .navbar { padding: 0.7rem 1rem; }
+            .logo-img { height: 45px; }
+            .logo-text { font-size: 1.3rem; }
+            .nav-links { gap: 0.8rem; }
+            .main-title { font-size: 2.5rem; }
+            .sub-en { font-size: 1rem; }
+            .container-inner { padding: 80px 1rem 2rem; }
+            .horizontal-layout { flex-direction: column; text-align: center; }
+            .values-grid { gap: 1rem; }
+            .flip-card { height: 150px; }
+            .section-title { font-size: 1.6rem; margin-bottom: 1.2rem; }
+            .grid-2 { gap: 1.5rem; }
+            .card, .vision-card, .wish-pool .wish-pool-overlay, .starblue-book {
+                padding: 1.5rem;
+            }
+            .starblue-page {
+                padding: 1.2rem;
+            }
+            .footer-new {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="grid-overlay"></div>
+<div class="tech-line"></div>
+
+<div class="navbar" id="navbar">
+    <div class="logo">
+        <img class="logo-img" src="https://raw.githubusercontent.com/mir-ch-ux/stellar/main/1774185131572-removebg-preview.png" alt="星能工作室Logo" onerror="this.style.display='none';">
+        <span class="logo-text">星能工作室</span>
+    </div>
+    <div class="nav-links">
+        <a class="nav-link active" data-index="0">主页</a>
+        <a class="nav-link" data-index="1">账号信息</a>
+        <a class="nav-link" data-index="2">了解我们</a>
+        <a class="nav-link" data-index="3">加入我们</a>
+        <a class="nav-link" data-index="4">星愿</a>
+    </div>
+</div>
+
+<div class="slide-dots" id="slideDots"></div>
+
+<div class="fullpage-container">
+    <div class="slides-wrapper" id="slidesWrapper">
+        <!-- 主页 -->
+        <div class="slide" data-slide="0">
+            <div class="container-inner">
+                <div class="hero">
+                    <div class="main-title">星光点缀黑暗</div>
+                    <div class="sub-en">Starlight Adorns the Darkness</div>
+                    <div style="margin-top: 2rem;">
+                        <span class="btn-outline btn" id="exploreBtn"><i class="fas fa-arrow-right"></i> 探索星能宇宙</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 账号信息 -->
+        <div class="slide" data-slide="1">
+            <div class="container-inner">
+                <div class="section-title">
+                    <span>官方账号</span>
+                    <span class="en">Official Account</span>
+                </div>
+                <p style="margin-bottom: 1rem; color: #4c6a9e;">创意火花 · 尽在B站</p>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="bili-avatar">
+                            <img src="https://raw.githubusercontent.com/mir-ch-ux/stellar/main/1773930425855.png" alt="头像" onerror="this.src='https://www.bilibili.com/favicon.ico';">
+                            <div><h3>星能工作室</h3><div class="info-label">UID: 3493087561124092</div></div>
+                        </div>
+                        <p>关注我们，获取工作室最新地图创作和团队日常。</p>
+                        <div class="info-item"><div class="info-label"><i class="fas fa-link"></i> 空间链接</div><a href="https://space.bilibili.com/3493087561124092" target="_blank" style="color:#4c8eff;">https://space.bilibili.com/3493087561124092</a></div>
+                        <a href="https://space.bilibili.com/3493087561124092" target="_blank" class="btn" style="width:100%"><i class="fab fa-bilibili"></i> 前往B站空间</a>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-video" style="font-size:2rem; color:#ffaa66;"></i>
+                        <h3>最新作品</h3>
+                        <p>【迷你世界】当我在迷你世界里用触发器造了一场烟花秀</p>
+                        <div class="video-wrapper"><iframe src="https://player.bilibili.com/player.html?bvid=BV1gLcRzREpF&page=1&high_quality=1&autoplay=0" allowfullscreen></iframe></div>
+                        <a href="https://www.bilibili.com/video/BV1gLcRzREpF" target="_blank" class="btn-outline btn" style="margin-top:0.8rem;">观看完整视频</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 了解我们 -->
+        <div class="slide" data-slide="2">
+            <div class="container-inner">
+                <div class="section-title">
+                    <span>我们的愿景</span>
+                    <span class="en">Our Vision</span>
+                </div>
+                <div class="vision-card">
+                    <div class="flowing-text">“打造一片闪亮的星空”</div>
+                    <p style="text-align:center; margin-top:1rem;">让每一位创作者的灵感都化作星辰，在星能工作室的宇宙里交织出璀璨银河。</p>
+                </div>
+
+                <div class="section-title">
+                    <span>关于星能</span>
+                    <span class="en">About Us</span>
+                </div>
+                <div class="grid-2">
+                    <div class="card">
+                        <i class="fas fa-history" style="font-size:2rem"></i>
+                        <h3>缘起</h3>
+                        <p>成立于2021年，我们是一群因《迷你世界》而相遇的创作者。从最初的地图设计到如今的小团队，我们始终专注于地图创作与青少年技术交流。在这里，我们分享灵感、共同进步，用创意点亮彼此。</p>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-lightbulb" style="font-size:2rem"></i>
+                        <h3>温暖 · 同行</h3>
+                        <p>星能不仅仅是一个工作室，更是一个充满温度的大家庭。我们相信，每一次交流都能碰撞出新的火花，每一个想法都值得被倾听。在这里，我们一同成长，让创作不再孤单。</p>
+                    </div>
+                </div>
+                <div class="card" style="text-align:center">
+                    <i class="fas fa-rocket"></i> 未来规划：持续深耕地图创作，拓展更多可能性，成为青少年创作者的温暖驿站。
+                </div>
+            </div>
+        </div>
+
+        <!-- 加入我们（已移除页尾） -->
+        <div class="slide" data-slide="3">
+            <div class="container-inner">
+                <div class="section-title">
+                    <span>加入我们</span>
+                    <span class="en">Join Us</span>
+                </div>
+                <div class="card">
+                    <div class="horizontal-layout">
+                        <div class="img-side"><img class="section-img" src="https://raw.githubusercontent.com/mir-ch-ux/stellar/main/IMG_526.jpeg" alt="加入我们插图" onerror="this.style.display='none'"></div>
+                        <div class="text-side">
+                            <h2>点亮星光</h2>
+                            <p>开发者、建筑党、剧情师、UP主，这里总有你的位置。</p>
+                            <div class="join-buttons" style="display:flex; gap:1rem; margin:1rem 0;">
+                                <button class="btn" id="joinNowBtn"><i class="fas fa-user-plus"></i> 立即加入我们</button>
+                                <button class="btn-outline btn" id="campusJoinBtn"><i class="fas fa-school"></i> 校园加入 · 星能学园</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 价值观卡片 - 翻转效果 -->
+                <div class="card" style="margin-top:1.5rem;">
+                    <h3 style="text-align:center; margin-bottom:1rem;">星能核心法则</h3>
+                    <div class="values-grid">
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-front"><div class="value-word">热爱</div></div>
+                                <div class="flip-back"><div class="value-desc">赤诚之心</div></div>
+                            </div>
+                        </div>
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-front"><div class="value-word">勇敢</div></div>
+                                <div class="flip-back"><div class="value-desc">勇往直前</div></div>
+                            </div>
+                        </div>
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-front"><div class="value-word">突破</div></div>
+                                <div class="flip-back"><div class="value-desc">超越极限</div></div>
+                            </div>
+                        </div>
+                        <div class="flip-card">
+                            <div class="flip-card-inner">
+                                <div class="flip-front"><div class="value-word">创造</div></div>
+                                <div class="flip-back"><div class="value-desc">独具匠心</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 星愿板块（心愿池 + 星小蓝寄语） -->
+        <div class="slide" data-slide="4">
+            <div class="container-inner">
+                <div class="section-title">
+                    <span>星愿</span>
+                    <span class="en">Star Wish</span>
+                </div>
+                <!-- 心愿池 -->
+                <div class="wish-pool">
+                    <div class="wish-pool-overlay">
+                        <h3 style="margin-bottom: 0.5rem;"><i class="fas fa-star-of-life"></i> 星愿流星池 · 许愿漂流</h3>
+                        <div class="wish-list" id="wishList"></div>
+                        <div class="quick-wish-buttons" id="quickWishButtons"></div>
+                        <div class="custom-wish">
+                            <input type="text" id="customWishInput" placeholder="写下你的愿望...">
+                            <button id="submitCustomWish" class="btn" style="padding:0.5rem 1.2rem;">许愿</button>
+                        </div>
+                        <div class="warning-text">✨ 恶语伤人心，请传递温暖 ✨</div>
+                        <p style="text-align:center; font-size:0.7rem; margin-top:0.5rem;">💫 点击快捷按钮或输入愿望，你的心声会留在星愿池中~</p>
+                    </div>
+                </div>
+
+                <!-- 星小蓝寄语 -->
+                <div class="starblue-book">
+                    <h3 style="margin-bottom: 1rem;"><i class="fas fa-comment-dots"></i> 星小蓝的寄语</h3>
+                    <div class="starblue-container">
+                        <div class="starblue-page" id="starbluePage"></div>
+                    </div>
+                    <div class="starblue-controls">
+                        <button class="starblue-btn" id="starbluePrev"><i class="fas fa-chevron-left"></i> 上一页</button>
+                        <button class="starblue-btn" id="starblueNext">下一页 <i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="starblue-indicator" id="starblueIndicator"></div>
+                </div>
+
+                <!-- 新页尾 -->
+                <div class="footer-new">
+                    <div class="footer-container">
+                        <div class="footer-col">
+                            <h4>星能工作室</h4>
+                            <p>始于2021年，专注迷你世界地图创作与青少年技术交流。</p>
+                            <p>星光点缀黑暗，用创意点亮彼此。</p>
+                            <p>以热爱驱动创造，以勇气挑战未知。</p>
+                        </div>
+                        <div class="footer-col">
+                            <h4>账号信息 & 联系方式</h4>
+                            <p><a href="https://space.bilibili.com/3493087561124092" target="_blank">B站空间：星能工作室</a></p>
+                            <p>官方邮箱：stellarspark@outlook.com</p>
+                            <p>QQ星小蓝：3849876019</p>
+                            <p>交流群：966926112</p>
+                            <p>频道号：pd90272831</p>
+                            <p>青少年服务热线：12355（24小时心理支持）</p>
+                            <div class="update-log">
+                                <strong>更新速递</strong><br>
+                                2025.03.23 星愿板块独立，心愿池与星小蓝寄语合并；页尾全新设计<br>
+                                2025.03.20 价值观卡片翻转效果上线<br>
+                                2025.03.15 官网整体风格焕新
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 加入弹窗 -->
+<div id="joinModal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close" id="closeModalBtn">&times;</span>
+        <h3><i class="fas fa-comet"></i> 欢迎加入星能</h3>
+        <div class="contact-line"><strong>📧 邮箱联系：</strong> stellarspark@outlook.com<br><small>发送作品/自我介绍，我们将在3日内回复</small></div>
+        <div class="contact-line"><strong>🐧 QQ星小蓝：</strong> 3849876019 <br><strong>💬 交流群号：</strong> 966926112 <br><strong>📡 官方频道：</strong> pd90272831</div>
+        <div class="contact-line"><strong>🌠 校园加入计划：</strong> 可联系校园大使获取申请表，享专属指导与资源。</div>
+        <div style="margin-top:1.5rem; text-align:center;"><button class="btn-outline btn" id="copyContactBtn" style="padding:0.4rem 1.2rem;">复制群号</button></div>
+    </div>
+</div>
+
+<script>
+    // 星小蓝寄语（5条）带翻页动画
+    const starblueMessages = [
+        "亲爱的小伙伴：\n\n愿你在星能的每一天，都能找到属于自己的星光。创作的路或许有孤独，但这里永远有一群和你一样热爱的人。让我们一起，把地图变成星辰大海。\n\n—— 星小蓝",
+        "To 每一位创作者：\n\n勇敢去尝试，别怕失败。每一个伟大的地图，都始于一个简单的想法。你的创意，值得被看见。星能会一直为你点亮灯塔。\n\n—— 星小蓝",
+        "星光寄语：\n\n保持热爱，奔赴山海。星能不只是工作室，更是家。期待你的加入，让我们共同书写属于少年的传奇。\n\n—— 星小蓝",
+        "灵感火花：\n\n每一次点击触发器，都是一次魔法；每一张地图，都是一个世界。你的创意，就是点亮星空的火花。\n\n—— 星小蓝",
+        "温暖同行：\n\n无论你是萌新还是大佬，这里都为你留着一盏灯。我们一起讨论、一起创作，让星能成为温暖的港湾。\n\n—— 星小蓝"
+    ];
+    let currentStarbluePage = 0;
+    const starbluePageDiv = document.getElementById('starbluePage');
+    const starblueIndicator = document.getElementById('starblueIndicator');
+    let isAnimating = false;
+
+    function updateStarbluePage() {
+        if (isAnimating) return;
+        isAnimating = true;
+        starbluePageDiv.classList.add('flip-out');
+        setTimeout(() => {
+            starbluePageDiv.innerHTML = starblueMessages[currentStarbluePage].replace(/\n/g, '<br>');
+            starblueIndicator.innerText = `${currentStarbluePage+1}/${starblueMessages.length}`;
+            starbluePageDiv.classList.remove('flip-out');
+            starbluePageDiv.classList.add('flip-in');
+            setTimeout(() => {
+                starbluePageDiv.classList.remove('flip-in');
+                isAnimating = false;
+            }, 400);
+        }, 300);
+    }
+
+    document.getElementById('starbluePrev').addEventListener('click', () => {
+        currentStarbluePage = (currentStarbluePage - 1 + starblueMessages.length) % starblueMessages.length;
+        updateStarbluePage();
+    });
+    document.getElementById('starblueNext').addEventListener('click', () => {
+        currentStarbluePage = (currentStarbluePage + 1) % starblueMessages.length;
+        updateStarbluePage();
+    });
+    starbluePageDiv.innerHTML = starblueMessages[0].replace(/\n/g, '<br>');
+    starblueIndicator.innerText = `1/${starblueMessages.length}`;
+
+    // 心愿池快捷语15秒刷新（无流星特效，只记录）
+    const quickWishPool = [
+        "愿创意如星光般璀璨", "希望和大家一起做出超棒的地图", "星能永远闪耀，梦想永不熄灭",
+        "愿灵感源源不断", "保持热爱，奔赴山海", "愿世界和平，创意自由",
+        "愿每一天都有新灵感", "让地图成为梦想的画布", "突破自我，创造无限", "愿热爱永不降温"
+    ];
+    const quickWishContainer = document.getElementById('quickWishButtons');
+    function refreshQuickWishes() {
+        const shuffled = [...quickWishPool];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        const newWishes = shuffled.slice(0, 3);
+        quickWishContainer.innerHTML = '';
+        newWishes.forEach(wish => {
+            const btn = document.createElement('button');
+            btn.className = 'quick-wish-btn';
+            btn.setAttribute('data-wish', wish);
+            btn.textContent = wish;
+            btn.addEventListener('click', () => addWishRecord(wish, true));
+            quickWishContainer.appendChild(btn);
+        });
+    }
+    refreshQuickWishes();
+    setInterval(refreshQuickWishes, 15000);
+
+    // 愿望记录系统（无流星动画）
+    let wishRecords = [];
+    const wishListDiv = document.getElementById('wishList');
+    function addWishRecord(text, isUser) {
+        wishRecords.unshift({ text, isUser });
+        if (wishRecords.length > 30) wishRecords.pop();
+        renderWishList();
+    }
+    function renderWishList() {
+        wishListDiv.innerHTML = '';
+        wishRecords.forEach(record => {
+            const div = document.createElement('div');
+            div.className = 'wish-item' + (record.isUser ? ' user' : '');
+            div.textContent = record.text;
+            wishListDiv.appendChild(div);
+        });
+    }
+    // 自定义愿望
+    document.getElementById('submitCustomWish').addEventListener('click', () => {
+        const input = document.getElementById('customWishInput');
+        let wish = input.value.trim();
+        if (wish === "") return;
+        if (wish.length > 50) wish = wish.slice(0,48)+'…';
+        addWishRecord(wish, true);
+        input.value = "";
+    });
+    // 初始记录
+    setTimeout(() => {
+        addWishRecord("🌟 星愿池已开启，快来许愿吧！", false);
+    }, 500);
+
+    // 全屏滑动逻辑
+    const slidesWrapper = document.getElementById('slidesWrapper');
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+    let currentIndex = 0;
+    let isScrolling = false;
+    let touchStartY = 0;
+
+    function goToSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= total) index = total - 1;
+        if (index === currentIndex) return;
+        currentIndex = index;
+        slidesWrapper.style.transform = `translateY(-${currentIndex * 100}%)`;
+        updateNavAndDots();
+    }
+
+    function updateNavAndDots() {
+        document.querySelectorAll('.nav-link').forEach((link, idx) => {
+            if (idx === currentIndex) link.classList.add('active');
+            else link.classList.remove('active');
+        });
+        document.querySelectorAll('.dot').forEach((dot, idx) => {
+            if (idx === currentIndex) dot.classList.add('active');
+            else dot.classList.remove('active');
+        });
+    }
+
+    function handleWheel(e) {
+        if (isScrolling) return;
+        const delta = e.deltaY;
+        if (delta > 0 && currentIndex < total - 1) {
+            isScrolling = true;
+            goToSlide(currentIndex + 1);
+            setTimeout(() => isScrolling = false, 650);
+        } else if (delta < 0 && currentIndex > 0) {
+            isScrolling = true;
+            goToSlide(currentIndex - 1);
+            setTimeout(() => isScrolling = false, 650);
+        }
+        e.preventDefault();
+    }
+    function touchStart(e) { touchStartY = e.touches[0].clientY; }
+    function touchEnd(e) {
+        if (isScrolling) return;
+        const diff = touchStartY - e.changedTouches[0].clientY;
+        if (Math.abs(diff) < 35) return;
+        if (diff > 0 && currentIndex < total - 1) {
+            isScrolling = true;
+            goToSlide(currentIndex + 1);
+            setTimeout(() => isScrolling = false, 650);
+        } else if (diff < 0 && currentIndex > 0) {
+            isScrolling = true;
+            goToSlide(currentIndex - 1);
+            setTimeout(() => isScrolling = false, 650);
+        }
+    }
+    const containerScroll = document.querySelector('.fullpage-container');
+    containerScroll.addEventListener('wheel', handleWheel, { passive: false });
+    containerScroll.addEventListener('touchstart', touchStart, { passive: false });
+    containerScroll.addEventListener('touchend', touchEnd, { passive: false });
+
+    document.querySelectorAll('.nav-link').forEach((btn, idx) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (isScrolling) return;
+            isScrolling = true;
+            goToSlide(idx);
+            setTimeout(() => isScrolling = false, 650);
+        });
+    });
+
+    const dotsDiv = document.getElementById('slideDots');
+    for (let i = 0; i < total; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsDiv.appendChild(dot);
+    }
+    document.getElementById('exploreBtn')?.addEventListener('click', () => goToSlide(1));
+
+    // 弹窗逻辑
+    const modal = document.getElementById('joinModal');
+    const joinBtn = document.getElementById('joinNowBtn');
+    const campusBtn = document.getElementById('campusJoinBtn');
+    const closeModal = document.getElementById('closeModalBtn');
+    function openModal() { modal.style.display = 'flex'; }
+    joinBtn?.addEventListener('click', openModal);
+    campusBtn?.addEventListener('click', openModal);
+    closeModal?.addEventListener('click', () => modal.style.display = 'none');
+    window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+    document.getElementById('copyContactBtn')?.addEventListener('click', () => {
+        navigator.clipboard.writeText('966926112');
+        alert('交流群号 966926112 已复制');
+    });
+
+    slides.forEach(slide => {
+        slide.addEventListener('wheel', (e) => {
+            const st = slide.scrollTop;
+            const sh = slide.scrollHeight;
+            const ch = slide.clientHeight;
+            const delta = e.deltaY;
+            if ((st === 0 && delta < 0) || (st + ch >= sh - 1 && delta > 0)) return;
+            e.stopPropagation();
+        }, { passive: false });
+    });
+</script>
+</body>
+</html>
