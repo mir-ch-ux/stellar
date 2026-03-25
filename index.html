@@ -218,7 +218,7 @@
         }
 
         /* 卡片通用样式 */
-        .card, .vision-card, .wish-pool, .starblue-book {
+        .card, .vision-card, .wish-pool {
             position: relative;
             overflow: hidden;
             background: #ffffff;
@@ -226,7 +226,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
         }
-        .card::before, .vision-card::before, .wish-pool::before, .starblue-book::before {
+        .card::before, .vision-card::before, .wish-pool::before {
             content: '';
             position: absolute;
             top: 0;
@@ -240,7 +240,7 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-        .card:hover::before, .vision-card:hover::before, .wish-pool:hover::before, .starblue-book:hover::before {
+        .card:hover::before, .vision-card:hover::before, .wish-pool:hover::before {
             opacity: 1;
             animation: borderFlow 2s linear infinite;
         }
@@ -258,7 +258,7 @@
             background: linear-gradient(135deg, transparent 50%, #4c8eff20 50%);
             pointer-events: none;
         }
-        .card:hover, .vision-card:hover, .wish-pool:hover, .starblue-book:hover {
+        .card:hover, .vision-card:hover, .wish-pool:hover {
             transform: translateY(-4px);
             box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
             border-color: #4c8eff;
@@ -272,10 +272,6 @@
         }
         .wish-pool .wish-pool-overlay {
             padding: 2.2rem;
-        }
-        .starblue-book {
-            padding: 2.2rem;
-            margin-top: 2rem;
         }
 
         /* 愿景流动文字 */
@@ -405,14 +401,15 @@
         /* 价值观卡片翻转 */
         .values-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 2rem;
             margin: 1.5rem 0;
         }
         .flip-card {
             background-color: transparent;
-            height: 180px;
+            height: 240px;
             perspective: 1000px;
+            position: relative;
         }
         .flip-card-inner {
             position: relative;
@@ -436,7 +433,8 @@
             align-items: center;
             background: #ffffff;
             border: 1px solid #e0e7f0;
-            padding: 1.5rem;
+            padding: 1rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
         }
         .flip-front {
             background: #ffffff;
@@ -444,57 +442,41 @@
         .flip-back {
             background: #f0f4fa;
             transform: rotateY(180deg);
-            color: #4c8eff;
-            font-weight: 500;
         }
         .value-word {
             font-size: 1.8rem;
             font-weight: 700;
             color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+        .value-word::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 2px;
+            margin: 8px auto 0;
+            background: linear-gradient(90deg, transparent, #4c8eff, #aac9ff, #4c8eff, transparent);
+            background-size: 200% auto;
+            animation: lineFlow 3s linear infinite;
+        }
+        @keyframes lineFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
         }
         .value-desc {
-            font-size: 1rem;
-            margin-top: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
             color: #4c8eff;
+            background: linear-gradient(90deg, #4c8eff, #aac9ff, #4c8eff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientFlow 3s linear infinite;
         }
-
-        /* 价值观动态背景效果 */
-        .values-bg-effect {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        .values-bg-effect::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(76,142,255,0.05) 0%, transparent 70%);
-            animation: rotateGradient 12s linear infinite;
-        }
-        .values-bg-effect::after {
-            content: '→';
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            font-size: 24px;
-            color: #4c8eff;
-            opacity: 0.3;
-            animation: moveArrow 3s ease-in-out infinite;
-        }
-        @keyframes rotateGradient {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        @keyframes moveArrow {
-            0%, 100% { transform: translateX(0); opacity: 0.2; }
-            50% { transform: translateX(5px); opacity: 0.5; }
+        @keyframes gradientFlow {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
         }
 
         /* 左右布局 */
@@ -516,7 +498,7 @@
         /* 心愿池 */
         .wish-pool {
             margin-top: 0;
-            background-image: url('https://raw.githubusercontent.com/mir-ch-ux/stellar/main/screenshot_20260317_004756_com.larus.nova.hm.jpg');
+            background-image: url('https://user-assets.sxlcdn.com/images/1138507/Fhl9mvaDZsiI_ZqNnZ4nvZafIrbg.jpg?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/interlace/1/format/jpg');
             background-size: cover;
             background-position: center;
         }
@@ -532,7 +514,6 @@
             flex-direction: column;
             gap: 8px;
         }
-        /* 心愿气泡样式：半透明黑底 + 蓝色竖线 + 自适应宽度 */
         .wish-item {
             background: rgba(0, 0, 0, 0.6);
             padding: 8px 16px;
@@ -546,10 +527,9 @@
             transition: all 0.2s;
             margin: 2px 0;
         }
-        /* 用户愿望可稍作区分（暖色竖线），可选，此处保留统一风格也可 */
         .wish-item.user {
             background: rgba(0, 0, 0, 0.7);
-            border-left-color: #ffaa66;  /* 暖色竖线便于区分 */
+            border-left-color: #ffaa66;
         }
         .wish-item.user .wish-text {
             background: linear-gradient(90deg, #aac9ff, #ffffff);
@@ -626,23 +606,99 @@
             100% { background-position: 200% center; }
         }
 
-        /* 星小蓝寄语翻页 */
+        /* 星小蓝寄语（白色底板，左右布局，配图右侧，动态纸飞机） */
+        .starblue-book {
+            margin-top: 2rem;
+            background: #ffffff;
+            border: 1px solid #e0e7f0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            border-radius: 0px;
+            transition: all 0.3s ease;
+        }
+        .starblue-book::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid transparent;
+            border-image: linear-gradient(90deg, #4c8eff, #aac9ff, #4c8eff);
+            border-image-slice: 1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .starblue-book:hover::before {
+            opacity: 1;
+            animation: borderFlow 2s linear infinite;
+        }
+        .starblue-book::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, transparent 50%, #4c8eff20 50%);
+            pointer-events: none;
+        }
+        .starblue-book:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+            border-color: #4c8eff;
+        }
         .starblue-container {
             position: relative;
             min-height: 280px;
             perspective: 1200px;
         }
         .starblue-page {
-            background: #f8fafd;
-            border: 1px solid #e0e7f0;
+            background: #ffffff;
             padding: 2rem;
-            text-align: center;
+            text-align: left;
             transition: transform 0.5s ease, opacity 0.3s ease;
             transform-style: preserve-3d;
             color: #1a2a4f;
-            line-height: 1.7;
+            line-height: 1.6;
             font-size: 1rem;
             backface-visibility: hidden;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 2rem;
+        }
+        .starblue-text {
+            flex: 1;
+        }
+        .starblue-img-area {
+            flex-shrink: 0;
+            width: 140px;
+            text-align: center;
+        }
+        .starblue-img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 2px solid #4c8eff;
+        }
+        .paper-plane-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: #4c8eff;
+            opacity: 0.6;
+            animation: flyPlane 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 5;
+        }
+        @keyframes flyPlane {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.4; }
+            50% { transform: translateY(-8px) rotate(5deg); opacity: 0.8; }
+            100% { transform: translateY(0) rotate(0deg); opacity: 0.4; }
         }
         .starblue-page.flip-out {
             transform: rotateY(90deg);
@@ -673,6 +729,7 @@
             border-radius: 30px;
             font-size: 0.9rem;
             transition: 0.2s;
+            color: #1a2a4f;
         }
         .starblue-btn:hover {
             background: #4c8eff;
@@ -730,6 +787,19 @@
             .footer-container {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
+            }
+            .starblue-page {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            .starblue-img-area {
+                width: 100px;
+            }
+            .paper-plane-icon {
+                font-size: 1.5rem;
+                top: 10px;
+                right: 10px;
             }
         }
 
@@ -844,14 +914,14 @@
             .container-inner { padding: 80px 1rem 2rem; }
             .horizontal-layout { flex-direction: column; text-align: center; }
             .values-grid { gap: 1rem; }
-            .flip-card { height: 150px; }
+            .flip-card { height: 200px; }
             .section-title { font-size: 1.6rem; margin-bottom: 1.2rem; }
             .grid-2 { gap: 1.5rem; }
             .card, .vision-card, .wish-pool .wish-pool-overlay, .starblue-book {
                 padding: 1.5rem;
             }
             .starblue-page {
-                padding: 1.2rem;
+                padding: 1rem;
             }
             .footer-new {
                 padding: 1.5rem;
@@ -866,17 +936,17 @@
 
 <div class="navbar" id="navbar">
     <div class="logo">
-        <img class="logo-img" src="https://raw.githubusercontent.com/mir-ch-ux/stellar/main/1774185131572-removebg-preview.png" alt="星能工作室Logo" loading="lazy" onerror="this.style.display='none'">
+        <img class="logo-img" src="https://user-assets.sxlcdn.com/images/1138507/FgFRcBKLtlCQgTv7_h1E5hv5Ay2F.png?imageMogr2/strip/auto-orient/thumbnail/300x300%3E/quality/90!/format/png" alt="星能工作室Logo" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/mir-ch-ux/stellar/main/1774185131572-removebg-preview.png'">
         <span class="logo-text">星能stellar</span>
     </div>
     <button class="menu-toggle" id="menuToggle" aria-label="菜单"><i class="fas fa-bars"></i></button>
     <div class="nav-links" id="navLinks">
-        <a class="nav-link active" data-index="0">主页</a>
-        <a class="nav-link" data-index="1">账号信息</a>
-        <a class="nav-link" data-index="2">了解我们</a>
-        <a class="nav-link" data-index="3">加入我们</a>
-        <a class="nav-link" data-index="4">星愿</a>
-        <a class="nav-link" data-index="5">反馈</a>
+        <a class="nav-link" data-target="0">主页</a>
+        <a class="nav-link" data-target="1">B站</a>
+        <a class="nav-link" data-target="2">了解</a>
+        <a class="nav-link" data-target="5">加入</a>
+        <a class="nav-link" data-target="6">星愿</a>
+        <a class="nav-link" data-target="8">反馈</a>
     </div>
 </div>
 
@@ -884,7 +954,7 @@
 
 <div class="fullpage-container">
     <div class="slides-wrapper" id="slidesWrapper">
-        <!-- 主页 -->
+        <!-- 0: 主页 -->
         <div class="slide" data-slide="0">
             <div class="container-inner">
                 <div class="hero">
@@ -897,18 +967,18 @@
             </div>
         </div>
 
-        <!-- 账号信息 -->
+        <!-- 1: B站账号信息 -->
         <div class="slide" data-slide="1">
             <div class="container-inner">
                 <div class="section-title">
-                    <h2>官方账号</h2>
-                    <span class="en">Official Account</span>
+                    <h2>B站账号</h2>
+                    <span class="en">Bilibili Account</span>
                 </div>
                 <p style="margin-bottom: 1rem; color: #4c6a9e;">创意火花 · 尽在B站</p>
                 <div class="grid-2">
                     <div class="card animate-item">
                         <div class="bili-avatar">
-                            <img src="https://raw.githubusercontent.com/mir-ch-ux/stellar/main/1773930425855.png" alt="星能工作室头像" loading="lazy" onerror="this.src='https://www.bilibili.com/favicon.ico'">
+                            <img src="https://user-assets.sxlcdn.com/images/1138507/lrJg-fzaawQsCMEK4HdvdvY1tOIq.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" alt="星能工作室头像" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/mir-ch-ux/stellar/main/1773930425855.png'">
                             <div><h3>星能stellar</h3><div class="info-label">UID: 3493087561124092</div></div>
                         </div>
                         <p>关注我们，获取工作室最新地图创作和团队日常。</p>
@@ -926,7 +996,7 @@
             </div>
         </div>
 
-        <!-- 了解我们 -->
+        <!-- 2: 愿景 -->
         <div class="slide" data-slide="2">
             <div class="container-inner">
                 <div class="section-title">
@@ -937,7 +1007,12 @@
                     <div class="flowing-text">“打造一片闪亮的星空”</div>
                     <p style="text-align:center; margin-top:1rem;">让每一位创作者的灵感都化作星辰，在星能工作室的宇宙里交织出璀璨银河。</p>
                 </div>
+            </div>
+        </div>
 
+        <!-- 3: 关于星能 -->
+        <div class="slide" data-slide="3">
+            <div class="container-inner">
                 <div class="section-title">
                     <h2>关于星能</h2>
                     <span class="en">About Us</span>
@@ -960,8 +1035,44 @@
             </div>
         </div>
 
-        <!-- 加入我们 -->
-        <div class="slide" data-slide="3">
+        <!-- 4: 星能价值观 -->
+        <div class="slide" data-slide="4">
+            <div class="container-inner">
+                <div class="section-title">
+                    <h2>星能价值观</h2>
+                    <span class="en">Core Values</span>
+                </div>
+                <div class="values-grid">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-front"><div class="value-word">热爱</div></div>
+                            <div class="flip-back"><div class="value-desc">赤诚之心</div></div>
+                        </div>
+                    </div>
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-front"><div class="value-word">勇敢</div></div>
+                            <div class="flip-back"><div class="value-desc">勇往直前</div></div>
+                        </div>
+                    </div>
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-front"><div class="value-word">突破</div></div>
+                            <div class="flip-back"><div class="value-desc">超越极限</div></div>
+                        </div>
+                    </div>
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-front"><div class="value-word">创造</div></div>
+                            <div class="flip-back"><div class="value-desc">独具匠心</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5: 加入我们 -->
+        <div class="slide" data-slide="5">
             <div class="container-inner">
                 <div class="section-title">
                     <h2>加入我们</h2>
@@ -969,7 +1080,7 @@
                 </div>
                 <div class="card animate-item">
                     <div class="horizontal-layout">
-                        <div class="img-side"><img class="section-img" src="https://raw.githubusercontent.com/mir-ch-ux/stellar/main/IMG_526.jpeg" alt="加入我们插图" loading="lazy" onerror="this.style.display='none'"></div>
+                        <div class="img-side"><img class="section-img" src="https://user-assets.sxlcdn.com/images/1138507/lgKonAQ_J8YUtARxy3MvSVS4OM7U.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" alt="加入我们插图" loading="lazy" onerror="this.style.display='none'"></div>
                         <div class="text-side">
                             <h2>点亮星光</h2>
                             <p>开发者、建筑党、剧情师、UP主，这里总有你的位置。</p>
@@ -980,27 +1091,15 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- 价值观卡片 - 翻转效果 + 动态背景 -->
-                <div class="card animate-item" style="margin-top:1.5rem; position: relative; overflow: hidden;">
-                    <div class="values-bg-effect"></div>
-                    <h3 style="text-align:center; margin-bottom:1rem;">星能核心法则</h3>
-                    <div class="values-grid">
-                        <div class="flip-card"><div class="flip-card-inner"><div class="flip-front"><div class="value-word">热爱</div></div><div class="flip-back"><div class="value-desc">赤诚之心</div></div></div></div>
-                        <div class="flip-card"><div class="flip-card-inner"><div class="flip-front"><div class="value-word">勇敢</div></div><div class="flip-back"><div class="value-desc">勇往直前</div></div></div></div>
-                        <div class="flip-card"><div class="flip-card-inner"><div class="flip-front"><div class="value-word">突破</div></div><div class="flip-back"><div class="value-desc">超越极限</div></div></div></div>
-                        <div class="flip-card"><div class="flip-card-inner"><div class="flip-front"><div class="value-word">创造</div></div><div class="flip-back"><div class="value-desc">独具匠心</div></div></div></div>
-                    </div>
-                </div>
             </div>
         </div>
 
-        <!-- 星愿板块 -->
-        <div class="slide" data-slide="4">
+        <!-- 6: 星愿池 -->
+        <div class="slide" data-slide="6">
             <div class="container-inner">
                 <div class="section-title">
-                    <h2>星愿</h2>
-                    <span class="en">Star Wish</span>
+                    <h2>星愿池</h2>
+                    <span class="en">Wish Pool</span>
                 </div>
                 <div class="wish-pool animate-item">
                     <div class="wish-pool-overlay">
@@ -1015,12 +1114,20 @@
                         <p style="text-align:center; font-size:0.7rem; margin-top:0.5rem;">💫 点击快捷按钮或输入愿望，你的心声会留在星愿池中~</p>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- 星小蓝寄语 -->
+        <!-- 7: 星小蓝寄语 -->
+        <div class="slide" data-slide="7">
+            <div class="container-inner">
+                <div class="section-title">
+                    <h2>星小蓝寄语</h2>
+                    <span class="en">Message from Starry Blue</span>
+                </div>
                 <div class="starblue-book animate-item">
-                    <h3 style="margin-bottom: 1rem;"><i class="fas fa-comment-dots"></i> 星小蓝的寄语</h3>
                     <div class="starblue-container">
                         <div class="starblue-page" id="starbluePage"></div>
+                        <div class="paper-plane-icon"><i class="fas fa-paper-plane"></i></div>
                     </div>
                     <div class="starblue-controls">
                         <button class="starblue-btn" id="starbluePrev"><i class="fas fa-chevron-left"></i> 上一页</button>
@@ -1031,8 +1138,8 @@
             </div>
         </div>
 
-        <!-- 反馈板块（投稿与联系反馈） -->
-        <div class="slide" data-slide="5">
+        <!-- 8: 反馈 -->
+        <div class="slide" data-slide="8">
             <div class="container-inner">
                 <div class="section-title">
                     <h2>投稿与反馈</h2>
@@ -1105,14 +1212,26 @@
 </div>
 
 <script>
-    // 星小蓝寄语（5条）带翻页动画
-    const starblueMessages = [
-        "亲爱的小伙伴：\n\n愿你在星能的每一天，都能找到属于自己的星光。创作的路或许有孤独，但这里永远有一群和你一样热爱的人。让我们一起，把地图变成星辰大海。\n\n—— 星小蓝",
-        "To 每一位创作者：\n\n勇敢去尝试，别怕失败。每一个伟大的地图，都始于一个简单的想法。你的创意，值得被看见。星能会一直为你点亮灯塔。\n\n—— 星小蓝",
-        "星光寄语：\n\n保持热爱，奔赴山海。星能不只是工作室，更是家。期待你的加入，让我们共同书写属于少年的传奇。\n\n—— 星小蓝",
-        "灵感火花：\n\n每一次点击触发器，都是一次魔法；每一张地图，都是一个世界。你的创意，就是点亮星空的火花。\n\n—— 星小蓝",
-        "温暖同行：\n\n无论你是萌新还是大佬，这里都为你留着一盏灯。我们一起讨论、一起创作，让星能成为温暖的港湾。\n\n—— 星小蓝"
+    // 星小蓝寄语（7条，图片链接已更新）
+    const starblueData = [
+        { img: "好吧.png", text: "好吧，那就从今天开始，和星能一起记录每一个创作瞬间吧。\n\n—— 星小蓝" },
+        { img: "很好.png", text: "很好，你的地图让无数人露出了笑容。继续加油，我们为你骄傲。\n\n—— 星小蓝" },
+        { img: "加油.png", text: "加油！每一次尝试都是成长的台阶，星能与你并肩前行。\n\n—— 星小蓝" },
+        { img: "就你了.png", text: "就你了！那个在角落里默默坚持的创作者，星能看到了你的光。\n\n—— 星小蓝" },
+        { img: "研究.png", text: "研究再深一点，你会发现触发器里藏着整个宇宙的魔法。\n\n—— 星小蓝" },
+        { img: "活力.png", text: "活力满满的一天，把热情注入每一张地图，世界因你而生动。\n\n—— 星小蓝" },
+        { img: "星空.png", text: "星空之所以美丽，是因为每一颗星星都在努力发光。你也是。\n\n—— 星小蓝" }
     ];
+    // 图片映射新链接
+    const starblueImgMap = {
+        "好吧.png": "https://user-assets.sxlcdn.com/images/1138507/FiCnmOPeoeWL_RiKDBAb-CADL6m4.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png",
+        "很好.png": "https://user-assets.sxlcdn.com/images/1138507/FqHMoaRHNdZWl812ddSKC6FSVIPN.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png",
+        "加油.png": "https://user-assets.sxlcdn.com/images/1138507/FqWsaUzm59MSiU0CJg9UaiQneePN.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png",
+        "就你了.png": "https://user-assets.sxlcdn.com/images/1138507/FrUF2cW4mj0HhLrijDZYAtdBjNX7.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png",
+        "研究.png": "https://user-assets.sxlcdn.com/images/1138507/FosJHm9eu4pi4FftSQPER81KOfG3.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png",
+        "活力.png": "https://user-assets.sxlcdn.com/images/1138507/FipMWjDi2qOy8yTQSYjX2zQ1Zh6I.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png",
+        "星空.png": "https://user-assets.sxlcdn.com/images/1138507/lrJg-fzaawQsCMEK4HdvdvY1tOIq.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png"
+    };
     let currentStarbluePage = 0;
     const starbluePageDiv = document.getElementById('starbluePage');
     const starblueIndicator = document.getElementById('starblueIndicator');
@@ -1123,8 +1242,15 @@
         isAnimating = true;
         starbluePageDiv.classList.add('flip-out');
         setTimeout(() => {
-            starbluePageDiv.innerHTML = starblueMessages[currentStarbluePage].replace(/\n/g, '<br>');
-            starblueIndicator.innerText = `${currentStarbluePage+1}/${starblueMessages.length}`;
+            const data = starblueData[currentStarbluePage];
+            const imgUrl = starblueImgMap[data.img] || `https://raw.githubusercontent.com/mir-ch-ux/stellar/main/${data.img}`;
+            starbluePageDiv.innerHTML = `
+                <div class="starblue-text">${data.text.replace(/\n/g, '<br>')}</div>
+                <div class="starblue-img-area">
+                    <img class="starblue-img" src="${imgUrl}" alt="星小蓝寄语配图" onerror="this.src='https://raw.githubusercontent.com/mir-ch-ux/stellar/main/${data.img}'">
+                </div>
+            `;
+            starblueIndicator.innerText = `${currentStarbluePage+1}/${starblueData.length}`;
             starbluePageDiv.classList.remove('flip-out');
             starbluePageDiv.classList.add('flip-in');
             starbluePageDiv.classList.add('text-glow');
@@ -1137,17 +1263,17 @@
     }
 
     document.getElementById('starbluePrev').addEventListener('click', () => {
-        currentStarbluePage = (currentStarbluePage - 1 + starblueMessages.length) % starblueMessages.length;
+        currentStarbluePage = (currentStarbluePage - 1 + starblueData.length) % starblueData.length;
         updateStarbluePage();
     });
     document.getElementById('starblueNext').addEventListener('click', () => {
-        currentStarbluePage = (currentStarbluePage + 1) % starblueMessages.length;
+        currentStarbluePage = (currentStarbluePage + 1) % starblueData.length;
         updateStarbluePage();
     });
-    starbluePageDiv.innerHTML = starblueMessages[0].replace(/\n/g, '<br>');
-    starblueIndicator.innerText = `1/${starblueMessages.length}`;
+    updateStarbluePage();
 
-    // 心愿池快捷语15秒刷新（增加发光效果）
+    // ========== 以下为原有其他功能（心愿池、弹窗、滑动逻辑等）完全保留 ==========
+    // 心愿池快捷语15秒刷新
     const quickWishPool = [
         "愿创意如星光般璀璨", "希望和大家一起做出超棒的地图", "星能永远闪耀，梦想永不熄灭",
         "愿灵感源源不断", "保持热爱，奔赴山海", "愿世界和平，创意自由",
@@ -1179,7 +1305,6 @@
     refreshQuickWishes();
     setInterval(refreshQuickWishes, 15000);
 
-    // 愿望记录系统
     let wishRecords = [];
     const wishListDiv = document.getElementById('wishList');
     function addWishRecord(text, isUser) {
@@ -1199,7 +1324,6 @@
             wishListDiv.appendChild(div);
         });
     }
-    // 自定义愿望
     document.getElementById('submitCustomWish').addEventListener('click', () => {
         const input = document.getElementById('customWishInput');
         let wish = input.value.trim();
@@ -1208,7 +1332,6 @@
         addWishRecord(wish, true);
         input.value = "";
     });
-    // 初始记录
     setTimeout(() => {
         addWishRecord("星愿池已开启，快来许愿吧！", false);
     }, 500);
@@ -1238,13 +1361,16 @@
         alert('频道号已复制');
     });
 
-    // 全屏滑动逻辑
+    // 全屏滑动逻辑（修正索引）
     const slidesWrapper = document.getElementById('slidesWrapper');
     const slides = document.querySelectorAll('.slide');
     const total = slides.length;
     let currentIndex = 0;
     let isScrolling = false;
     let touchStartY = 0;
+    let touchCurrentY = 0;
+    let isSwiping = false;
+    const SWIPE_THRESHOLD = 40;
 
     function goToSlide(index) {
         if (index < 0) index = 0;
@@ -1252,29 +1378,34 @@
         if (index === currentIndex) return;
         currentIndex = index;
         slidesWrapper.style.transform = `translateY(-${currentIndex * 100}%)`;
-        updateNavAndDots();
+        updateNavActive();
         const navbar = document.getElementById('navbar');
         if (currentIndex === 0) navbar.classList.add('transparent');
         else navbar.classList.remove('transparent');
-        triggerSlideAnimation(slides[currentIndex]);
+
+        const activeSlide = slides[currentIndex];
+        if (activeSlide) {
+            activeSlide.scrollTop = 0;
+            const titles = activeSlide.querySelectorAll('.section-title');
+            const items = activeSlide.querySelectorAll('.animate-item');
+            titles.forEach(title => title.classList.remove('animate'));
+            items.forEach(item => item.classList.remove('animate'));
+            setTimeout(() => {
+                titles.forEach(title => title.classList.add('animate'));
+                items.forEach(item => item.classList.add('animate'));
+            }, 50);
+        }
     }
 
-    function updateNavAndDots() {
-        document.querySelectorAll('.nav-link').forEach((link, idx) => {
-            if (idx === currentIndex) link.classList.add('active');
-            else link.classList.remove('active');
-        });
-        document.querySelectorAll('.dot').forEach((dot, idx) => {
-            if (idx === currentIndex) dot.classList.add('active');
-            else dot.classList.remove('active');
-        });
-    }
-
-    function triggerSlideAnimation(slide) {
-        const titles = slide.querySelectorAll('.section-title');
-        const items = slide.querySelectorAll('.animate-item');
-        titles.forEach(title => title.classList.add('animate'));
-        items.forEach(item => item.classList.add('animate'));
+    function updateNavActive() {
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => link.classList.remove('active'));
+        if (currentIndex === 0) navLinks[0].classList.add('active');
+        else if (currentIndex === 1) navLinks[1].classList.add('active');
+        else if (currentIndex === 2 || currentIndex === 3 || currentIndex === 4) navLinks[2].classList.add('active');
+        else if (currentIndex === 5) navLinks[3].classList.add('active');
+        else if (currentIndex === 6 || currentIndex === 7) navLinks[4].classList.add('active');
+        else if (currentIndex === 8) navLinks[5].classList.add('active');
     }
 
     function handleWheel(e) {
@@ -1291,33 +1422,56 @@
         }
         e.preventDefault();
     }
-    function touchStart(e) { touchStartY = e.touches[0].clientY; }
-    function touchEnd(e) {
+
+    let touchStartTime = 0;
+    function onTouchStart(e) {
         if (isScrolling) return;
-        const diff = touchStartY - e.changedTouches[0].clientY;
-        if (Math.abs(diff) < 35) return;
-        if (diff > 0 && currentIndex < total - 1) {
-            isScrolling = true;
-            goToSlide(currentIndex + 1);
-            setTimeout(() => isScrolling = false, 650);
-        } else if (diff < 0 && currentIndex > 0) {
-            isScrolling = true;
-            goToSlide(currentIndex - 1);
-            setTimeout(() => isScrolling = false, 650);
+        isSwiping = true;
+        touchStartY = e.touches[0].clientY;
+        touchCurrentY = touchStartY;
+        touchStartTime = Date.now();
+    }
+    function onTouchMove(e) {
+        if (!isSwiping || isScrolling) return;
+        const currentY = e.touches[0].clientY;
+        const deltaY = currentY - touchStartY;
+        if (Math.abs(deltaY) > SWIPE_THRESHOLD) e.preventDefault();
+        touchCurrentY = currentY;
+    }
+    function onTouchEnd(e) {
+        if (!isSwiping || isScrolling) { isSwiping = false; return; }
+        isSwiping = false;
+        const deltaY = touchCurrentY - touchStartY;
+        const timeDiff = Date.now() - touchStartTime;
+        if (Math.abs(deltaY) > SWIPE_THRESHOLD || (Math.abs(deltaY) > 20 && timeDiff < 200)) {
+            if (deltaY < 0 && currentIndex < total - 1) {
+                isScrolling = true;
+                goToSlide(currentIndex + 1);
+                setTimeout(() => isScrolling = false, 650);
+            } else if (deltaY > 0 && currentIndex > 0) {
+                isScrolling = true;
+                goToSlide(currentIndex - 1);
+                setTimeout(() => isScrolling = false, 650);
+            }
         }
     }
-    const containerScroll = document.querySelector('.fullpage-container');
-    containerScroll.addEventListener('wheel', handleWheel, { passive: false });
-    containerScroll.addEventListener('touchstart', touchStart, { passive: false });
-    containerScroll.addEventListener('touchend', touchEnd, { passive: false });
 
-    document.querySelectorAll('.nav-link').forEach((btn, idx) => {
+    const containerScroll = document.querySelector('.fullpage-container');
+    containerScroll.addEventListener('touchstart', onTouchStart, { passive: false });
+    containerScroll.addEventListener('touchmove', onTouchMove, { passive: false });
+    containerScroll.addEventListener('touchend', onTouchEnd);
+    containerScroll.addEventListener('wheel', handleWheel, { passive: false });
+
+    document.querySelectorAll('.nav-link').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             if (isScrolling) return;
-            isScrolling = true;
-            goToSlide(idx);
-            setTimeout(() => isScrolling = false, 650);
+            const target = parseInt(btn.getAttribute('data-target'), 10);
+            if (!isNaN(target) && target !== currentIndex) {
+                isScrolling = true;
+                goToSlide(target);
+                setTimeout(() => isScrolling = false, 650);
+            }
         });
     });
 
@@ -1326,22 +1480,20 @@
         const dot = document.createElement('div');
         dot.classList.add('dot');
         if (i === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => goToSlide(i));
+        dot.addEventListener('click', () => {
+            if (isScrolling) return;
+            isScrolling = true;
+            goToSlide(i);
+            setTimeout(() => isScrolling = false, 650);
+        });
         dotsDiv.appendChild(dot);
     }
     document.getElementById('exploreBtn')?.addEventListener('click', () => goToSlide(1));
 
-    // 移动端菜单切换
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
-    menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('open');
-    });
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('open');
-        });
-    });
+    menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', () => navLinks.classList.remove('open')));
 
     slides.forEach(slide => {
         slide.addEventListener('wheel', (e) => {
@@ -1354,8 +1506,14 @@
         }, { passive: false });
     });
 
-    // 初始触发主页动画
+    function triggerSlideAnimation(slide) {
+        const titles = slide.querySelectorAll('.section-title');
+        const items = slide.querySelectorAll('.animate-item');
+        titles.forEach(title => title.classList.add('animate'));
+        items.forEach(item => item.classList.add('animate'));
+    }
     triggerSlideAnimation(document.querySelector('.slide[data-slide="0"]'));
+    updateNavActive();
 </script>
 </body>
 </html>
