@@ -6,7 +6,8 @@
     <meta name="description" content="星能工作室 - 星光点缀黑暗，专注于迷你世界地图创作与青少年创意交流。">
     <meta name="keywords" content="星能工作室,迷你世界,地图创作,青少年交流,星光点缀黑暗">
     <meta name="robots" content="index,follow">
-    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234c8eff'%3E%3Cpath d='M12,2L15,8L22,9L17,14L18,21L12,17L6,21L7,14L2,9L9,8L12,2Z'/%3E%3C/svg%3E">
+    <!-- 替换为您的 Logo 作为网站图标 -->
+    <link rel="icon" type="image/x-icon" href="https://user-assets.sxlcdn.com/images/1138507/FgFRcBKLtlCQgTv7_h1E5hv5Ay2F.png?imageMogr2/strip/auto-orient/thumbnail/300x300%3E/quality/90!/format/png">
     <title>星能工作室 | 星光点缀黑暗</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -87,6 +88,7 @@
             overflow-y: auto;
             scrollbar-width: thin;
             scrollbar-color: #4c8eff #d9e2f0;
+            position: relative;
         }
         .slide::-webkit-scrollbar {
             width: 5px;
@@ -106,6 +108,34 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+        }
+
+        /* 右下角滑动箭头 */
+        .scroll-arrow {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            animation: bounce 1.5s infinite;
+        }
+        .scroll-arrow i {
+            font-size: 28px;
+            color: #4c8eff;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .scroll-arrow:hover i {
+            opacity: 1;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
         }
 
         /* 导航栏 */
@@ -328,51 +358,202 @@
             transform: translateY(0);
         }
 
-        /* 按钮统一风格 */
-        .btn {
-            display: inline-block;
-            background: #4c8eff;
-            border: none;
-            padding: 0.8rem 1.8rem;
-            color: white;
-            font-weight: 600;
-            transition: 0.2s;
-            cursor: pointer;
-            text-align: center;
+        /* ========== 米哈游风格按钮统一定义 ========== */
+        .mihoyo-btn {
             position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #3d3d3d;
+            clip-path: polygon(0% 0%, calc(100% - 0.24rem) 0%, 100% 0.24rem, 100% 100%, 0% 100%);
             overflow: hidden;
-        }
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255,255,255,0.4);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.4s, height 0.4s;
-        }
-        .btn:active::after {
+            cursor: pointer;
+            transition: all 0.7s ease-out;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            text-align: center;
             width: 200px;
-            height: 200px;
-            opacity: 0;
+            height: 60px;
+            padding: 0;
         }
-        .btn:hover {
-            background: #3a7ae0;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(76,142,255,0.3);
+        .mihoyo-btn .btn-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            height: 100%;
         }
-        .btn-outline {
+        .mihoyo-btn .btn-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.2;
+        }
+        .mihoyo-btn .btn-title {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .mihoyo-btn .btn-sub {
+            font-size: 0.6rem;
+            margin-top: 0.2rem;
+            transition: transform 0.7s ease;
+        }
+        .mihoyo-btn .btn-arrow {
+            width: auto;
+            height: 1rem;
+            transition: transform 0.7s cubic-bezier(0.68, 0.75, 0.35, 1.25);
+        }
+        .mihoyo-btn .btn-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: #4c8eff;
-            color: white;
+            transform: translateX(-1rem) skewX(15deg);
+            transition: transform 0.7s cubic-bezier(0.215, 0.61, 0.355, 1);
+            z-index: 1;
         }
-        .btn-outline:hover {
-            background: #3a7ae0;
+        .mihoyo-btn:hover .btn-bg {
+            transform: translateX(100%) skewX(30deg);
+            transition-delay: 0.3s;
+        }
+        .mihoyo-btn:hover .btn-sub {
+            transform: translateX(0.4rem);
+            transition-delay: 0.4s;
+        }
+        .mihoyo-btn:hover .btn-arrow {
+            animation: arrowmove 0.7s cubic-bezier(0.68, 0.75, 0.35, 1.25) 0.2s forwards;
+        }
+        @keyframes arrowmove {
+            0% { transform: translateX(0); opacity: 0.8; }
+            45% { transform: translateX(1.5rem); opacity: 0; }
+            45.01% { transform: translateX(-1.5rem); opacity: 0; }
+            49% { transform: translateX(-1.5rem); opacity: 0.8; }
+            96% { transform: translateX(0.2rem); opacity: 0.8; }
+            100% { transform: translateX(0.1rem); opacity: 0.8; }
         }
 
-        /* 网格布局 */
+        /* 主页探索按钮 - 箭头加大 */
+        .explore-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 200px;
+            height: 56px;
+            background: #3d3d3d;
+            clip-path: polygon(0% 0%, calc(100% - 0.2rem) 0%, 100% 0.2rem, 100% 100%, 0% 100%);
+            cursor: pointer;
+            transition: all 0.5s;
+            color: white;
+            font-weight: bold;
+            overflow: hidden;
+        }
+        .explore-btn .explore-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #4c8eff;
+            transform: translateX(-1rem) skewX(15deg);
+            transition: transform 0.7s cubic-bezier(0.215, 0.61, 0.355, 1);
+            z-index: 1;
+        }
+        .explore-btn .explore-text {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1rem;
+        }
+        .explore-btn .explore-arrow {
+            width: 0;
+            height: 0;
+            border: 0.15rem solid transparent;
+            border-left: 0.22rem solid #fff;
+            transition: all 0.5s;
+        }
+        .explore-btn:hover .explore-bg {
+            transform: translateX(100%) skewX(30deg);
+            transition-delay: 0.3s;
+        }
+        .explore-btn:hover .explore-arrow {
+            transform: translateX(0.4rem);
+        }
+
+        /* 简化版米哈游按钮 */
+        .mihoyo-btn-simple {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #3d3d3d;
+            clip-path: polygon(0% 0%, calc(100% - 0.2rem) 0%, 100% 0.2rem, 100% 100%, 0% 100%);
+            overflow: hidden;
+            cursor: pointer;
+            color: #fff;
+            font-weight: bold;
+            padding: 10px 24px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: none;
+        }
+        .mihoyo-btn-simple .simple-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #4c8eff;
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+            z-index: 1;
+        }
+        .mihoyo-btn-simple .simple-text {
+            position: relative;
+            z-index: 2;
+        }
+        .mihoyo-btn-simple:hover .simple-bg {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 780px) {
+            .mihoyo-btn {
+                width: 160px;
+                height: 50px;
+            }
+            .mihoyo-btn .btn-title {
+                font-size: 0.8rem;
+            }
+            .mihoyo-btn .btn-sub {
+                font-size: 0.5rem;
+            }
+            .explore-btn {
+                width: 160px;
+                height: 48px;
+            }
+            .explore-btn .explore-text {
+                font-size: 0.8rem;
+                gap: 0.5rem;
+            }
+            .explore-btn .explore-arrow {
+                border: 0.12rem solid transparent;
+                border-left: 0.18rem solid #fff;
+            }
+            .mihoyo-btn-simple {
+                padding: 6px 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 其余样式（网格、卡片等） */
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -606,7 +787,7 @@
             100% { background-position: 200% center; }
         }
 
-        /* 星小蓝寄语（白色底板，左右布局，配图右侧，动态纸飞机） */
+        /* 星小蓝寄语 */
         .starblue-book {
             margin-top: 2rem;
             background: #ffffff;
@@ -783,25 +964,6 @@
             font-size: 0.75rem;
             color: #aac2ff;
         }
-        @media (max-width: 780px) {
-            .footer-container {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            .starblue-page {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-            }
-            .starblue-img-area {
-                width: 100px;
-            }
-            .paper-plane-icon {
-                font-size: 1.5rem;
-                top: 10px;
-                right: 10px;
-            }
-        }
 
         /* 主页样式 */
         .hero {
@@ -905,7 +1067,6 @@
             border: 2px solid #4c8eff;
         }
 
-        /* 移动端响应式覆盖 */
         @media (max-width: 780px) {
             .logo-img { height: 45px; }
             .logo-text { font-size: 1.3rem; }
@@ -961,10 +1122,17 @@
                     <h1 class="main-title">星光点缀黑暗</h1>
                     <div class="sub-en">Starlight Adorns the Darkness</div>
                     <div style="margin-top: 2rem;">
-                        <button class="btn-outline btn" id="exploreBtn"><i class="fas fa-arrow-right"></i> 探索星能宇宙</button>
+                        <div class="explore-btn" id="exploreBtn">
+                            <div class="explore-bg"></div>
+                            <div class="explore-text">
+                                <span>探索星能宇宙</span>
+                                <div class="explore-arrow"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
         <!-- 1: B站账号信息 -->
@@ -983,17 +1151,18 @@
                         </div>
                         <p>关注我们，获取工作室最新地图创作和团队日常。</p>
                         <div class="info-item"><div class="info-label"><i class="fas fa-link"></i> 空间链接</div><a href="https://space.bilibili.com/3493087561124092" target="_blank" rel="noopener noreferrer" style="color:#4c8eff;">https://space.bilibili.com/3493087561124092</a></div>
-                        <a href="https://space.bilibili.com/3493087561124092" target="_blank" rel="noopener noreferrer" class="btn" style="width:100%"><i class="fab fa-bilibili"></i> 前往B站空间</a>
+                        <a href="https://space.bilibili.com/3493087561124092" target="_blank" rel="noopener noreferrer" class="mihoyo-btn-simple"><span class="simple-bg"></span><span class="simple-text"><i class="fab fa-bilibili"></i> 前往B站空间</span></a>
                     </div>
                     <div class="card animate-item">
                         <i class="fas fa-video" style="font-size:2rem; color:#ffaa66;"></i>
                         <h3>最新作品</h3>
                         <p>【迷你世界】当我在迷你世界里用触发器造了一场烟花秀</p>
                         <div class="video-wrapper"><iframe src="https://player.bilibili.com/player.html?bvid=BV1gLcRzREpF&page=1&high_quality=1&autoplay=0" allowfullscreen loading="lazy"></iframe></div>
-                        <a href="https://www.bilibili.com/video/BV1gLcRzREpF" target="_blank" rel="noopener noreferrer" class="btn-outline btn" style="margin-top:0.8rem;">观看完整视频</a>
+                        <a href="https://www.bilibili.com/video/BV1gLcRzREpF" target="_blank" rel="noopener noreferrer" class="mihoyo-btn-simple" style="margin-top:0.8rem;"><span class="simple-bg"></span><span class="simple-text">观看完整视频</span></a>
                     </div>
                 </div>
             </div>
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
         <!-- 2: 愿景 -->
@@ -1008,6 +1177,7 @@
                     <p style="text-align:center; margin-top:1rem;">让每一位创作者的灵感都化作星辰，在星能工作室的宇宙里交织出璀璨银河。</p>
                 </div>
             </div>
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
         <!-- 3: 关于星能 -->
@@ -1033,6 +1203,7 @@
                     <i class="fas fa-rocket"></i> 未来规划：持续深耕地图创作，拓展更多可能性，成为青少年创作者的温暖驿站。
                 </div>
             </div>
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
         <!-- 4: 星能价值观 -->
@@ -1043,32 +1214,13 @@
                     <span class="en">Core Values</span>
                 </div>
                 <div class="values-grid">
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-front"><div class="value-word">热爱</div></div>
-                            <div class="flip-back"><div class="value-desc">赤诚之心</div></div>
-                        </div>
-                    </div>
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-front"><div class="value-word">勇敢</div></div>
-                            <div class="flip-back"><div class="value-desc">勇往直前</div></div>
-                        </div>
-                    </div>
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-front"><div class="value-word">突破</div></div>
-                            <div class="flip-back"><div class="value-desc">超越极限</div></div>
-                        </div>
-                    </div>
-                    <div class="flip-card">
-                        <div class="flip-card-inner">
-                            <div class="flip-front"><div class="value-word">创造</div></div>
-                            <div class="flip-back"><div class="value-desc">独具匠心</div></div>
-                        </div>
-                    </div>
+                    <div class="flip-card"><div class="flip-card-inner"><div class="flip-front"><div class="value-word">热爱</div></div><div class="flip-back"><div class="value-desc">赤诚之心</div></div></div></div>
+                    <div class="flip-card"><div class="flip-card-inner"><div class="flip-front"><div class="value-word">勇敢</div></div><div class="flip-back"><div class="value-desc">勇往直前</div></div></div></div>
+                    <div class="flip-card"><div class="flip-card-inner"><div class="flip-front"><div class="value-word">突破</div></div><div class="flip-back"><div class="value-desc">超越极限</div></div></div></div>
+                    <div class="flip-card"><div class="flip-card-inner"><div class="flip-front"><div class="value-word">创造</div></div><div class="flip-back"><div class="value-desc">独具匠心</div></div></div></div>
                 </div>
             </div>
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
         <!-- 5: 加入我们 -->
@@ -1084,14 +1236,33 @@
                         <div class="text-side">
                             <h2>点亮星光</h2>
                             <p>开发者、建筑党、剧情师、UP主，这里总有你的位置。</p>
-                            <div class="join-buttons" style="display:flex; gap:1rem; margin:1rem 0;">
-                                <button class="btn" id="joinGroupBtn"><i class="fas fa-users"></i> 加入群聊</button>
-                                <button class="btn" id="joinChannelBtn"><i class="fas fa-hashtag"></i> 加入频道</button>
+                            <div class="join-buttons" style="display:flex; gap:1.5rem; margin:1rem 0;">
+                                <div class="mihoyo-btn" id="joinGroupBtn">
+                                    <div class="btn-bg"></div>
+                                    <div class="btn-content">
+                                        <img src="data:image/png;base64,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" class="btn-arrow" style="height: 1rem;">
+                                        <div class="btn-text">
+                                            <div class="btn-title">加入群聊</div>
+                                            <div class="btn-sub">JOIN GROUP</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mihoyo-btn" id="joinChannelBtn">
+                                    <div class="btn-bg"></div>
+                                    <div class="btn-content">
+                                        <img src="data:image/png;base64,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" class="btn-arrow" style="height: 1rem;">
+                                        <div class="btn-text">
+                                            <div class="btn-title">加入频道</div>
+                                            <div class="btn-sub">JOIN CHANNEL</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
         <!-- 6: 星愿池 -->
@@ -1108,13 +1279,14 @@
                         <div class="quick-wish-buttons" id="quickWishButtons"></div>
                         <div class="custom-wish">
                             <input type="text" id="customWishInput" placeholder="写下你的愿望...">
-                            <button id="submitCustomWish" class="btn" style="padding:0.5rem 1.2rem;">许愿</button>
+                            <button id="submitCustomWish" class="mihoyo-btn-simple" style="padding: 8px 20px;"><span class="simple-bg"></span><span class="simple-text">许愿</span></button>
                         </div>
                         <div class="warning-text">✨ 恶语伤人心，请传递温暖 ✨</div>
                         <p style="text-align:center; font-size:0.7rem; margin-top:0.5rem;">💫 点击快捷按钮或输入愿望，你的心声会留在星愿池中~</p>
                     </div>
                 </div>
             </div>
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
         <!-- 7: 星小蓝寄语 -->
@@ -1136,6 +1308,7 @@
                     <div class="starblue-indicator" id="starblueIndicator"></div>
                 </div>
             </div>
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
         <!-- 8: 反馈 -->
@@ -1177,6 +1350,7 @@
                             <p>青少年服务热线：12355（24小时心理支持）</p>
                             <div class="update-log">
                                 <strong>更新速递</strong><br>
+                                2026.03.26 官网体验优化：全站按钮统一风格，右下角增加滑动箭头，侧边圆点跟随修复，主页箭头增大<br>
                                 2025.03.23 星愿板块独立，心愿池与星小蓝寄语合并；页尾全新设计<br>
                                 2025.03.20 价值观卡片翻转效果上线<br>
                                 2025.03.15 官网整体风格焕新
@@ -1196,7 +1370,9 @@
         <h3>加入群聊</h3>
         <div class="contact-line">QQ交流群：966926112</div>
         <div class="contact-line">欢迎入群，与众多创作者一起交流地图心得。</div>
-        <div style="margin-top:1.5rem; text-align:center;"><button class="btn" id="copyGroupBtn">复制群号</button></div>
+        <div style="margin-top:1.5rem; text-align:center;">
+            <button class="mihoyo-btn-simple" id="copyGroupBtn"><span class="simple-bg"></span><span class="simple-text">复制群号</span></button>
+        </div>
     </div>
 </div>
 
@@ -1207,7 +1383,9 @@
         <h3>加入频道</h3>
         <div class="contact-line">官方频道号：pd90272831</div>
         <div class="contact-line">在QQ频道中获取最新动态、活动资讯。</div>
-        <div style="margin-top:1.5rem; text-align:center;"><button class="btn" id="copyChannelBtn">复制频道号</button></div>
+        <div style="margin-top:1.5rem; text-align:center;">
+            <button class="mihoyo-btn-simple" id="copyChannelBtn"><span class="simple-bg"></span><span class="simple-text">复制频道号</span></button>
+        </div>
     </div>
 </div>
 
@@ -1222,7 +1400,6 @@
         { img: "活力.png", text: "活力满满的一天，把热情注入每一张地图，世界因你而生动。\n\n—— 星小蓝" },
         { img: "星空.png", text: "星空之所以美丽，是因为每一颗星星都在努力发光。你也是。\n\n—— 星小蓝" }
     ];
-    // 图片映射新链接
     const starblueImgMap = {
         "好吧.png": "https://user-assets.sxlcdn.com/images/1138507/FiCnmOPeoeWL_RiKDBAb-CADL6m4.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png",
         "很好.png": "https://user-assets.sxlcdn.com/images/1138507/FqHMoaRHNdZWl812ddSKC6FSVIPN.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png",
@@ -1272,7 +1449,6 @@
     });
     updateStarbluePage();
 
-    // ========== 以下为原有其他功能（心愿池、弹窗、滑动逻辑等）完全保留 ==========
     // 心愿池快捷语15秒刷新
     const quickWishPool = [
         "愿创意如星光般璀璨", "希望和大家一起做出超棒的地图", "星能永远闪耀，梦想永不熄灭",
@@ -1361,7 +1537,7 @@
         alert('频道号已复制');
     });
 
-    // 全屏滑动逻辑（修正索引）
+    // 全屏滑动逻辑
     const slidesWrapper = document.getElementById('slidesWrapper');
     const slides = document.querySelectorAll('.slide');
     const total = slides.length;
@@ -1372,6 +1548,14 @@
     let isSwiping = false;
     const SWIPE_THRESHOLD = 40;
 
+    function updateDots() {
+        const dots = document.querySelectorAll('.dot');
+        dots.forEach((dot, idx) => {
+            if (idx === currentIndex) dot.classList.add('active');
+            else dot.classList.remove('active');
+        });
+    }
+
     function goToSlide(index) {
         if (index < 0) index = 0;
         if (index >= total) index = total - 1;
@@ -1379,6 +1563,7 @@
         currentIndex = index;
         slidesWrapper.style.transform = `translateY(-${currentIndex * 100}%)`;
         updateNavActive();
+        updateDots();
         const navbar = document.getElementById('navbar');
         if (currentIndex === 0) navbar.classList.add('transparent');
         else navbar.classList.remove('transparent');
@@ -1488,7 +1673,7 @@
         });
         dotsDiv.appendChild(dot);
     }
-    document.getElementById('exploreBtn')?.addEventListener('click', () => goToSlide(1));
+    document.getElementById('exploreBtn').addEventListener('click', () => goToSlide(1));
 
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
@@ -1514,6 +1699,7 @@
     }
     triggerSlideAnimation(document.querySelector('.slide[data-slide="0"]'));
     updateNavActive();
+    updateDots();
 </script>
 </body>
 </html>
