@@ -6,11 +6,11 @@
     <meta name="description" content="星能工作室 - 星光点缀黑暗，专注于迷你世界地图创作与青少年创意交流。">
     <meta name="keywords" content="星能工作室,迷你世界,地图创作,青少年交流,星光点缀黑暗">
     <meta name="robots" content="index,follow">
-    <!-- 替换为您的 Logo 作为网站图标 -->
     <link rel="icon" type="image/x-icon" href="https://user-assets.sxlcdn.com/images/1138507/FgFRcBKLtlCQgTv7_h1E5hv5Ay2F.png?imageMogr2/strip/auto-orient/thumbnail/300x300%3E/quality/90!/format/png">
     <title>星能工作室 | 星光点缀黑暗</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* 样式保持不变，与您提供的完全一致，仅新增 .wish-counter 样式 */
         * {
             margin: 0;
             padding: 0;
@@ -760,6 +760,7 @@
             gap: 0.8rem;
             margin-top: 1rem;
             flex-wrap: wrap;
+            align-items: center;
         }
         .custom-wish input {
             flex: 2;
@@ -771,6 +772,14 @@
         }
         .custom-wish input:focus {
             border-color: #4c8eff;
+        }
+        .wish-counter {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.8);
+            background: rgba(0,0,0,0.5);
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            white-space: nowrap;
         }
         .warning-text {
             font-size: 0.7rem;
@@ -1067,6 +1076,30 @@
             border: 2px solid #4c8eff;
         }
 
+        /* Toast 提示样式 */
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            z-index: 300;
+            opacity: 0;
+            transition: all 0.2s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            border: 1px solid #4c8eff;
+        }
+        .toast-message.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
         @media (max-width: 780px) {
             .logo-img { height: 45px; }
             .logo-text { font-size: 1.3rem; }
@@ -1086,6 +1119,20 @@
             }
             .footer-new {
                 padding: 1.5rem;
+            }
+            .toast-message {
+                white-space: normal;
+                width: 80%;
+                text-align: center;
+            }
+            .custom-wish {
+                flex-wrap: wrap;
+            }
+            .wish-counter {
+                margin-left: 0;
+                width: 100%;
+                text-align: center;
+                margin-top: 0.5rem;
             }
         }
     </style>
@@ -1240,7 +1287,7 @@
                                 <div class="mihoyo-btn" id="joinGroupBtn">
                                     <div class="btn-bg"></div>
                                     <div class="btn-content">
-                                        <img src="data:image/png;base64,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" class="btn-arrow" style="height: 1rem;">
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJ8AAABjCAYAAACFS9KCAAAAAXNSR0IArs4c6QAACB1JREFUeF7tXYly3TYMJHofadP+/0c6h5M4h4sOMrDn+Vnv8VpxCVqa6TQzlvREcQGtFgtKUkpJVf9NKf1o/x64fRKRD6jfU9XfU0p/os5XeJ7/UkpvRMT+37Wp6g8pJZsH6TpR/cG3InJXf1j/Ed8Hqqq/pJT+7j9d1Rk0pfRWRL5VHXVlZ1X9J6X0E+p8hef5LCLvC/e9uhsxgG5ExOZj6PYYZar6V0rp16G/ntI3EXmD+k1VNeC9JmQPC6KviHGQAuhORG4R119zjlPwLZH2VfVVSum3mpsA2PdeRG4A57GnkAWQZfDRGyyASi/8Cb8gpX1L95b2u3mTUwgbk3EnC6aR20cR+Yj4wegBVHoPnpFbUtqH8SYHoNEHoxEjNwsie/m47/1RVQ0fQCX3YAt8LN70TkS+lFx0yT6qatzv55J9gft8FZG3iPOpaugAKrkHm6/1qmqShUkXIzcYb/LsZ9KRcafR0sV7EfmMuHHRAyh3Dy6Bb4m0r6p/pJTsv5GbcVeIdKGq4QPo2o2/mBWI2h+ENz0MmiSgw6SL6AHUBD5/dJnwbAL0yA3Gm3wMxvuM/43eYNJF9AC6dOOv8qFVSj4k6QImoKsqK4DsKQSrQJ2DMEvGSdofjDd59mNx2A8i8gmRcqMH0NY9yILPJ49RM4XxJh+DVT2s+jFygwnoRO0PFkDVmW8V3uTjYGh/X0TkHQLxqho6gJrA5xMXumbqY2BJFzABnaT9wQLoFIBFj91VeJOP49D+2tIwLIAefr4YfD5xS5R8SNIFzDxLqkBBXwINT1XgW4E3+RhCm2f95cNeAkO7z1vAx+JNsJqpAzC0eXaFClQ1+FbgTT6G8OZZkvscVoFqAp9PHqPpCK39MZqOkNpf6ADqAR+j5HM0HZ29qRIrUN1de83gW4E3+RjCm2ejus97wcdK+9CSD0m6gJlno3btdYFvhZopWUB/0U1H3eAjGg/QTUcs7Q9iniUaD5oDCAW+8LzJgyi0eTZa0xEEfD5xlKYjb1eELPWwgnmWZDxo0v6Q4GMZNmE1Uw8ihvYHq5tGajqCgY9cM4XwpgcJjSRdwAT0KE1HUPCtwJtWMc+SnDtVAbQH+FjaH3SdOVLPBFL7Y1SgLHaLu/bg4FuBN5G1P5iATgqg4q69XcBH1P6q0n7O0BtNujgfD1H7KwqgPcG3xDpzJOkC1jMxc9PRbuDz7Hc0HeXS6+W/w8yzswbQ3uBjaX/NJZ8tLESRLi7hmKj9XW062hV8R9NRe9rzI2EcdsYA2h18DkBGs3ZTyedK9mBIF1DzLEn7u1iBGgW+o+moPQkWSxe5nyC2HW1+8mII+Dz7hW7W9jGwBPQi6SIHPh/DNF17w8DnA1+h6Sj0eikzOXdGg4/Bmwz30HXmSMYDmHmW1HT0rGtvKPiI2h+MN/kYwptnZwggBvhY2h+MN61gniU2HT1qf8PB5xMXmjeRjQcw8yy7a48CPqL2B6uZ+hiOpqOSV+zn+3yvQDHBx9L+oOvMqWr0piNeALUBF3NU9Inz7Md6gy82beZmi1T5uDsyX25mMn+PHkBUz2LnvW8+fFabT82AiOUqSMMU0WzK43wzGxxLwceeuNLrvLbfi3vb9fKOLek6+mPMh853gkSizvfIVYdzPtJqmkeF4ywFvrgKB+kbYlBPnL/hMr7IdNR2e7gG7ZVe5Lbnuk+Pjc5XX6SrZUYbdy0giRMH46sz0Z4hnI/YwALrAJvNiFkbOORyIM/JTNL0jh6Op2+3lmim+nDM7pmPqqCL3LdkiK1jovPVGWnPruBbQYj1x1Xo/hMi7eH17ZIWqoGt9OTAY7lvYHyVRHuy9rXdMp8r6MYxRm8wt4eDj9FznJ240ps6szS0J/gYQiysw9+BF/oTr0TaUyQN7QI+UncUbF1jB174XhMS7SkuZcLBRxRiV1iZtHjico9dUinTLqu4TXUP8IW2lXvWO9zJOXRv/72K9kDBF91c+XA/SY6PqonL+PRCSEMw8BHJLXotvuM7HG1Zr1oaQoJvhS8QHZpeG/CaSpkQ8BFdsUcb5NP6bShpCAU+hqYHM1ceml5buvOjmmlPN/hmVtBLb+kKfJWk6XWVMrvAR9T0ihT0CvBR+KqI3JReY+btlrVqVlcpsxd806xy2TqJRL7aNXGn4yVJQ920pxl8JAX9aAY6izJiKdMqGVbSbN56wLfCErcMTe/ZCp2ts0ekPZBSZhP4ZnTF1k5g9InzN/TQpcxq8BFdsdUKeoakh+arK5QyW8AX2lzpGYO1Jt1mF1dD1p6uGah2DLZ/FfhWaAZyTW+qLq7aiWMt8ON2KeOskK0YfEQhFq3phXB8XJpdIu2BljKrMl9EBf18AleYuFmbgVpSYVHmI2l6Nh6YEOtcLzRfXaGUeQrSUvAxjAMwc6UDL/TnF1ZZ17AKfEQF/UZEIOR2Bb460wI/LY/YrWOuZj6iEIvW9F6llCzzjdyiNwPBS5nnNz8HvtAKuj9uj2agtpCD0p6qzLeCpufgC12DXqGUeQn7m5mPyJGaXbFbA4w+cURpCEp7asEX2lzpGe9oBmp73DY1A7X81LPMRzRXQhV0khgLm7hVaM81UG6Bj6HpdbtiTwcZfeJWoT25bPgEfCRND2au9Mcta4EfGF9doZSZA96T2i5R04O4Yh8GG33iVlnXsBZ8oc2VnvVCdnGdUQYG7dld07uo8xFdsRBz5UnWY0wcjK+SaA90XcOSjPewj6xgrvSsx2gGsonr7uLy67cPIZogXmT2qJnkzL5Q2lNzXf8DrPkix/qmjYkAAAAASUVORK5CYII=" class="btn-arrow" style="height: 1rem;">
                                         <div class="btn-text">
                                             <div class="btn-title">加入群聊</div>
                                             <div class="btn-sub">JOIN GROUP</div>
@@ -1250,7 +1297,7 @@
                                 <div class="mihoyo-btn" id="joinChannelBtn">
                                     <div class="btn-bg"></div>
                                     <div class="btn-content">
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJ8AAABjCAYAAACFS9KCAAAAAXNSR0IArs4c6QAACB1JREFUeF7tXYly3TYMJHofadP+/0c6h5M4h4sOMrDn+Vnv8VpxCVqa6TQzlvREcQGtFgtKUkpJVf9NKf1o/x64fRKRD6jfU9XfU0p/os5XeJ7/UkpvRMT+37Wp6g8pJZsH6TpR/cG3InJXf1j/Ed8Hqqq/pJT+7j9d1Rk0pfRWRL5VHXVlZ1X9J6X0E+p8hef5LCLvC/e9uhsxgG5ExOZj6PYYZar6V0rp16G/ntI3EXmD+k1VNeC9JmQPC6KviHGQAuhORG4R119zjlPwLZH2VfVVSum3mpsA2PdeRG4A57GnkAWQZfDRGyyASi/8Cb8gpX1L95b2u3mTUwgbk3EnC6aR20cR+Yj4wegBVHoPnpFbUtqH8SYHoNEHoxEjNwsie/m47/1RVQ0fQCX3YAt8LN70TkS+lFx0yT6qatzv55J9gft8FZG3iPOpaugAKrkHm6/1qmqShUkXIzcYb/LsZ9KRcafR0sV7EfmMuHHRAyh3Dy6Bb4m0r6p/pJTsv5GbcVeIdKGq4QPo2o2/mBWI2h+ENz0MmiSgw6SL6AHUBD5/dJnwbAL0yA3Gm3wMxvuM/43eYNJF9AC6dOOv8qFVSj4k6QImoKsqK4DsKQSrQJ2DMEvGSdofjDd59mNx2A8i8gmRcqMH0NY9yILPJ49RM4XxJh+DVT2s+jFygwnoRO0PFkDVmW8V3uTjYGh/X0TkHQLxqho6gJrA5xMXumbqY2BJFzABnaT9wQLoFIBFj91VeJOP49D+2tIwLIAefr4YfD5xS5R8SNIFzDxLqkBBXwINT1XgW4E3+RhCm2f95cNeAkO7z1vAx+JNsJqpAzC0eXaFClQ1+FbgTT6G8OZZkvscVoFqAp9PHqPpCK39MZqOkNpf6ADqAR+j5HM0HZ29qRIrUN1de83gW4E3+RjCm2ejus97wcdK+9CSD0m6gJlno3btdYFvhZopWUB/0U1H3eAjGg/QTUcs7Q9iniUaD5oDCAW+8LzJgyi0eTZa0xEEfD5xlKYjb1eELPWwgnmWZDxo0v6Q4GMZNmE1Uw8ihvYHq5tGajqCgY9cM4XwpgcJjSRdwAT0KE1HUPCtwJtWMc+SnDtVAbQH+FjaH3SdOVLPBFL7Y1SgLHaLu/bg4FuBN5G1P5iATgqg4q69XcBH1P6q0n7O0BtNujgfD1H7KwqgPcG3xDpzJOkC1jMxc9PRbuDz7Hc0HeXS6+W/w8yzswbQ3uBjaX/NJZ8tLESRLi7hmKj9XW062hV8R9NRe9rzI2EcdsYA2h18DkBGs3ZTyedK9mBIF1DzLEn7u1iBGgW+o+moPQkWSxe5nyA2HW1+8mII+Dz7hW7W9jGwBPQi6SIHPh/DNF17w8DnA1+h6Sj0eikzOXdGg4/Bmwz30HXmSMYDmHmW1HT0rGtvKPiI2h+MN/kYwptnZwggBvhY2h+MN61gniU2HT1qf8PB5xMXmjeRjQcw8yy7a48CPqL2B6uZ+hiOpqOSV+zn+3yvQDHBx9L+oOvMqWr0piNeALUBF3NU9Inz7Md6gy82beZmi1T5uDsyX25mMn+PHkBUz2LnvW8+fFabT82AiOUqSMMU0WzK43wzGxxLwceeuNLrvLbfi3vb9fKOLek6+mPMh853gkSizvfIVYdzPtJqmkeF4ywFvrgKB+kbYlBPnL/hMr7IdNR2e7gG7ZVe5Lbnuk+Pjc5XX6SrZUYbdy0giRMH46sz0Z4hnI/YwALrAJvNiFkbOORyIM/JTNL0jh6Op2+3lmim+nDM7pmPqqCL3LdkiK1jovPVGWnPruBbQYj1x1Xo/hMi7eH17ZIWqoGt9OTAY7lvYHyVRHuy9rXdMp8r6MYxRm8wt4eDj9FznJ240ps6szS0J/gYQiysw9+BF/oTr0TaUyQN7QI+UncUbF1jB174XhMS7SkuZcLBRxRiV1iZtHjico9dUinTLqu4TXUP8IW2lXvWO9zJOXRv/72K9kDBF91c+XA/SY6PqonL+PRCSEMw8BHJLXotvuM7HG1Zr1oaQoJvhS8QHZpeG/CaSpkQ8BFdsUcb5NP6bShpCAU+hqYHM1ceml5buvOjmmlPN/hmVtBLb+kKfJWk6XWVMrvAR9T0ihT0CvBR+KqI3JReY+btlrVqVlcpsxd806xy2TqJRL7aNXGn4yVJQ920pxl8JAX9aAY6izJiKdMqGVbSbN56wLfCErcMTe/ZCp2ts0ekPZBSZhP4ZnTF1k5g9InzN/TQpcxq8BFdsdUKeoakh+arK5QyW8AX2lzpGYO1Jt1mF1dD1p6uGah2DLZ/FfhWaAZyTW+qLq7aiWMt8ON2KeOskK0YfEQhFq3phXB8XJpdIu2BljKrMl9EBf18AleYuFmbgVpSYVHmI2l6Nh6YEOtcLzRfXaGUeQrSUvAxjAMwc6UDL/TnF1ZZ17AKfEQF/UZEIOR2Bb460wI/LY/YrWOuZj6iEIvW9F6llCzzjdyiNwPBS5nnNz8HvtAKuj9uj2agtpCD0p6qzLeCpufgC12DXqGUeQn7m5mPyJGaXbFbA4w+cURpCEp7asEX2lzpGe9oBmp73DY1A7X81LPMRzRXQhV0khgLm7hVaM81UG6Bj6HpdbtiTwcZfeJWoT25bPgEfCRND2au9Mcta4EfGF9doZSZA96T2i5R04O4Yh8GG33iVlnXsBZ8oc2VnvVCdnGdUQYG7dld07uo8xFdsRBz5UnWY0wcjK+SaA90XcOSjPewj6xgrvSsx2gGsonr7uLy67cPIZogXmT2qJnkzL5Q2lNzXf8DrPkix/qmjYkAAAAASUVORK5CYII=" class="btn-arrow" style="height: 1rem;">
+                                        <img src="data:image/png;base64,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" class="btn-arrow" style="height: 1rem;">
                                         <div class="btn-text">
                                             <div class="btn-title">加入频道</div>
                                             <div class="btn-sub">JOIN CHANNEL</div>
@@ -1279,6 +1326,7 @@
                         <div class="quick-wish-buttons" id="quickWishButtons"></div>
                         <div class="custom-wish">
                             <input type="text" id="customWishInput" placeholder="写下你的愿望...">
+                            <span class="wish-counter" id="wishCounter">0/50</span>
                             <button id="submitCustomWish" class="mihoyo-btn-simple" style="padding: 8px 20px;"><span class="simple-bg"></span><span class="simple-text">许愿</span></button>
                         </div>
                         <div class="warning-text">✨ 恶语伤人心，请传递温暖 ✨</div>
@@ -1350,6 +1398,8 @@
                             <p>青少年服务热线：12355（24小时心理支持）</p>
                             <div class="update-log">
                                 <strong>更新速递</strong><br>
+                                2026.03.28 修复移动端触摸滑动与按钮交互问题，优化心愿池字数统计样式<br>
+                                2026.03.27 官网体验再升级：心愿池持久化、最后一页隐藏箭头、移动菜单优化、Toast提示、敏感词过滤<br>
                                 2026.03.26 官网体验优化：全站按钮统一风格，右下角增加滑动箭头，侧边圆点跟随修复，主页箭头增大<br>
                                 2025.03.23 星愿板块独立，心愿池与星小蓝寄语合并；页尾全新设计<br>
                                 2025.03.20 价值观卡片翻转效果上线<br>
@@ -1359,6 +1409,8 @@
                     </div>
                 </div>
             </div>
+            <!-- 最后一页不显示滚动箭头，由 JS 控制隐藏 -->
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
     </div>
 </div>
@@ -1390,7 +1442,149 @@
 </div>
 
 <script>
-    // 星小蓝寄语（7条，图片链接已更新）
+    // ---------- 全局 DOM 缓存 ----------
+    const slidesWrapper = document.getElementById('slidesWrapper');
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+    let currentIndex = 0;
+    let isScrolling = false;
+
+    const navbarEl = document.getElementById('navbar');
+    const dotsContainer = document.getElementById('slideDots');
+    const menuToggleBtn = document.getElementById('menuToggle');
+    const navLinksEl = document.getElementById('navLinks');
+    const exploreBtn = document.getElementById('exploreBtn');
+
+    // ---------- 辅助函数 ----------
+    function showToast(message, duration = 2000) {
+        let toast = document.querySelector('.toast-message');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.className = 'toast-message';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, duration);
+    }
+
+    // 敏感词过滤
+    const bannedWords = ['傻逼', '弱智', '脑残', '煞笔', 'sb', 'SB', '贱人', '婊子', '废物', '垃圾', '白痴', '智障'];
+    function containsBannedWord(text) {
+        const lower = text.toLowerCase();
+        return bannedWords.some(word => lower.includes(word.toLowerCase()));
+    }
+
+    // ---------- 心愿池 ----------
+    let wishRecords = [];
+    const wishListDiv = document.getElementById('wishList');
+
+    function renderWishList() {
+        wishListDiv.innerHTML = '';
+        wishRecords.forEach(record => {
+            const div = document.createElement('div');
+            div.className = 'wish-item' + (record.isUser ? ' user' : '');
+            const span = document.createElement('span');
+            span.className = 'wish-text';
+            span.textContent = record.text;
+            div.appendChild(span);
+            wishListDiv.appendChild(div);
+        });
+    }
+
+    function addWishRecord(text, isUser) {
+        if (containsBannedWord(text)) {
+            showToast('请使用文明用语，共同守护星愿池的温暖 ✨');
+            return false;
+        }
+        wishRecords.unshift({ text, isUser });
+        if (wishRecords.length > 30) wishRecords.pop();
+        localStorage.setItem('starWishes', JSON.stringify(wishRecords));
+        renderWishList();
+        return true;
+    }
+
+    const storedWishes = JSON.parse(localStorage.getItem('starWishes') || '[]');
+    wishRecords.push(...storedWishes.slice(0, 30));
+    renderWishList();
+
+    // 快捷愿望刷新（仅更新文字，保留DOM）
+    const quickWishPool = [
+        "愿创意如星光般璀璨", "希望和大家一起做出超棒的地图", "星能永远闪耀，梦想永不熄灭",
+        "愿灵感源源不断", "保持热爱，奔赴山海", "愿世界和平，创意自由",
+        "愿每一天都有新灵感", "让地图成为梦想的画布", "突破自我，创造无限", "愿热爱永不降温"
+    ];
+    const quickWishContainer = document.getElementById('quickWishButtons');
+    let currentQuickWishes = [];
+
+    function refreshQuickWishes() {
+        const shuffled = [...quickWishPool];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        const newWishes = shuffled.slice(0, 3);
+        const existingBtns = quickWishContainer.querySelectorAll('.quick-wish-btn');
+
+        if (existingBtns.length !== newWishes.length) {
+            quickWishContainer.innerHTML = '';
+            newWishes.forEach(wish => {
+                const btn = document.createElement('button');
+                btn.className = 'quick-wish-btn';
+                btn.textContent = wish;
+                btn.addEventListener('click', () => addWishRecord(wish, true));
+                quickWishContainer.appendChild(btn);
+            });
+        } else {
+            existingBtns.forEach((btn, idx) => {
+                const newWish = newWishes[idx];
+                if (btn.textContent !== newWish) {
+                    btn.textContent = newWish;
+                    // 保留原有事件，无需重新绑定
+                }
+            });
+        }
+
+        // 闪烁动画
+        const btns = quickWishContainer.querySelectorAll('.quick-wish-btn');
+        btns.forEach((btn, idx) => {
+            if (!currentQuickWishes.includes(btn.textContent)) {
+                btn.classList.add('refresh-glow');
+                setTimeout(() => btn.classList.remove('refresh-glow'), 300);
+            }
+        });
+        currentQuickWishes = newWishes;
+    }
+    refreshQuickWishes();
+    setInterval(refreshQuickWishes, 15000);
+
+    // 心愿池字数统计
+    const wishInput = document.getElementById('customWishInput');
+    const wishCounter = document.getElementById('wishCounter');
+    wishInput.addEventListener('input', () => {
+        let val = wishInput.value;
+        if (val.length > 50) {
+            val = val.slice(0, 50);
+            wishInput.value = val;
+        }
+        wishCounter.textContent = `${val.length}/50`;
+    });
+    document.getElementById('submitCustomWish').addEventListener('click', () => {
+        let wish = wishInput.value.trim();
+        if (wish === "") return;
+        if (wish.length > 50) wish = wish.slice(0,48)+'…';
+        if (addWishRecord(wish, true)) {
+            wishInput.value = "";
+            wishCounter.textContent = "0/50";
+        }
+    });
+    if (wishRecords.length === 0) {
+        addWishRecord("星愿池已开启，快来许愿吧！", false);
+    }
+
+    // ---------- 星小蓝寄语 ----------
     const starblueData = [
         { img: "好吧.png", text: "好吧，那就从今天开始，和星能一起记录每一个创作瞬间吧。\n\n—— 星小蓝" },
         { img: "很好.png", text: "很好，你的地图让无数人露出了笑容。继续加油，我们为你骄傲。\n\n—— 星小蓝" },
@@ -1449,100 +1643,7 @@
     });
     updateStarbluePage();
 
-    // 心愿池快捷语15秒刷新
-    const quickWishPool = [
-        "愿创意如星光般璀璨", "希望和大家一起做出超棒的地图", "星能永远闪耀，梦想永不熄灭",
-        "愿灵感源源不断", "保持热爱，奔赴山海", "愿世界和平，创意自由",
-        "愿每一天都有新灵感", "让地图成为梦想的画布", "突破自我，创造无限", "愿热爱永不降温"
-    ];
-    const quickWishContainer = document.getElementById('quickWishButtons');
-    function refreshQuickWishes() {
-        const shuffled = [...quickWishPool];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        const newWishes = shuffled.slice(0, 3);
-        quickWishContainer.innerHTML = '';
-        newWishes.forEach(wish => {
-            const btn = document.createElement('button');
-            btn.className = 'quick-wish-btn';
-            btn.setAttribute('data-wish', wish);
-            btn.textContent = wish;
-            btn.addEventListener('click', () => addWishRecord(wish, true));
-            quickWishContainer.appendChild(btn);
-        });
-        const btns = quickWishContainer.querySelectorAll('.quick-wish-btn');
-        btns.forEach(btn => {
-            btn.classList.add('refresh-glow');
-            setTimeout(() => btn.classList.remove('refresh-glow'), 300);
-        });
-    }
-    refreshQuickWishes();
-    setInterval(refreshQuickWishes, 15000);
-
-    let wishRecords = [];
-    const wishListDiv = document.getElementById('wishList');
-    function addWishRecord(text, isUser) {
-        wishRecords.unshift({ text, isUser });
-        if (wishRecords.length > 30) wishRecords.pop();
-        renderWishList();
-    }
-    function renderWishList() {
-        wishListDiv.innerHTML = '';
-        wishRecords.forEach(record => {
-            const div = document.createElement('div');
-            div.className = 'wish-item' + (record.isUser ? ' user' : '');
-            const span = document.createElement('span');
-            span.className = 'wish-text';
-            span.textContent = record.text;
-            div.appendChild(span);
-            wishListDiv.appendChild(div);
-        });
-    }
-    document.getElementById('submitCustomWish').addEventListener('click', () => {
-        const input = document.getElementById('customWishInput');
-        let wish = input.value.trim();
-        if (wish === "") return;
-        if (wish.length > 50) wish = wish.slice(0,48)+'…';
-        addWishRecord(wish, true);
-        input.value = "";
-    });
-    setTimeout(() => {
-        addWishRecord("星愿池已开启，快来许愿吧！", false);
-    }, 500);
-
-    // 弹窗控制（群聊、频道）
-    const groupModal = document.getElementById('groupModal');
-    const channelModal = document.getElementById('channelModal');
-    const closeGroup = document.getElementById('closeGroupModal');
-    const closeChannel = document.getElementById('closeChannelModal');
-    const copyGroupBtn = document.getElementById('copyGroupBtn');
-    const copyChannelBtn = document.getElementById('copyChannelBtn');
-
-    document.getElementById('joinGroupBtn').addEventListener('click', () => { groupModal.style.display = 'flex'; });
-    document.getElementById('joinChannelBtn').addEventListener('click', () => { channelModal.style.display = 'flex'; });
-    closeGroup.addEventListener('click', () => { groupModal.style.display = 'none'; });
-    closeChannel.addEventListener('click', () => { channelModal.style.display = 'none'; });
-    window.addEventListener('click', (e) => {
-        if (e.target === groupModal) groupModal.style.display = 'none';
-        if (e.target === channelModal) channelModal.style.display = 'none';
-    });
-    copyGroupBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText('966926112');
-        alert('群号已复制');
-    });
-    copyChannelBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText('pd90272831');
-        alert('频道号已复制');
-    });
-
-    // 全屏滑动逻辑
-    const slidesWrapper = document.getElementById('slidesWrapper');
-    const slides = document.querySelectorAll('.slide');
-    const total = slides.length;
-    let currentIndex = 0;
-    let isScrolling = false;
+    // ---------- 全屏滑动逻辑（优化移动端） ----------
     let touchStartY = 0;
     let touchCurrentY = 0;
     let isSwiping = false;
@@ -1556,6 +1657,17 @@
         });
     }
 
+    function updateArrowVisibility() {
+        const arrows = document.querySelectorAll('.scroll-arrow');
+        arrows.forEach((arrow, idx) => {
+            if (idx === currentIndex && currentIndex === total - 1) {
+                arrow.style.display = 'none';
+            } else if (idx === currentIndex) {
+                arrow.style.display = 'flex';
+            }
+        });
+    }
+
     function goToSlide(index) {
         if (index < 0) index = 0;
         if (index >= total) index = total - 1;
@@ -1564,9 +1676,10 @@
         slidesWrapper.style.transform = `translateY(-${currentIndex * 100}%)`;
         updateNavActive();
         updateDots();
-        const navbar = document.getElementById('navbar');
-        if (currentIndex === 0) navbar.classList.add('transparent');
-        else navbar.classList.remove('transparent');
+        updateArrowVisibility();
+
+        if (currentIndex === 0) navbarEl.classList.add('transparent');
+        else navbarEl.classList.remove('transparent');
 
         const activeSlide = slides[currentIndex];
         if (activeSlide) {
@@ -1593,47 +1706,64 @@
         else if (currentIndex === 8) navLinks[5].classList.add('active');
     }
 
+    // 滚动边界检测（放宽阈值）
+    function canScrollUp(slide) {
+        return slide.scrollTop > 2;
+    }
+    function canScrollDown(slide) {
+        return slide.scrollTop + slide.clientHeight < slide.scrollHeight - 2;
+    }
+
     function handleWheel(e) {
         if (isScrolling) return;
         const delta = e.deltaY;
-        if (delta > 0 && currentIndex < total - 1) {
-            isScrolling = true;
-            goToSlide(currentIndex + 1);
-            setTimeout(() => isScrolling = false, 650);
-        } else if (delta < 0 && currentIndex > 0) {
+        const activeSlide = slides[currentIndex];
+        if (delta < 0 && !canScrollUp(activeSlide) && currentIndex > 0) {
             isScrolling = true;
             goToSlide(currentIndex - 1);
             setTimeout(() => isScrolling = false, 650);
+            e.preventDefault();
+        } else if (delta > 0 && !canScrollDown(activeSlide) && currentIndex < total - 1) {
+            isScrolling = true;
+            goToSlide(currentIndex + 1);
+            setTimeout(() => isScrolling = false, 650);
+            e.preventDefault();
         }
-        e.preventDefault();
     }
 
-    let touchStartTime = 0;
     function onTouchStart(e) {
         if (isScrolling) return;
         isSwiping = true;
         touchStartY = e.touches[0].clientY;
         touchCurrentY = touchStartY;
-        touchStartTime = Date.now();
     }
+
     function onTouchMove(e) {
         if (!isSwiping || isScrolling) return;
         const currentY = e.touches[0].clientY;
         const deltaY = currentY - touchStartY;
-        if (Math.abs(deltaY) > SWIPE_THRESHOLD) e.preventDefault();
+        const activeSlide = slides[currentIndex];
+        const isAtTop = activeSlide.scrollTop <= 2;
+        const isAtBottom = activeSlide.scrollTop + activeSlide.clientHeight >= activeSlide.scrollHeight - 2;
+        if ((deltaY > 0 && isAtTop && currentIndex > 0) || (deltaY < 0 && isAtBottom && currentIndex < total - 1)) {
+            e.preventDefault();
+        }
         touchCurrentY = currentY;
     }
+
     function onTouchEnd(e) {
         if (!isSwiping || isScrolling) { isSwiping = false; return; }
         isSwiping = false;
         const deltaY = touchCurrentY - touchStartY;
-        const timeDiff = Date.now() - touchStartTime;
-        if (Math.abs(deltaY) > SWIPE_THRESHOLD || (Math.abs(deltaY) > 20 && timeDiff < 200)) {
-            if (deltaY < 0 && currentIndex < total - 1) {
+        const activeSlide = slides[currentIndex];
+        const isAtTop = activeSlide.scrollTop <= 2;
+        const isAtBottom = activeSlide.scrollTop + activeSlide.clientHeight >= activeSlide.scrollHeight - 2;
+        if (Math.abs(deltaY) > SWIPE_THRESHOLD) {
+            if (deltaY < 0 && isAtBottom && currentIndex < total - 1) {
                 isScrolling = true;
                 goToSlide(currentIndex + 1);
                 setTimeout(() => isScrolling = false, 650);
-            } else if (deltaY > 0 && currentIndex > 0) {
+            } else if (deltaY > 0 && isAtTop && currentIndex > 0) {
                 isScrolling = true;
                 goToSlide(currentIndex - 1);
                 setTimeout(() => isScrolling = false, 650);
@@ -1647,6 +1777,7 @@
     containerScroll.addEventListener('touchend', onTouchEnd);
     containerScroll.addEventListener('wheel', handleWheel, { passive: false });
 
+    // 导航按钮
     document.querySelectorAll('.nav-link').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -1660,7 +1791,7 @@
         });
     });
 
-    const dotsDiv = document.getElementById('slideDots');
+    // 生成圆点
     for (let i = 0; i < total; i++) {
         const dot = document.createElement('div');
         dot.classList.add('dot');
@@ -1671,25 +1802,67 @@
             goToSlide(i);
             setTimeout(() => isScrolling = false, 650);
         });
-        dotsDiv.appendChild(dot);
+        dotsContainer.appendChild(dot);
     }
-    document.getElementById('exploreBtn').addEventListener('click', () => goToSlide(1));
+    exploreBtn.addEventListener('click', () => goToSlide(1));
 
-    const menuToggle = document.getElementById('menuToggle');
-    const navLinks = document.getElementById('navLinks');
-    menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-    document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', () => navLinks.classList.remove('open')));
+    // 移动端菜单
+    menuToggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navLinksEl.classList.toggle('open');
+    });
+    document.addEventListener('click', (e) => {
+        if (!navLinksEl.contains(e.target) && !menuToggleBtn.contains(e.target)) {
+            navLinksEl.classList.remove('open');
+        }
+    });
+    document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', () => navLinksEl.classList.remove('open')));
 
+    // 防止内部滚动冒泡
     slides.forEach(slide => {
         slide.addEventListener('wheel', (e) => {
             const st = slide.scrollTop;
             const sh = slide.scrollHeight;
             const ch = slide.clientHeight;
             const delta = e.deltaY;
-            if ((st === 0 && delta < 0) || (st + ch >= sh - 1 && delta > 0)) return;
+            if ((st === 0 && delta < 0) || (st + ch >= sh - 2 && delta > 0)) {
+                return;
+            }
             e.stopPropagation();
         }, { passive: false });
     });
+
+    // 弹窗控制
+    const groupModal = document.getElementById('groupModal');
+    const channelModal = document.getElementById('channelModal');
+    const closeGroup = document.getElementById('closeGroupModal');
+    const closeChannel = document.getElementById('closeChannelModal');
+    const copyGroupBtn = document.getElementById('copyGroupBtn');
+    const copyChannelBtn = document.getElementById('copyChannelBtn');
+
+    document.getElementById('joinGroupBtn').addEventListener('click', () => { groupModal.style.display = 'flex'; });
+    document.getElementById('joinChannelBtn').addEventListener('click', () => { channelModal.style.display = 'flex'; });
+    closeGroup.addEventListener('click', () => { groupModal.style.display = 'none'; });
+    closeChannel.addEventListener('click', () => { channelModal.style.display = 'none'; });
+    window.addEventListener('click', (e) => {
+        if (e.target === groupModal) groupModal.style.display = 'none';
+        if (e.target === channelModal) channelModal.style.display = 'none';
+    });
+    copyGroupBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText('966926112');
+        showToast('群号已复制');
+    });
+    copyChannelBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText('pd90272831');
+        showToast('频道号已复制');
+    });
+
+    // 初始化
+    if (currentIndex === 0) navbarEl.classList.add('transparent');
+    else navbarEl.classList.remove('transparent');
+    updateArrowVisibility();
+    updateNavActive();
+    updateDots();
 
     function triggerSlideAnimation(slide) {
         const titles = slide.querySelectorAll('.section-title');
@@ -1698,8 +1871,6 @@
         items.forEach(item => item.classList.add('animate'));
     }
     triggerSlideAnimation(document.querySelector('.slide[data-slide="0"]'));
-    updateNavActive();
-    updateDots();
 </script>
 </body>
 </html>
