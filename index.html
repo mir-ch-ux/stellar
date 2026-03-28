@@ -10,7 +10,6 @@
     <title>星能工作室 | 星光点缀黑暗</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* 样式保持不变，与您提供的完全一致，仅新增 .wish-counter 样式 */
         * {
             margin: 0;
             padding: 0;
@@ -165,15 +164,13 @@
             gap: 12px;
         }
         .logo-img {
-            height: 60px;
+            height: 22px;
             width: auto;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
+        /* 移除文字样式，不显示文字 */
         .logo-text {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #1a2a4f;
-            background: none;
+            display: none;
         }
         .nav-links {
             display: flex;
@@ -244,6 +241,9 @@
             }
             .navbar {
                 padding: 0.7rem 1rem;
+            }
+            .logo-img {
+                height: 20px;
             }
         }
 
@@ -773,14 +773,6 @@
         .custom-wish input:focus {
             border-color: #4c8eff;
         }
-        .wish-counter {
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.8);
-            background: rgba(0,0,0,0.5);
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            white-space: nowrap;
-        }
         .warning-text {
             font-size: 0.7rem;
             margin-top: 0.3rem;
@@ -985,12 +977,23 @@
         }
         .main-title {
             font-size: 5rem;
-            font-weight: 800;
-            background: linear-gradient(145deg, #1a2a4f, #4c8eff);
+            font-weight: 500;
+            background: linear-gradient(145deg, #4c8eff, #aac9ff);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             margin-bottom: 1rem;
+            animation: starFlow 6s ease infinite, starTwinkle 2s ease-in-out infinite;
+        }
+        @keyframes starFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+        @keyframes starTwinkle {
+            0% { text-shadow: 0 0 0 rgba(76,142,255,0); }
+            50% { text-shadow: 0 0 12px rgba(76,142,255,0.6); }
+            100% { text-shadow: 0 0 0 rgba(76,142,255,0); }
         }
         .sub-en {
             font-size: 1.5rem;
@@ -1101,7 +1104,7 @@
         }
 
         @media (max-width: 780px) {
-            .logo-img { height: 45px; }
+            .logo-img { height: 20px; }
             .logo-text { font-size: 1.3rem; }
             .main-title { font-size: 2.5rem; }
             .sub-en { font-size: 1rem; }
@@ -1128,12 +1131,6 @@
             .custom-wish {
                 flex-wrap: wrap;
             }
-            .wish-counter {
-                margin-left: 0;
-                width: 100%;
-                text-align: center;
-                margin-top: 0.5rem;
-            }
         }
     </style>
 </head>
@@ -1144,8 +1141,8 @@
 
 <div class="navbar" id="navbar">
     <div class="logo">
-        <img class="logo-img" src="https://user-assets.sxlcdn.com/images/1138507/FgFRcBKLtlCQgTv7_h1E5hv5Ay2F.png?imageMogr2/strip/auto-orient/thumbnail/300x300%3E/quality/90!/format/png" alt="星能工作室Logo" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/mir-ch-ux/stellar/main/1774185131572-removebg-preview.png'">
-        <span class="logo-text">星能stellar</span>
+        <img class="logo-img" src="https://user-assets.sxlcdn.com/images/1138507/FnkoMkeJ40vIQkdFDyBwHQDTIWcI.png?imageMogr2/strip/auto-orient/thumbnail/300x300%3E/quality/90!/format/png" alt="星能工作室Logo" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/mir-ch-ux/stellar/main/1774185131572-removebg-preview.png'">
+        <span class="logo-text"></span>
     </div>
     <button class="menu-toggle" id="menuToggle" aria-label="菜单"><i class="fas fa-bars"></i></button>
     <div class="nav-links" id="navLinks">
@@ -1326,7 +1323,6 @@
                         <div class="quick-wish-buttons" id="quickWishButtons"></div>
                         <div class="custom-wish">
                             <input type="text" id="customWishInput" placeholder="写下你的愿望...">
-                            <span class="wish-counter" id="wishCounter">0/50</span>
                             <button id="submitCustomWish" class="mihoyo-btn-simple" style="padding: 8px 20px;"><span class="simple-bg"></span><span class="simple-text">许愿</span></button>
                         </div>
                         <div class="warning-text">✨ 恶语伤人心，请传递温暖 ✨</div>
@@ -1398,7 +1394,10 @@
                             <p>青少年服务热线：12355（24小时心理支持）</p>
                             <div class="update-log">
                                 <strong>更新速递</strong><br>
-                                2026.03.28 修复移动端触摸滑动与按钮交互问题，优化心愿池字数统计样式<br>
+                                2026.03.28 Logo再次缩小（22px），主页标题添加动态渐变+星光闪烁效果<br>
+                                2026.03.28 Logo缩小、主页字体减细、删除心愿池字数统计<br>
+                                2026.03.28 更新Logo图片，移除导航栏文字，主页标题改为蓝色渐变并减细<br>
+                                2026.03.28 修复移动端触摸滑动与按钮交互问题<br>
                                 2026.03.27 官网体验再升级：心愿池持久化、最后一页隐藏箭头、移动菜单优化、Toast提示、敏感词过滤<br>
                                 2026.03.26 官网体验优化：全站按钮统一风格，右下角增加滑动箭头，侧边圆点跟随修复，主页箭头增大<br>
                                 2025.03.23 星愿板块独立，心愿池与星小蓝寄语合并；页尾全新设计<br>
@@ -1560,16 +1559,14 @@
     refreshQuickWishes();
     setInterval(refreshQuickWishes, 15000);
 
-    // 心愿池字数统计
+    // 心愿池输入框长度限制（保留截断）
     const wishInput = document.getElementById('customWishInput');
-    const wishCounter = document.getElementById('wishCounter');
     wishInput.addEventListener('input', () => {
         let val = wishInput.value;
         if (val.length > 50) {
             val = val.slice(0, 50);
             wishInput.value = val;
         }
-        wishCounter.textContent = `${val.length}/50`;
     });
     document.getElementById('submitCustomWish').addEventListener('click', () => {
         let wish = wishInput.value.trim();
@@ -1577,7 +1574,6 @@
         if (wish.length > 50) wish = wish.slice(0,48)+'…';
         if (addWishRecord(wish, true)) {
             wishInput.value = "";
-            wishCounter.textContent = "0/50";
         }
     });
     if (wishRecords.length === 0) {
