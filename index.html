@@ -4,12 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="description" content="星能工作室 - 星光点缀黑暗，专注于迷你世界地图创作与青少年创意交流。">
-    <meta name="keywords" content="星能工作室,迷你世界,地图创作,青少年交流,星光点缀黑暗">
+    <meta name="keywords" content="星能工作室,迷你世界,地图创作,青少年交流,星光点缀黑暗,作品墙,标签墙,壁纸站">
     <meta name="robots" content="index,follow">
     <link rel="icon" type="image/x-icon" href="https://user-assets.sxlcdn.com/images/1138507/FgFRcBKLtlCQgTv7_h1E5hv5Ay2F.png?imageMogr2/strip/auto-orient/thumbnail/300x300%3E/quality/90!/format/png">
     <title>星能工作室 | 星光点缀黑暗</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* ========== 全局变量（支持暗色模式）========== */
+        :root {
+            --bg-primary: #f5f7fc;
+            --bg-card: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #4c6a9e;
+            --border-light: #e0e7f0;
+            --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.1);
+            --accent: #5f7fff;
+            --accent-glow: #a07aff;
+        }
+        body.dark {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --border-light: #334155;
+            --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.5);
+        }
         * {
             margin: 0;
             padding: 0;
@@ -20,17 +41,18 @@
             cursor: pointer;
         }
         :focus {
-            outline: 2px solid #4c8eff;
+            outline: 2px solid var(--accent);
             outline-offset: 2px;
         }
 
         body {
             font-family: 'Segoe UI', 'Poppins', 'Inter', system-ui, -apple-system, 'Microsoft YaHei', sans-serif;
-            background: #f5f7fc;
-            color: #1e293b;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             overflow: hidden;
             height: 100vh;
             width: 100vw;
+            transition: background 0.3s, color 0.3s;
         }
 
         /* 背景层 */
@@ -41,8 +63,11 @@
             width: 100%;
             height: 100%;
             z-index: -2;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f4fa 100%);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #f0f4fa 100%);
             will-change: transform;
+        }
+        body.dark .grid-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         }
         .grid-overlay {
             position: fixed;
@@ -58,13 +83,18 @@
             z-index: -1;
             will-change: transform;
         }
+        body.dark .grid-overlay {
+            background-image: 
+                linear-gradient(to right, rgba(95, 127, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(95, 127, 255, 0.08) 1px, transparent 1px);
+        }
         .tech-line {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, #1a2a4f, #4c8eff, #1a2a4f);
+            background: linear-gradient(90deg, #1a2a4f, var(--accent), #1a2a4f);
             z-index: 99;
         }
 
@@ -86,7 +116,7 @@
             width: 100%;
             overflow-y: auto;
             scrollbar-width: thin;
-            scrollbar-color: #4c8eff #d9e2f0;
+            scrollbar-color: var(--accent) #d9e2f0;
             position: relative;
         }
         .slide::-webkit-scrollbar {
@@ -96,8 +126,11 @@
             background: #d9e2f0;
         }
         .slide::-webkit-scrollbar-thumb {
-            background: #4c8eff;
+            background: var(--accent);
             border-radius: 8px;
+        }
+        body.dark .slide::-webkit-scrollbar-track {
+            background: #334155;
         }
         .container-inner {
             max-width: 1300px;
@@ -125,7 +158,7 @@
         }
         .scroll-arrow i {
             font-size: 28px;
-            color: #4c8eff;
+            color: var(--accent);
             opacity: 0.7;
             transition: opacity 0.2s;
         }
@@ -145,13 +178,16 @@
             width: 100%;
             z-index: 100;
             display: flex;
-            justify-content: space-between;
             align-items: center;
             padding: 1rem 2.5rem;
-            background: #ffffff;
+            background: var(--bg-card);
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border-bottom: 1px solid #e0e7f0;
+            border-bottom: 1px solid var(--border-light);
             transition: background 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+        body.dark .navbar {
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(8px);
         }
         .navbar.transparent {
             background: transparent;
@@ -168,7 +204,6 @@
             width: auto;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
-        /* 移除文字样式，不显示文字 */
         .logo-text {
             display: none;
         }
@@ -176,9 +211,10 @@
             display: flex;
             gap: 2rem;
             align-items: center;
+            margin: 0 auto;
         }
         .nav-link {
-            color: #1e293b;
+            color: var(--text-primary);
             text-decoration: none;
             font-weight: 500;
             font-size: 1rem;
@@ -193,7 +229,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #4c8eff;
+            background: var(--accent);
             transition: width 0.3s ease;
         }
         .nav-link:hover::after,
@@ -201,31 +237,47 @@
             width: 100%;
         }
         .nav-link:hover, .nav-link.active {
-            color: #4c8eff;
+            color: var(--accent);
+        }
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: 0.2s;
+        }
+        .theme-toggle:hover {
+            color: var(--accent);
         }
 
         /* 移动端菜单 */
         .menu-toggle {
             display: none;
             font-size: 1.8rem;
-            color: #1e293b;
+            color: var(--text-primary);
             background: none;
             border: none;
             cursor: pointer;
         }
         @media (max-width: 780px) {
+            .navbar {
+                flex-wrap: wrap;
+                padding: 0.7rem 1rem;
+            }
+            .logo {
+                flex: 1;
+            }
             .nav-links {
                 display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: #ffffff;
+                width: 100%;
                 flex-direction: column;
                 gap: 0;
+                margin: 0;
                 padding: 1rem 0;
-                border-bottom: 1px solid #e0e7f0;
-                box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+                border-top: 1px solid var(--border-light);
+                order: 3;
             }
             .nav-links.open {
                 display: flex;
@@ -239,8 +291,8 @@
             .menu-toggle {
                 display: block;
             }
-            .navbar {
-                padding: 0.7rem 1rem;
+            .theme-toggle {
+                margin-left: 0.5rem;
             }
             .logo-img {
                 height: 20px;
@@ -248,15 +300,15 @@
         }
 
         /* 卡片通用样式 */
-        .card, .vision-card, .wish-pool {
+        .card, .vision-card, .work-card {
             position: relative;
             overflow: hidden;
-            background: #ffffff;
-            border: 1px solid #e0e7f0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow-sm);
         }
-        .card::before, .vision-card::before, .wish-pool::before {
+        .card::before, .vision-card::before, .work-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -264,34 +316,34 @@
             right: 0;
             bottom: 0;
             border: 2px solid transparent;
-            border-image: linear-gradient(90deg, #4c8eff, #aac9ff, #4c8eff);
+            border-image: linear-gradient(90deg, var(--accent), var(--accent-glow), var(--accent));
             border-image-slice: 1;
             pointer-events: none;
             opacity: 0;
             transition: opacity 0.3s;
         }
-        .card:hover::before, .vision-card:hover::before, .wish-pool:hover::before {
+        .card:hover::before, .vision-card:hover::before, .work-card:hover::before {
             opacity: 1;
             animation: borderFlow 2s linear infinite;
         }
         @keyframes borderFlow {
-            0% { border-image-source: linear-gradient(90deg, #4c8eff, #aac9ff, #4c8eff); }
-            100% { border-image-source: linear-gradient(450deg, #4c8eff, #aac9ff, #4c8eff); }
+            0% { border-image-source: linear-gradient(90deg, var(--accent), var(--accent-glow), var(--accent)); }
+            100% { border-image-source: linear-gradient(450deg, var(--accent), var(--accent-glow), var(--accent)); }
         }
-        .card::after, .vision-card::after {
+        .card::after, .vision-card::after, .work-card::after {
             content: '';
             position: absolute;
             bottom: 0;
             right: 0;
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, transparent 50%, #4c8eff20 50%);
+            background: linear-gradient(135deg, transparent 50%, var(--accent)20 50%);
             pointer-events: none;
         }
-        .card:hover, .vision-card:hover, .wish-pool:hover {
+        .card:hover, .vision-card:hover, .work-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
-            border-color: #4c8eff;
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent);
         }
         .card {
             padding: 2.2rem;
@@ -300,15 +352,46 @@
             padding: 2.2rem;
             margin-bottom: 2rem;
         }
-        .wish-pool .wish-pool-overlay {
-            padding: 2.2rem;
+        .work-card {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .work-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+        }
+        .work-card h3 {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+        .work-card .work-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        .work-card .work-buttons button {
+            background: none;
+            border: 1px solid var(--accent);
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            color: var(--accent);
+            transition: 0.2s;
+        }
+        .work-card .work-buttons button:hover {
+            background: var(--accent);
+            color: white;
         }
 
         /* 愿景流动文字 */
         .flowing-text {
             font-size: 1.8rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #1a2a4f, #4c8eff, #1a2a4f);
+            background: linear-gradient(135deg, #1a2a4f, var(--accent), #1a2a4f);
             background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
@@ -325,7 +408,7 @@
         .section-title {
             font-size: 2rem;
             font-weight: 700;
-            border-left: 4px solid #4c8eff;
+            border-left: 4px solid var(--accent);
             padding-left: 16px;
             margin-bottom: 2rem;
             display: flex;
@@ -343,7 +426,7 @@
         .section-title .en {
             font-size: 0.9rem;
             font-weight: 400;
-            color: #6c86a8;
+            color: var(--text-secondary);
             letter-spacing: 0.5px;
         }
 
@@ -358,7 +441,7 @@
             transform: translateY(0);
         }
 
-        /* ========== 米哈游风格按钮统一定义 ========== */
+        /* 按钮风格 */
         .mihoyo-btn {
             position: relative;
             display: inline-flex;
@@ -413,7 +496,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #4c8eff;
+            background: var(--accent);
             transform: translateX(-1rem) skewX(15deg);
             transition: transform 0.7s cubic-bezier(0.215, 0.61, 0.355, 1);
             z-index: 1;
@@ -438,7 +521,6 @@
             100% { transform: translateX(0.1rem); opacity: 0.8; }
         }
 
-        /* 主页探索按钮 - 箭头加大 */
         .explore-btn {
             position: relative;
             display: inline-flex;
@@ -460,7 +542,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #4c8eff;
+            background: var(--accent);
             transform: translateX(-1rem) skewX(15deg);
             transition: transform 0.7s cubic-bezier(0.215, 0.61, 0.355, 1);
             z-index: 1;
@@ -488,7 +570,6 @@
             transform: translateX(0.4rem);
         }
 
-        /* 简化版米哈游按钮 */
         .mihoyo-btn-simple {
             position: relative;
             display: inline-flex;
@@ -511,7 +592,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #4c8eff;
+            background: var(--accent);
             transform: translateX(-100%);
             transition: transform 0.4s ease;
             z-index: 1;
@@ -529,23 +610,9 @@
                 width: 160px;
                 height: 50px;
             }
-            .mihoyo-btn .btn-title {
-                font-size: 0.8rem;
-            }
-            .mihoyo-btn .btn-sub {
-                font-size: 0.5rem;
-            }
             .explore-btn {
                 width: 160px;
                 height: 48px;
-            }
-            .explore-btn .explore-text {
-                font-size: 0.8rem;
-                gap: 0.5rem;
-            }
-            .explore-btn .explore-arrow {
-                border: 0.12rem solid transparent;
-                border-left: 0.18rem solid #fff;
             }
             .mihoyo-btn-simple {
                 padding: 6px 16px;
@@ -553,19 +620,25 @@
             }
         }
 
-        /* 其余样式（网格、卡片等） */
+        /* 网格布局 */
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2.5rem;
             margin: 2rem 0 2.5rem;
         }
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
         .info-item {
             margin: 1.2rem 0;
         }
         .info-label {
             font-size: 0.85rem;
-            color: #4c6a9e;
+            color: var(--text-secondary);
             margin-bottom: 0.2rem;
         }
         .video-wrapper {
@@ -612,22 +685,22 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: #ffffff;
-            border: 1px solid #e0e7f0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
             padding: 1rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-        }
-        .flip-front {
-            background: #ffffff;
+            box-shadow: var(--shadow-sm);
         }
         .flip-back {
             background: #f0f4fa;
             transform: rotateY(180deg);
         }
+        body.dark .flip-back {
+            background: #1e293b;
+        }
         .value-word {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #1e293b;
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
         .value-word::after {
@@ -636,7 +709,7 @@
             width: 60%;
             height: 2px;
             margin: 8px auto 0;
-            background: linear-gradient(90deg, transparent, #4c8eff, #aac9ff, #4c8eff, transparent);
+            background: linear-gradient(90deg, transparent, var(--accent), var(--accent-glow), var(--accent), transparent);
             background-size: 200% auto;
             animation: lineFlow 3s linear infinite;
         }
@@ -647,8 +720,8 @@
         .value-desc {
             font-size: 1.2rem;
             font-weight: 600;
-            color: #4c8eff;
-            background: linear-gradient(90deg, #4c8eff, #aac9ff, #4c8eff);
+            color: var(--accent);
+            background: linear-gradient(90deg, var(--accent), var(--accent-glow), var(--accent));
             background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
@@ -676,127 +749,128 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        /* 心愿池 */
-        .wish-pool {
-            margin-top: 0;
-            background-image: url('https://user-assets.sxlcdn.com/images/1138507/Fhl9mvaDZsiI_ZqNnZ4nvZafIrbg.jpg?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/interlace/1/format/jpg');
-            background-size: cover;
-            background-position: center;
+        /* 标签墙样式 */
+        .tag-wall {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            padding: 1.5rem;
         }
-        .wish-pool-overlay {
-            background: rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(4px);
-        }
-        .wish-list {
-            max-height: 220px;
-            overflow-y: auto;
+        .my-tag {
             margin: 1rem 0;
+        }
+        .my-tag textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-light);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            resize: vertical;
+        }
+        .quick-tags {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
         }
-        .wish-item {
-            background: rgba(0, 0, 0, 0.6);
-            padding: 8px 16px;
-            border-left: 3px solid #4c8eff;
-            color: #fff;
-            display: inline-block;
-            width: auto;
-            max-width: 90%;
-            font-size: 0.9rem;
-            border-radius: 0 20px 20px 0;
-            transition: all 0.2s;
-            margin: 2px 0;
+        .quick-tag {
+            background: rgba(0,0,0,0.05);
+            border: 1px solid var(--border-light);
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--text-primary);
         }
-        .wish-item.user {
-            background: rgba(0, 0, 0, 0.7);
-            border-left-color: #ffaa66;
+        body.dark .quick-tag {
+            background: rgba(255,255,255,0.1);
         }
-        .wish-item.user .wish-text {
-            background: linear-gradient(90deg, #aac9ff, #ffffff);
+        .quick-tag:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        .save-tag-btn {
+            margin-top: 0.5rem;
+        }
+
+        /* 补给站样式（含装饰） */
+        .daily-quote {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 1.1rem;
+            font-style: italic;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .daily-quote .quote-text {
+            background: linear-gradient(90deg, var(--accent), var(--accent-glow));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            animation: gradientFlow 3s linear infinite;
         }
-        .wish-item:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 0 1px #4c8eff, 0 0 0 2px rgba(76,142,255,0.3);
-            animation: borderPulse 1s infinite;
+        /* 装饰元素 */
+        .decoration {
+            position: absolute;
+            font-size: 1.5rem;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
         }
-        @keyframes borderPulse {
-            0% { border-left-color: #4c8eff; }
-            100% { border-left-color: #aac9ff; }
+        .telescope {
+            bottom: 10px;
+            left: 10px;
+            transform: rotate(-15deg);
         }
-        .quick-wish-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
+        .star1 {
+            top: 10px;
+            right: 20px;
+            animation-delay: 1s;
         }
-        .quick-wish-btn {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid #4c8eff;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            transition: 0.2s;
-            color: white;
+        .star2 {
+            bottom: 20px;
+            right: 40px;
+            animation-delay: 2s;
+            font-size: 1rem;
         }
-        .quick-wish-btn:hover {
-            background: #4c8eff;
-            color: white;
+        .star3 {
+            top: 30px;
+            left: 30px;
+            animation-delay: 0.5s;
         }
-        .quick-wish-btn.refresh-glow {
-            animation: glowFlash 0.3s ease-in-out;
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-8px) rotate(5deg); opacity: 0.6; }
+            100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
         }
-        @keyframes glowFlash {
-            0% { box-shadow: 0 0 0 0 #4c8eff; }
-            70% { box-shadow: 0 0 0 8px rgba(76,142,255,0); }
-            100% { box-shadow: 0 0 0 0 transparent; }
-        }
-        .custom-wish {
-            display: flex;
-            gap: 0.8rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        .custom-wish input {
-            flex: 2;
-            background: rgba(255,255,255,0.8);
-            border: 1px solid #c0d0e8;
-            padding: 0.6rem 1rem;
-            font-size: 0.9rem;
-            outline: none;
-        }
-        .custom-wish input:focus {
-            border-color: #4c8eff;
-        }
-        .warning-text {
-            font-size: 0.7rem;
-            margin-top: 0.3rem;
-            background: linear-gradient(90deg, #4c8eff, #aac9ff, #4c8eff);
+        /* 补给站标题流动效果 */
+        .supply-title {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--accent), var(--accent-glow), var(--accent));
             background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: warningFlow 3s linear infinite;
+            animation: titleFlow 5s linear infinite;
         }
-        @keyframes warningFlow {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
+        @keyframes titleFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
 
         /* 星小蓝寄语 */
         .starblue-book {
             margin-top: 2rem;
-            background: #ffffff;
-            border: 1px solid #e0e7f0;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
             position: relative;
             overflow: hidden;
-            border-radius: 0px;
             transition: all 0.3s ease;
         }
         .starblue-book::before {
@@ -807,7 +881,7 @@
             right: 0;
             bottom: 0;
             border: 2px solid transparent;
-            border-image: linear-gradient(90deg, #4c8eff, #aac9ff, #4c8eff);
+            border-image: linear-gradient(90deg, var(--accent), var(--accent-glow), var(--accent));
             border-image-slice: 1;
             pointer-events: none;
             opacity: 0;
@@ -824,13 +898,13 @@
             right: 0;
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, transparent 50%, #4c8eff20 50%);
+            background: linear-gradient(135deg, transparent 50%, var(--accent)20 50%);
             pointer-events: none;
         }
         .starblue-book:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
-            border-color: #4c8eff;
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent);
         }
         .starblue-container {
             position: relative;
@@ -838,12 +912,12 @@
             perspective: 1200px;
         }
         .starblue-page {
-            background: #ffffff;
+            background: var(--bg-card);
             padding: 2rem;
             text-align: left;
             transition: transform 0.5s ease, opacity 0.3s ease;
             transform-style: preserve-3d;
-            color: #1a2a4f;
+            color: var(--text-primary);
             line-height: 1.6;
             font-size: 1rem;
             backface-visibility: hidden;
@@ -864,14 +938,14 @@
             width: 100%;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border: 2px solid #4c8eff;
+            border: 2px solid var(--accent);
         }
         .paper-plane-icon {
             position: absolute;
             top: 20px;
             right: 20px;
             font-size: 2rem;
-            color: #4c8eff;
+            color: var(--accent);
             opacity: 0.6;
             animation: flyPlane 3s ease-in-out infinite;
             pointer-events: none;
@@ -894,9 +968,9 @@
             animation: textGlow 0.8s ease;
         }
         @keyframes textGlow {
-            0% { text-shadow: 0 0 0 transparent; color: #1a2a4f; }
-            50% { text-shadow: 0 0 8px #4c8eff; color: #4c8eff; }
-            100% { text-shadow: 0 0 0 transparent; color: #1a2a4f; }
+            0% { text-shadow: 0 0 0 transparent; color: var(--text-primary); }
+            50% { text-shadow: 0 0 8px var(--accent); color: var(--accent); }
+            100% { text-shadow: 0 0 0 transparent; color: var(--text-primary); }
         }
         .starblue-controls {
             display: flex;
@@ -914,14 +988,86 @@
             color: #1a2a4f;
         }
         .starblue-btn:hover {
-            background: #4c8eff;
+            background: var(--accent);
             color: white;
         }
         .starblue-indicator {
             text-align: center;
             margin-top: 0.8rem;
             font-size: 0.8rem;
-            color: #4c6a9e;
+            color: var(--text-secondary);
+        }
+
+        /* 壁纸站样式 */
+        .wallpaper-station {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .wallpaper-station img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .wallpaper-station .slogan {
+            font-size: 1.1rem;
+            margin: 1rem 0;
+            color: var(--text-secondary);
+        }
+
+        /* 动态口号单独页面 - 不规则底板 */
+        .slogan-page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+        }
+        .dynamic-slogan-container {
+            text-align: center;
+            padding: 2rem 3rem;
+            background: rgba(0,0,0,0.6);
+            border-left: 6px solid var(--accent);
+            transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transform: translateZ(0);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            /* 不规则多边形：斜角+梯形效果 */
+            clip-path: polygon(5% 0%, 95% 0%, 100% 15%, 100% 85%, 95% 100%, 5% 100%, 0% 85%, 0% 15%);
+        }
+        .dynamic-slogan-container.flat {
+            transform: translateZ(0);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            background: rgba(0,0,0,0.5);
+        }
+        .dynamic-slogan-container.three-d {
+            transform: translateZ(40px) rotateX(3deg) rotateY(2deg);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.75);
+        }
+        .dynamic-slogan {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+            background: linear-gradient(90deg, var(--accent), var(--accent-glow), var(--accent));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: sloganFlow 5s linear infinite;
+        }
+        @keyframes sloganFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+        @media (max-width: 780px) {
+            .dynamic-slogan {
+                font-size: 1.8rem;
+                letter-spacing: 2px;
+            }
+            .dynamic-slogan-container {
+                padding: 1.5rem 2rem;
+            }
         }
 
         /* 页尾 */
@@ -930,6 +1076,9 @@
             background: #0a0f2a;
             padding: 2rem 2.5rem;
             color: #eef5ff;
+        }
+        body.dark .footer-new {
+            background: #0f172a;
         }
         .footer-container {
             max-width: 1300px;
@@ -941,7 +1090,7 @@
         .footer-col h4 {
             font-size: 1.2rem;
             font-weight: 700;
-            border-left: 3px solid #4c8eff;
+            border-left: 3px solid var(--accent);
             padding-left: 12px;
             margin-bottom: 1rem;
             color: #ffffff;
@@ -958,12 +1107,21 @@
             color: #ffffff;
             text-decoration: underline;
         }
-        .update-log {
+        .update-log-btn {
             margin-top: 1rem;
-            padding-top: 0.8rem;
-            border-top: 1px solid #2a3a7a;
-            font-size: 0.75rem;
-            color: #aac2ff;
+            text-align: center;
+        }
+        .update-log-btn button {
+            background: none;
+            border: 1px solid var(--accent);
+            padding: 6px 16px;
+            color: var(--accent);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .update-log-btn button:hover {
+            background: var(--accent);
+            color: white;
         }
 
         /* 主页样式 */
@@ -976,15 +1134,15 @@
             text-align: center;
         }
         .main-title {
-            font-size: 5rem;
+            font-size: 4rem;
             font-weight: 500;
-            color: #4c8eff;
+            color: var(--accent);
             margin-bottom: 1rem;
         }
         .sub-en {
             font-size: 1.5rem;
-            color: #4c6a9e;
-            border-left: 2px solid #4c8eff;
+            color: var(--text-secondary);
+            border-left: 2px solid var(--accent);
             padding-left: 1rem;
         }
         .slide-dots {
@@ -1006,7 +1164,7 @@
             transition: 0.2s;
         }
         .dot.active {
-            background: #4c8eff;
+            background: var(--accent);
             transform: scale(1.3);
         }
 
@@ -1025,10 +1183,10 @@
             align-items: center;
         }
         .modal-content {
-            background: #ffffff;
-            border: 1px solid #4c8eff;
+            background: var(--bg-card);
+            border: 1px solid var(--accent);
             padding: 2rem;
-            color: #1a2a4f;
+            color: var(--text-primary);
             max-width: 500px;
             width: 85%;
             position: relative;
@@ -1044,11 +1202,11 @@
             right: 20px;
             font-size: 24px;
             cursor: pointer;
-            color: #4c6a9e;
+            color: var(--text-secondary);
         }
         .contact-line {
             margin: 1rem 0;
-            border-left: 3px solid #4c8eff;
+            border-left: 3px solid var(--accent);
             padding-left: 1rem;
         }
         .bili-avatar {
@@ -1059,13 +1217,16 @@
             background: #f0f4fa;
             padding: 0.5rem 1rem;
         }
+        body.dark .bili-avatar {
+            background: #1e293b;
+        }
         .bili-avatar img {
             width: 52px;
             height: 52px;
-            border: 2px solid #4c8eff;
+            border: 2px solid var(--accent);
         }
 
-        /* Toast 提示样式 */
+        /* Toast 提示 */
         .toast-message {
             position: fixed;
             bottom: 30px;
@@ -1082,7 +1243,7 @@
             transition: all 0.2s ease;
             pointer-events: none;
             white-space: nowrap;
-            border: 1px solid #4c8eff;
+            border: 1px solid var(--accent);
         }
         .toast-message.show {
             opacity: 1;
@@ -1091,8 +1252,7 @@
 
         @media (max-width: 780px) {
             .logo-img { height: 20px; }
-            .logo-text { font-size: 1.3rem; }
-            .main-title { font-size: 2.5rem; }
+            .main-title { font-size: 2rem; }
             .sub-en { font-size: 1rem; }
             .container-inner { padding: 80px 1rem 2rem; }
             .horizontal-layout { flex-direction: column; text-align: center; }
@@ -1100,22 +1260,43 @@
             .flip-card { height: 200px; }
             .section-title { font-size: 1.6rem; margin-bottom: 1.2rem; }
             .grid-2 { gap: 1.5rem; }
-            .card, .vision-card, .wish-pool .wish-pool-overlay, .starblue-book {
+            .work-grid { gap: 1rem; }
+            .card, .vision-card, .starblue-book, .tag-wall, .wallpaper-station {
                 padding: 1.5rem;
             }
             .starblue-page {
                 padding: 1rem;
+                flex-direction: column;
             }
             .footer-new {
                 padding: 1.5rem;
+            }
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
             .toast-message {
                 white-space: normal;
                 width: 80%;
                 text-align: center;
             }
-            .custom-wish {
-                flex-wrap: wrap;
+            .slide-dots {
+                flex-direction: row;
+                top: auto;
+                bottom: 20px;
+                right: auto;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(255,255,255,0.8);
+                padding: 6px 12px;
+                gap: 12px;
+            }
+            body.dark .slide-dots {
+                background: rgba(0,0,0,0.6);
+            }
+            .dynamic-slogan {
+                font-size: 1.8rem;
+                letter-spacing: 2px;
             }
         }
     </style>
@@ -1135,10 +1316,12 @@
         <a class="nav-link" data-target="0">主页</a>
         <a class="nav-link" data-target="1">B站</a>
         <a class="nav-link" data-target="2">了解</a>
-        <a class="nav-link" data-target="5">加入</a>
-        <a class="nav-link" data-target="6">星愿</a>
-        <a class="nav-link" data-target="8">投稿</a>
+        <a class="nav-link" data-target="5">作品</a>
+        <a class="nav-link" data-target="6">加入</a>
+        <a class="nav-link" data-target="7">星愿</a>
+        <a class="nav-link" data-target="12">反馈</a>
     </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="切换暗色模式"><i class="fas fa-moon"></i></button>
 </div>
 
 <div class="slide-dots" id="slideDots"></div>
@@ -1172,7 +1355,7 @@
                     <h2>B站账号</h2>
                     <span class="en">Bilibili Account</span>
                 </div>
-                <p style="margin-bottom: 1rem; color: #4c6a9e;">创意火花 · 尽在B站</p>
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">创意火花 · 尽在B站</p>
                 <div class="grid-2">
                     <div class="card animate-item">
                         <div class="bili-avatar">
@@ -1180,7 +1363,7 @@
                             <div><h3>星能stellar</h3><div class="info-label">UID: 3493087561124092</div></div>
                         </div>
                         <p>关注我们，获取工作室最新地图创作和团队日常。</p>
-                        <div class="info-item"><div class="info-label"><i class="fas fa-link"></i> 空间链接</div><a href="https://space.bilibili.com/3493087561124092" target="_blank" rel="noopener noreferrer" style="color:#4c8eff;">https://space.bilibili.com/3493087561124092</a></div>
+                        <div class="info-item"><div class="info-label"><i class="fas fa-link"></i> 空间链接</div><a href="https://space.bilibili.com/3493087561124092" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">https://space.bilibili.com/3493087561124092</a></div>
                         <a href="https://space.bilibili.com/3493087561124092" target="_blank" rel="noopener noreferrer" class="mihoyo-btn-simple"><span class="simple-bg"></span><span class="simple-text"><i class="fab fa-bilibili"></i> 前往B站空间</span></a>
                     </div>
                     <div class="card animate-item">
@@ -1253,8 +1436,45 @@
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 5: 加入我们 -->
+        <!-- 5: 星能作品墙 -->
         <div class="slide" data-slide="5">
+            <div class="container-inner">
+                <div class="section-title">
+                    <h2>星能作品墙</h2>
+                    <span class="en">Our Works</span>
+                </div>
+                <div class="work-grid">
+                    <!-- 星空之城 -->
+                    <div class="work-card animate-item">
+                        <img src="https://user-assets.sxlcdn.com/images/1138507/FncTPinEvV2yqZfGzx0SHdBcCj9f.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" alt="星空之城" onerror="this.src='https://via.placeholder.com/400x200?text=星空之城'">
+                        <h3>星空之城</h3>
+                        <p>现代化城市地图，融合科技与幻想，策划进行中。作者：星能创新 | 迷你号：1776969760</p>
+                        <div class="work-buttons">
+                            <button class="work-detail" data-work="star_city">作品详情</button>
+                            <button class="work-update" data-work="star_city">更新报告</button>
+                        </div>
+                    </div>
+                    <!-- 方特欢乐世界 -->
+                    <div class="work-card animate-item">
+                        <img src="https://user-assets.sxlcdn.com/images/1138507/FjsMCPV16-_I3QgohzgK3AynRZKL.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" alt="方特欢乐世界" onerror="this.src='https://via.placeholder.com/400x200?text=方特欢乐世界'">
+                        <h3>方特欢乐世界</h3>
+                        <p>要欢乐去方特！主题乐园地图，充满互动与惊喜。作者：三个句号 | 迷你号：102575971</p>
+                        <div class="work-buttons">
+                            <button class="work-detail" data-work="fangte">作品详情</button>
+                            <button class="work-update" data-work="fangte">更新报告</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card animate-item" style="margin-top: 2rem;">
+                    <h3>📢 最新更新</h3>
+                    <p>预计7月开始全面整改，敬请期待更多内容！</p>
+                </div>
+            </div>
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+
+        <!-- 6: 加入我们 -->
+        <div class="slide" data-slide="6">
             <div class="container-inner">
                 <div class="section-title">
                     <h2>加入我们</h2>
@@ -1295,32 +1515,50 @@
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 6: 星愿池 -->
-        <div class="slide" data-slide="6">
+        <!-- 7: 星愿（补给站） -->
+        <div class="slide" data-slide="7">
             <div class="container-inner">
                 <div class="section-title">
-                    <h2>星愿</h2>
-                    <span class="en">Wish Pool</span>
+                    <h2><span class="supply-title">星能补给站</span></h2>
+                    <span class="en">Daily Boost</span>
                 </div>
-                <div class="wish-pool animate-item">
-                    <div class="wish-pool-overlay">
-                        <h3 style="margin-bottom: 0.5rem;"><i class="fas fa-star-of-life"></i>许愿漂流</h3>
-                        <div class="wish-list" id="wishList"></div>
-                        <div class="quick-wish-buttons" id="quickWishButtons"></div>
-                        <div class="custom-wish">
-                            <input type="text" id="customWishInput" placeholder="写下你的愿望...">
-                            <button id="submitCustomWish" class="mihoyo-btn-simple" style="padding: 8px 20px;"><span class="simple-bg"></span><span class="simple-text">许愿</span></button>
-                        </div>
-                        <div class="warning-text">✨ 恶语伤人心，请传递温暖 ✨</div>
-                        <p style="text-align:center; font-size:0.7rem; margin-top:0.5rem;">💫 点击快捷按钮或输入愿望，你的心声会留在星愿池中~</p>
-                    </div>
+                <div class="daily-quote animate-item" style="position: relative;">
+                    <div class="decoration telescope"><i class="fas fa-binoculars"></i></div>
+                    <div class="decoration star1"><i class="fas fa-star"></i></div>
+                    <div class="decoration star2"><i class="fas fa-star"></i></div>
+                    <div class="decoration star3"><i class="fas fa-star"></i></div>
+                    <div class="quote-text" id="dailyQuote">✨ 加载中...</div>
+                </div>
+                <div class="card animate-item" style="margin-top: 1rem;">
+                    <i class="fas fa-music"></i> 今日音乐推荐：<br>
+                    <a href="https://music.163.com/#/song?id=1390475621" target="_blank" style="color:var(--accent);">起风了 - 买辣椒也用券</a>
                 </div>
             </div>
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 7: 星小蓝寄语 -->
-        <div class="slide" data-slide="7">
+        <!-- 8: 标签墙（温暖小记） -->
+        <div class="slide" data-slide="8">
+            <div class="container-inner">
+                <div class="section-title">
+                    <h2>标签墙 · 温暖小记</h2>
+                    <span class="en">Warm Notes</span>
+                </div>
+                <div class="tag-wall animate-item">
+                    <h3>✨ 给自己的一句话</h3>
+                    <div class="my-tag">
+                        <textarea id="userTag" rows="3" placeholder="写一句温暖自己的话..."></textarea>
+                        <div class="quick-tags" id="quickTags"></div>
+                        <button class="mihoyo-btn-simple save-tag-btn" id="saveTagBtn"><span class="simple-bg"></span><span class="simple-text">保存</span></button>
+                    </div>
+                    <p class="info-label" style="margin-top: 1rem;">💡 这句话只属于你，每天打开都能看见。</p>
+                </div>
+            </div>
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+
+        <!-- 9: 星小蓝寄语（更新后9条） -->
+        <div class="slide" data-slide="9">
             <div class="container-inner">
                 <div class="section-title">
                     <h2>星小蓝寄语</h2>
@@ -1341,8 +1579,36 @@
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 8: 反馈 -->
-        <div class="slide" data-slide="8">
+        <!-- 10: 壁纸站 -->
+        <div class="slide" data-slide="10">
+            <div class="container-inner">
+                <div class="section-title">
+                    <h2>星能壁纸站</h2>
+                    <span class="en">Wallpaper Station</span>
+                </div>
+                <div class="wallpaper-station animate-item">
+                    <img src="https://user-assets.sxlcdn.com/images/1138507/Fn4d5i0P-7771F9gtm98TB5DEH2_.jpg?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/interlace/1/format/jpeg" alt="今日壁纸" id="wallpaperImg" onerror="this.src='https://picsum.photos/id/104/800/400'">
+                    <div class="slogan" id="wallpaperSlogan">✨ 每一次抬头，都看见星光</div>
+                    <button class="mihoyo-btn-simple" id="gotoWallpaperBtn"><span class="simple-bg"></span><span class="simple-text">前往星愿壁纸站</span></button>
+                </div>
+            </div>
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+
+        <!-- 11: IT'S GOING ON 单独页面 -->
+        <div class="slide" data-slide="11">
+            <div class="container-inner">
+                <div class="slogan-page">
+                    <div class="dynamic-slogan-container flat" id="sloganContainer">
+                        <div class="dynamic-slogan">IT'S GOING ON</div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+
+        <!-- 12: 反馈 -->
+        <div class="slide" data-slide="12">
             <div class="container-inner">
                 <div class="section-title">
                     <h2>投稿与反馈</h2>
@@ -1350,12 +1616,12 @@
                 </div>
                 <div class="card animate-item">
                     <div class="horizontal-layout">
-                        <div class="img-side"><i class="fas fa-envelope" style="font-size: 3rem; color: #4c8eff;"></i></div>
+                        <div class="img-side"><i class="fas fa-envelope" style="font-size: 3rem; color: var(--accent);"></i></div>
                         <div class="text-side">
                             <h2>与我们联系</h2>
                             <p>欢迎投稿你的地图作品、创意建议或任何反馈。</p>
-                            <div class="info-item"><div class="info-label"><i class="fas fa-envelope"></i> 投稿邮箱</div><a href="mailto:stellarCN2020@outlook.com" style="color:#4c8eff;">stellarCN2020@outlook.com</a></div>
-                            <div class="info-item"><div class="info-label"><i class="fas fa-comment"></i> 星小蓝（反馈）</div><p>QQ：3849876019</p></div>
+                            <div class="info-item"><div class="info-label"><i class="fas fa-envelope"></i> 投稿邮箱</div><a href="mailto:stellarCN2020@outlook.com" style="color:var(--accent);">stellarCN2020@outlook.com</a></div>
+                            <div class="info-item"><div class="info-label"><i class="fas fa-comment"></i> 星小蓝（反馈咨询）</div><p>QQ：3849876019</p></div>
                             <div class="info-item"><div class="info-label"><i class="fas fa-bug"></i> 问题反馈</div><p>可通过邮箱或QQ联系我们，我们会在3个工作日内回复。</p></div>
                         </div>
                     </div>
@@ -1374,23 +1640,18 @@
                             <h4>账号信息 & 联系方式</h4>
                             <p><a href="https://space.bilibili.com/3493087561124092" target="_blank" rel="noopener noreferrer">B站空间：星能工作室</a></p>
                             <p>官方邮箱：stellarCN2020@outlook.com</p>
-                            <p>星小蓝QQ：3849876019</p>
-                            <p>交流群QQ：966926112</p>
-                            <p>频道号QQ：pd90272831</p>
+                            <p>星小蓝：3849876019</p>
+                            <p>交流群：966926112</p>
+                            <p>频道号：pd90272831</p>
                             <p>青少年服务热线：12355（24小时心理支持）</p>
-                            <div class="update-log">
-                                <strong>更新速递</strong><br>
-                                2026.03.28 主页标题改为纯蓝色，移除所有渐变、动画和闪烁效果<br>
-                                2026.03.28 修复移动端触摸滑动与按钮交互问题<br>
-                                2025.03.23 星愿板块独立，心愿池与星小蓝寄语合并；页尾全新设计<br>
-                                2025.03.20 价值观卡片翻转效果上线<br>
-                                2025.03.15 官网整体风格焕新
+                            <div class="update-log-btn">
+                                <button id="updateLogBtn">📢 网站更新报告</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- 最后一页不显示滚动箭头，由 JS 控制隐藏 -->
+            <!-- 最后一页不显示滚动箭头 -->
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
     </div>
@@ -1422,6 +1683,43 @@
     </div>
 </div>
 
+<!-- 作品详情弹窗 -->
+<div id="workDetailModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close" id="closeWorkDetailModal">&times;</button>
+        <h3 id="workDetailTitle">作品详情</h3>
+        <div id="workDetailContent"></div>
+    </div>
+</div>
+
+<!-- 更新报告弹窗 -->
+<div id="workUpdateModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close" id="closeWorkUpdateModal">&times;</button>
+        <h3 id="workUpdateTitle">更新报告</h3>
+        <div id="workUpdateContent"></div>
+    </div>
+</div>
+
+<!-- 更新日志弹窗 -->
+<div id="updateLogModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close" id="closeUpdateLogModal">&times;</button>
+        <h3>✨ 网站更新报告</h3>
+        <div style="margin-top: 1rem;">
+            <p><strong>v2.5 (2026.03.29)</strong></p>
+            <ul>
+                <li>IT'S GOING ON 底板改为不规则多边形（斜角+梯形），增强科技感</li>
+                <li>星小蓝寄语更新为9条，新增“轻松拿捏”“进步”“让我看看”“相信自己”等内容</li>
+                <li>作品墙星空之城封面链接更新</li>
+                <li>导航栏精简为：主页、B站、了解、作品、加入、星愿、反馈</li>
+                <li>壁纸站封面链接更新</li>
+            </ul>
+            <p style="margin-top: 1rem;">更多优化，持续迭代～</p>
+        </div>
+    </div>
+</div>
+
 <script>
     // ---------- 全局 DOM 缓存 ----------
     const slidesWrapper = document.getElementById('slidesWrapper');
@@ -1435,6 +1733,10 @@
     const menuToggleBtn = document.getElementById('menuToggle');
     const navLinksEl = document.getElementById('navLinks');
     const exploreBtn = document.getElementById('exploreBtn');
+
+    // 口号容器
+    const sloganContainer = document.getElementById('sloganContainer');
+    let sloganAnimated = false;
 
     // ---------- 辅助函数 ----------
     function showToast(message, duration = 2000) {
@@ -1451,136 +1753,98 @@
         }, duration);
     }
 
-    // 敏感词过滤
-    const bannedWords = ['傻逼', '弱智', '脑残', '煞笔', 'sb', 'SB', '贱人', '婊子', '废物', '垃圾', '白痴', '智障'];
+    // 敏感词过滤（保留）
+    const bannedWords = [
+        '傻逼', '弱智', '脑残', '煞笔', 'sb', 'SB', '贱人', '婊子', '废物', '垃圾', '白痴', '智障',
+        '尼玛', '他妈', '操你', '艹', 'fuck', 'shit', '死全家', '去死', '变态', '恶心', '色情', '黄',
+        '暴力', '砍人', '杀人', '自杀', '吸毒', '毒品', '反动', '台独', '藏独', '疆独', '港独',
+        '法轮功', '邪教', '诈骗', '赌博', '赌场', '嫖娼', '卖淫', '强奸', '轮奸', '幼女', '萝莉'
+    ];
     function containsBannedWord(text) {
         const lower = text.toLowerCase();
         return bannedWords.some(word => lower.includes(word.toLowerCase()));
     }
 
-    // ---------- 心愿池 ----------
-    let wishRecords = [];
-    const wishListDiv = document.getElementById('wishList');
+    // ---------- 标签墙 ----------
+    const userTagTextarea = document.getElementById('userTag');
+    const quickTagsContainer = document.getElementById('quickTags');
+    const saveTagBtn = document.getElementById('saveTagBtn');
 
-    function renderWishList() {
-        wishListDiv.innerHTML = '';
-        wishRecords.forEach(record => {
-            const div = document.createElement('div');
-            div.className = 'wish-item' + (record.isUser ? ' user' : '');
-            const span = document.createElement('span');
-            span.className = 'wish-text';
-            span.textContent = record.text;
-            div.appendChild(span);
-            wishListDiv.appendChild(div);
-        });
-    }
-
-    function addWishRecord(text, isUser) {
-        if (containsBannedWord(text)) {
-            showToast('请使用文明用语，共同守护星愿池的温暖 ');
-            return false;
-        }
-        wishRecords.unshift({ text, isUser });
-        if (wishRecords.length > 30) wishRecords.pop();
-        localStorage.setItem('starWishes', JSON.stringify(wishRecords));
-        renderWishList();
-        return true;
-    }
-
-    const storedWishes = JSON.parse(localStorage.getItem('starWishes') || '[]');
-    wishRecords.push(...storedWishes.slice(0, 30));
-    renderWishList();
-
-    // 快捷愿望刷新（仅更新文字，保留DOM）
-    const quickWishPool = [
-        "愿创意如星光般璀璨", "希望和大家一起做出超棒的地图", "星能永远闪耀，梦想永不熄灭",
-        "愿灵感源源不断", "保持热爱，奔赴山海", "愿世界和平，创意自由",
-        "愿每一天都有新灵感", "让地图成为梦想的画布", "突破自我，创造无限", "愿热爱永不降温"
+    // 30条温暖短语（快捷按钮）
+    const warmPhrases = [
+        "今天也要加油呀！", "星光不问赶路人", "保持热爱，奔赴山海", "每一步都算数",
+        "你是自己的光", "慢慢来，会好的", "勇敢做自己", "今天比昨天更好",
+        "相信奇迹的人，本身就和奇迹一样了不起", "热爱可抵岁月漫长", "坚持就是胜利",
+        "心有光芒，必有远方", "去发光，而不是被照亮", "做自己的太阳",
+        "未来可期", "你值得一切美好", "心之所向，素履以往", "生如夏花之绚烂",
+        "不忘初心，方得始终", "但行好事，莫问前程", "温柔且坚定", "知足且上进",
+        "世界很大，幸好有你", "每一天都是新的开始", "微笑向暖，安之若素",
+        "你的坚持，终将美好", "成为更好的自己", "种一棵树最好的时间是十年前，其次是现在",
+        "凡是过往，皆为序章", "愿你眼中有光，心中有爱"
     ];
-    const quickWishContainer = document.getElementById('quickWishButtons');
-    let currentQuickWishes = [];
 
-    function refreshQuickWishes() {
-        const shuffled = [...quickWishPool];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        const newWishes = shuffled.slice(0, 3);
-        const existingBtns = quickWishContainer.querySelectorAll('.quick-wish-btn');
-
-        if (existingBtns.length !== newWishes.length) {
-            quickWishContainer.innerHTML = '';
-            newWishes.forEach(wish => {
-                const btn = document.createElement('button');
-                btn.className = 'quick-wish-btn';
-                btn.textContent = wish;
-                btn.addEventListener('click', () => addWishRecord(wish, true));
-                quickWishContainer.appendChild(btn);
+    function renderQuickTags() {
+        quickTagsContainer.innerHTML = '';
+        warmPhrases.forEach(phrase => {
+            const btn = document.createElement('button');
+            btn.className = 'quick-tag';
+            btn.textContent = phrase;
+            btn.addEventListener('click', () => {
+                userTagTextarea.value = phrase;
             });
-        } else {
-            existingBtns.forEach((btn, idx) => {
-                const newWish = newWishes[idx];
-                if (btn.textContent !== newWish) {
-                    btn.textContent = newWish;
-                    // 保留原有事件，无需重新绑定
-                }
-            });
-        }
-
-        // 闪烁动画
-        const btns = quickWishContainer.querySelectorAll('.quick-wish-btn');
-        btns.forEach((btn, idx) => {
-            if (!currentQuickWishes.includes(btn.textContent)) {
-                btn.classList.add('refresh-glow');
-                setTimeout(() => btn.classList.remove('refresh-glow'), 300);
-            }
+            quickTagsContainer.appendChild(btn);
         });
-        currentQuickWishes = newWishes;
     }
-    refreshQuickWishes();
-    setInterval(refreshQuickWishes, 15000);
+    renderQuickTags();
 
-    // 心愿池输入框长度限制（保留截断）
-    const wishInput = document.getElementById('customWishInput');
-    wishInput.addEventListener('input', () => {
-        let val = wishInput.value;
-        if (val.length > 50) {
-            val = val.slice(0, 50);
-            wishInput.value = val;
+    // 加载保存的标签
+    let savedTag = localStorage.getItem('userDailyTag') || '';
+    userTagTextarea.value = savedTag;
+
+    saveTagBtn.addEventListener('click', () => {
+        let tag = userTagTextarea.value.trim();
+        if (tag === "") {
+            showToast('写点什么吧，哪怕一句温暖自己的话 ✨');
+            return;
         }
-    });
-    document.getElementById('submitCustomWish').addEventListener('click', () => {
-        let wish = wishInput.value.trim();
-        if (wish === "") return;
-        if (wish.length > 50) wish = wish.slice(0,48)+'…';
-        if (addWishRecord(wish, true)) {
-            wishInput.value = "";
+        if (containsBannedWord(tag)) {
+            showToast('请使用文明用语，让标签墙充满温暖 ✨');
+            return;
         }
+        if (tag.length > 100) tag = tag.slice(0, 97) + '…';
+        localStorage.setItem('userDailyTag', tag);
+        showToast('已保存，明天也要记得来看哦 🌟');
     });
-    if (wishRecords.length === 0) {
-        addWishRecord("星愿池已开启，快来许愿吧！", false);
+
+    // ---------- 补给站每日星语 ----------
+    const dailyQuotes = [
+        "✨ 创意就像星星，你越抬头，越能看见。", "🌟 今天的你，比昨天更靠近梦想一步。", "🌙 即使乌云遮月，星光也从未熄灭。",
+        "💡 每一个触发器背后，都有一个好奇的灵魂。", "🌈 建造世界的人，内心都有一座城堡。", "⭐ 你的地图，是他人眼中的远方。",
+        "🍃 疲惫的时候，不妨抬头看看天空。", "🎨 灵感不在别处，就在你坚持的瞬间。", "🚀 每一次尝试，都是飞向星空的起点。",
+        "💬 当你迷茫时，记得还有星小蓝陪着你。", "🌱 慢慢来，你会长出属于自己的森林。", "🎵 创作是孤独的，但共鸣是温暖的。",
+        "📖 每一行代码，每一块砖，都是你的诗。", "🔭 望向远方，你的作品正在被看见。", "🕯️ 愿你的世界，永远有光。"
+    ];
+    function getDailyQuote() {
+        const today = new Date().toDateString();
+        let seed = 0;
+        for (let i = 0; i < today.length; i++) seed += today.charCodeAt(i);
+        const index = seed % dailyQuotes.length;
+        return dailyQuotes[index];
     }
+    document.getElementById('dailyQuote').innerHTML = `“${getDailyQuote()}”`;
 
-    // ---------- 星小蓝寄语 ----------
+    // ---------- 星小蓝寄语（更新后9条） ----------
     const starblueData = [
-        { img: "好吧.png", text: "好吧，那就从今天开始，和星能一起记录每一个创作瞬间吧。\n\n—— 星小蓝" },
-        { img: "很好.png", text: "很好，你的地图让无数人露出了笑容。继续加油，我们为你骄傲。\n\n—— 星小蓝" },
-        { img: "加油.png", text: "加油！每一次尝试都是成长的台阶，星能与你并肩前行。\n\n—— 星小蓝" },
-        { img: "就你了.png", text: "就你了！那个在角落里默默坚持的创作者，星能看到了你的光。\n\n—— 星小蓝" },
-        { img: "研究.png", text: "研究再深一点，你会发现触发器里藏着整个宇宙的魔法。\n\n—— 星小蓝" },
-        { img: "活力.png", text: "活力满满的一天，把热情注入每一张地图，世界因你而生动。\n\n—— 星小蓝" },
-        { img: "星空.png", text: "星空之所以美丽，是因为每一颗星星都在努力发光。你也是。\n\n—— 星小蓝" }
+        { img: "轻松拿捏.png", text: "放轻松，你能搞定。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FqoiDN34mTeNsqm7olt-4BM2_RCr.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
+        { img: "很好.png", text: "很好，你的地图让无数人露出了笑容。继续加油，我们为你骄傲。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FqHMoaRHNdZWl812ddSKC6FSVIPN.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
+        { img: "进步.png", text: "每一步，都在向上走。就像IT'S GOING ON一样。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/Fm_oKU6B_GV7fNJgTRT8zb7PmrAN.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
+        { img: "就你了.png", text: "就是你，那个独一无二的创作者。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FrUF2cW4mj0HhLrijDZYAtdBjNX7.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
+        { img: "研究.png", text: "再深挖一点，你会遇见更棒的自己。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FosJHm9eu4pi4FftSQPER81KOfG3.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
+        { img: "活力.png", text: "活力满满的一天，从相信自己开始。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FoG79QlixKn1zHndT_kfFgWlF96o.jpeg?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/interlace/1/format/jpg" },
+        { img: "星空.png", text: "星空之所以美丽，是因为每一颗星星都在努力发光。你也是。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/lrJg-fzaawQsCMEK4HdvdvY1tOIq.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
+        { img: "让我看看.png", text: "让我看看，谁又在偷偷进步？是你呀。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FsF-NhZmEdyfpt_4chU2GmDNcHfB.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
+        { img: "相信自己.png", text: "我么？相信自己！你比你想象的更强大。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FkHt04KxaSymsSpAD5cXTfdaI1fT.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" }
     ];
-    const starblueImgMap = {
-        "好吧.png": "https://user-assets.sxlcdn.com/images/1138507/FiCnmOPeoeWL_RiKDBAb-CADL6m4.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png",
-        "很好.png": "https://user-assets.sxlcdn.com/images/1138507/FqHMoaRHNdZWl812ddSKC6FSVIPN.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png",
-        "加油.png": "https://user-assets.sxlcdn.com/images/1138507/FqWsaUzm59MSiU0CJg9UaiQneePN.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png",
-        "就你了.png": "https://user-assets.sxlcdn.com/images/1138507/FrUF2cW4mj0HhLrijDZYAtdBjNX7.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png",
-        "研究.png": "https://user-assets.sxlcdn.com/images/1138507/FosJHm9eu4pi4FftSQPER81KOfG3.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png",
-        "活力.png": "https://user-assets.sxlcdn.com/images/1138507/FipMWjDi2qOy8yTQSYjX2zQ1Zh6I.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png",
-        "星空.png": "https://user-assets.sxlcdn.com/images/1138507/lrJg-fzaawQsCMEK4HdvdvY1tOIq.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png"
-    };
     let currentStarbluePage = 0;
     const starbluePageDiv = document.getElementById('starbluePage');
     const starblueIndicator = document.getElementById('starblueIndicator');
@@ -1592,7 +1856,7 @@
         starbluePageDiv.classList.add('flip-out');
         setTimeout(() => {
             const data = starblueData[currentStarbluePage];
-            const imgUrl = starblueImgMap[data.img] || `https://raw.githubusercontent.com/mir-ch-ux/stellar/main/${data.img}`;
+            const imgUrl = data.imgUrl || `https://raw.githubusercontent.com/mir-ch-ux/stellar/main/${data.img}`;
             starbluePageDiv.innerHTML = `
                 <div class="starblue-text">${data.text.replace(/\n/g, '<br>')}</div>
                 <div class="starblue-img-area">
@@ -1621,7 +1885,96 @@
     });
     updateStarbluePage();
 
-    // ---------- 全屏滑动逻辑（优化移动端） ----------
+    // ---------- 壁纸站 ----------
+    const wallpaperSlogan = document.getElementById('wallpaperSlogan');
+    const gotoWallpaperBtn = document.getElementById('gotoWallpaperBtn');
+    gotoWallpaperBtn.addEventListener('click', () => {
+        showToast('星愿壁纸站正在筹备中，敬请期待～ 🌠');
+    });
+
+    // ---------- 作品墙弹窗 ----------
+    const workDetailModal = document.getElementById('workDetailModal');
+    const workUpdateModal = document.getElementById('workUpdateModal');
+    const closeWorkDetail = document.getElementById('closeWorkDetailModal');
+    const closeWorkUpdate = document.getElementById('closeWorkUpdateModal');
+    const workDetailTitle = document.getElementById('workDetailTitle');
+    const workDetailContent = document.getElementById('workDetailContent');
+    const workUpdateTitle = document.getElementById('workUpdateTitle');
+    const workUpdateContent = document.getElementById('workUpdateContent');
+
+    const workDetails = {
+        star_city: {
+            title: "星空之城",
+            detail: "一座悬浮在云端的现代化城市，融合科技与幻想。玩家可以乘坐空中列车，探索隐藏的星空观测站，参与城市灯光秀。地图包含主线剧情与自由探索模式，策划进行中。",
+            update: "【更新报告】\n- 2026.03.29 完成城市规划草图，开始搭建核心建筑\n- 2026.03.28 确定玩法机制：收集星光碎片解锁区域\n- 预计7月开始全面整改，敬请期待更多内容！"
+        },
+        fangte: {
+            title: "方特欢乐世界",
+            detail: "还原方特主题乐园的欢乐氛围，包含过山车、旋转木马、烟花表演等互动设施。玩家可以体验多个游乐项目，收集欢乐币兑换限定装饰。",
+            update: "【更新报告】\n- 2026.03.29 已完成过山车轨道搭建，进入测试阶段\n- 2026.03.27 新增隐藏彩蛋：神秘小丑的礼物\n- 预计7月开始全面整改，将带来更多惊喜！"
+        }
+    };
+
+    document.querySelectorAll('.work-detail').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const work = btn.getAttribute('data-work');
+            const data = work === 'star_city' ? workDetails.star_city : workDetails.fangte;
+            workDetailTitle.innerText = `${data.title} · 作品详情`;
+            workDetailContent.innerHTML = `<p>${data.detail}</p>`;
+            workDetailModal.style.display = 'flex';
+        });
+    });
+    document.querySelectorAll('.work-update').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const work = btn.getAttribute('data-work');
+            const data = work === 'star_city' ? workDetails.star_city : workDetails.fangte;
+            workUpdateTitle.innerText = `${data.title} · 更新报告`;
+            workUpdateContent.innerHTML = `<pre style="white-space: pre-wrap; font-family: inherit;">${data.update}</pre>`;
+            workUpdateModal.style.display = 'flex';
+        });
+    });
+
+    closeWorkDetail.addEventListener('click', () => { workDetailModal.style.display = 'none'; });
+    closeWorkUpdate.addEventListener('click', () => { workUpdateModal.style.display = 'none'; });
+    window.addEventListener('click', (e) => {
+        if (e.target === workDetailModal) workDetailModal.style.display = 'none';
+        if (e.target === workUpdateModal) workUpdateModal.style.display = 'none';
+    });
+
+    // ---------- 更新日志弹窗 ----------
+    const updateLogModal = document.getElementById('updateLogModal');
+    const closeUpdateLog = document.getElementById('closeUpdateLogModal');
+    const updateLogBtn = document.getElementById('updateLogBtn');
+    updateLogBtn.addEventListener('click', () => {
+        updateLogModal.style.display = 'flex';
+    });
+    closeUpdateLog.addEventListener('click', () => {
+        updateLogModal.style.display = 'none';
+    });
+    window.addEventListener('click', (e) => {
+        if (e.target === updateLogModal) updateLogModal.style.display = 'none';
+    });
+
+    // ---------- 暗色模式 ----------
+    const themeToggle = document.getElementById('themeToggle');
+    let darkMode = localStorage.getItem('darkMode') === 'true';
+    if (darkMode) {
+        document.body.classList.add('dark');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    themeToggle.addEventListener('click', () => {
+        darkMode = !darkMode;
+        if (darkMode) {
+            document.body.classList.add('dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            document.body.classList.remove('dark');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+        localStorage.setItem('darkMode', darkMode);
+    });
+
+    // ---------- 全屏滑动逻辑 ----------
     let touchStartY = 0;
     let touchCurrentY = 0;
     let isSwiping = false;
@@ -1659,6 +2012,15 @@
         if (currentIndex === 0) navbarEl.classList.add('transparent');
         else navbarEl.classList.remove('transparent');
 
+        // 口号页面动画：第一次进入时触发平面→立体
+        if (currentIndex === 11 && sloganContainer && !sloganAnimated) {
+            setTimeout(() => {
+                sloganContainer.classList.remove('flat');
+                sloganContainer.classList.add('three-d');
+                sloganAnimated = true;
+            }, 100);
+        }
+
         const activeSlide = slides[currentIndex];
         if (activeSlide) {
             activeSlide.scrollTop = 0;
@@ -1678,13 +2040,13 @@
         navLinks.forEach(link => link.classList.remove('active'));
         if (currentIndex === 0) navLinks[0].classList.add('active');
         else if (currentIndex === 1) navLinks[1].classList.add('active');
-        else if (currentIndex === 2 || currentIndex === 3 || currentIndex === 4) navLinks[2].classList.add('active');
+        else if (currentIndex >= 2 && currentIndex <= 4) navLinks[2].classList.add('active');
         else if (currentIndex === 5) navLinks[3].classList.add('active');
-        else if (currentIndex === 6 || currentIndex === 7) navLinks[4].classList.add('active');
-        else if (currentIndex === 8) navLinks[5].classList.add('active');
+        else if (currentIndex === 6) navLinks[4].classList.add('active');
+        else if (currentIndex === 7) navLinks[5].classList.add('active');
+        else if (currentIndex >= 8 && currentIndex <= 12) navLinks[6].classList.add('active');
     }
 
-    // 滚动边界检测（放宽阈值）
     function canScrollUp(slide) {
         return slide.scrollTop > 2;
     }
@@ -1755,7 +2117,6 @@
     containerScroll.addEventListener('touchend', onTouchEnd);
     containerScroll.addEventListener('wheel', handleWheel, { passive: false });
 
-    // 导航按钮
     document.querySelectorAll('.nav-link').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -1769,7 +2130,6 @@
         });
     });
 
-    // 生成圆点
     for (let i = 0; i < total; i++) {
         const dot = document.createElement('div');
         dot.classList.add('dot');
@@ -1784,7 +2144,6 @@
     }
     exploreBtn.addEventListener('click', () => goToSlide(1));
 
-    // 移动端菜单
     menuToggleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         navLinksEl.classList.toggle('open');
@@ -1796,7 +2155,6 @@
     });
     document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', () => navLinksEl.classList.remove('open')));
 
-    // 防止内部滚动冒泡
     slides.forEach(slide => {
         slide.addEventListener('wheel', (e) => {
             const st = slide.scrollTop;
@@ -1810,7 +2168,6 @@
         }, { passive: false });
     });
 
-    // 弹窗控制
     const groupModal = document.getElementById('groupModal');
     const channelModal = document.getElementById('channelModal');
     const closeGroup = document.getElementById('closeGroupModal');
@@ -1835,7 +2192,6 @@
         showToast('频道号已复制');
     });
 
-    // 初始化
     if (currentIndex === 0) navbarEl.classList.add('transparent');
     else navbarEl.classList.remove('transparent');
     updateArrowVisibility();
