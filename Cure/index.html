@@ -1,1 +1,722 @@
 
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="星光治愈一切 - 专业心理测评，为你的心灵保驾护航">
+    <title>星愿治愈 | 星能工作室</title>
+    <link rel="icon" type="image/x-icon" href="https://user-assets.sxlcdn.com/images/1138507/FgFRcBKLtlCQgTv7_h1E5hv5Ay2F.png?imageMogr2/strip/auto-orient/thumbnail/300x300%3E/quality/90!/format/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ========== 全局变量（与官网一致）========== */
+        :root {
+            --bg-primary: #f5f7fc;
+            --bg-card: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #4c6a9e;
+            --border-light: #e0e7f0;
+            --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.1);
+            --accent: #5f7fff;
+            --accent-glow: #a07aff;
+        }
+        body.dark {
+            --bg-primary: #0a0f1a;
+            --bg-card: #1a1f2e;
+            --text-primary: #e2e8f0;
+            --text-secondary: #b9c7da;
+            --border-light: #2d3a4e;
+            --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.5);
+            background-image: radial-gradient(2px 2px at 15% 30%, rgba(255,255,255,0.4), rgba(0,0,0,0)),
+                              radial-gradient(3px 3px at 75% 60%, rgba(255,255,255,0.3), rgba(0,0,0,0)),
+                              radial-gradient(1px 1px at 40% 85%, rgba(255,255,255,0.5), rgba(0,0,0,0));
+            background-repeat: no-repeat;
+            background-size: 200px 200px, 300px 300px, 150px 150px;
+            background-attachment: fixed;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default;
+        }
+        a, button, .nav-link, .mode-btn, .option-btn, .nav-btn, .theme-toggle, .restart-btn {
+            cursor: pointer;
+        }
+        body {
+            font-family: 'Segoe UI', 'Poppins', 'Inter', system-ui, -apple-system, 'Microsoft YaHei', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background 0.3s, color 0.3s;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 2rem 3rem;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            padding: 1rem 2.5rem;
+            background: var(--bg-card);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--border-light);
+            transition: background 0.3s;
+        }
+        body.dark .navbar {
+            background: rgba(26, 31, 46, 0.9);
+            backdrop-filter: blur(8px);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-img {
+            height: 22px;
+            width: auto;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin: 0 auto;
+        }
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: 0.2s;
+            padding: 0.4rem 0;
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent);
+        }
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            margin-left: 1rem;
+        }
+        @media (max-width: 780px) {
+            .navbar { padding: 0.7rem 1rem; }
+            .logo-img { height: 20px; }
+            .nav-links { gap: 1rem; }
+            .container { padding: 80px 1rem 2rem; }
+        }
+
+        /* 卡片样式 */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent);
+        }
+
+        /* 标题 */
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent-glow));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        .hero-sub {
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 780px) {
+            .hero-title { font-size: 2rem; }
+        }
+
+        /* 模式选择器 */
+        .mode-selector {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .mode-btn {
+            background: none;
+            border: 1px solid var(--border-light);
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: 0.2s;
+        }
+        .mode-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        /* 进度条 */
+        .progress-area {
+            margin-bottom: 1.5rem;
+        }
+        .progress-bar {
+            height: 6px;
+            background: var(--border-light);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .progress-text {
+            text-align: right;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            color: var(--text-secondary);
+        }
+
+        /* 题目区域 */
+        .question-area {
+            min-height: 300px;
+        }
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .options-area {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .option-btn {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            padding: 0.8rem 1rem;
+            text-align: left;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            transition: 0.2s;
+        }
+        .option-btn:hover {
+            border-color: var(--accent);
+            background: rgba(95, 127, 255, 0.05);
+        }
+        .option-btn.selected {
+            border-color: var(--accent);
+            background: rgba(95, 127, 255, 0.1);
+            position: relative;
+        }
+        .option-btn.selected::before {
+            content: '✓';
+            position: absolute;
+            right: 1rem;
+            color: var(--accent);
+        }
+
+        /* 导航按钮 */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+        .nav-btn {
+            background: none;
+            border: 1px solid var(--accent);
+            padding: 0.6rem 1.5rem;
+            color: var(--accent);
+            transition: 0.2s;
+        }
+        .nav-btn:hover:not(:disabled) {
+            background: var(--accent);
+            color: white;
+        }
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* 结果区域 */
+        .result-area {
+            text-align: center;
+        }
+        .result-score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 1rem 0;
+        }
+        .result-level {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .result-message {
+            background: var(--bg-primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: left;
+            line-height: 1.8;
+        }
+        .result-advice {
+            background: rgba(95, 127, 255, 0.08);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            text-align: left;
+            border-left: 3px solid var(--accent);
+        }
+        .restart-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            margin-top: 1rem;
+        }
+        .restart-btn:hover {
+            background: var(--accent-glow);
+        }
+
+        /* 页脚 */
+        .footer {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: #0a0f2a;
+            color: #eef5ff;
+            text-align: center;
+        }
+        body.dark .footer {
+            background: #0f172a;
+        }
+        .footer a {
+            color: #b8d0ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <div class="logo">
+        <img class="logo-img" src="https://user-assets.sxlcdn.com/images/1138507/FnkoMkeJ40vIQkdFDyBwHQDTIWcI.png?imageMogr2/strip/auto-orient/thumbnail/300x300%3E/quality/90!/format/png" alt="星能工作室Logo">
+    </div>
+    <div class="nav-links">
+        <a class="nav-link" href="https://mir-ch-ux.github.io/stellar/" target="_blank">官网</a>
+        <a class="nav-link" href="https://mir-ch-ux.github.io/stellar/Guard/" target="_blank">星愿守护</a>
+        <a class="nav-link active" href="#">星光治愈</a>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="切换暗色模式"><i class="fas fa-moon"></i></button>
+</div>
+
+<div class="container" id="app">
+    <div class="hero-title">星光治愈一切</div>
+    <div class="hero-sub">专业的心理测评，温暖的陪伴与指引</div>
+
+    <!-- 模式选择（未开始时显示） -->
+    <div id="modeSelection" class="mode-selector">
+        <button class="mode-btn active" data-mode="student">🌱 学生模式</button>
+        <button class="mode-btn" data-mode="family">🏡 家庭模式</button>
+        <button class="mode-btn" data-mode="social">💼 社会模式</button>
+    </div>
+
+    <!-- 测评卡片 -->
+    <div class="card" id="quizCard">
+        <div id="quizContent"></div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>星能工作室 · 星光点缀黑暗 · 愿每一个你都被温柔以待</p>
+    <p><a href="https://mir-ch-ux.github.io/stellar/">返回官网</a> | 投稿邮箱: <a href="mailto:stellarCN2020@outlook.com">stellarCN2020@outlook.com</a></p>
+</div>
+
+<script>
+    // ========== 题库数据（三个模式各40题，基于专业心理量表改编）==========
+    // 题库来源：参考小学生心理健康量表[citation:1]、DASS21[citation:3]、教育方式自测[citation:5]等专业量表
+    
+    const questionsData = {
+        // 学生模式 - 40题（学习适应、情绪状态、人际交往、自我认知）
+        student: [
+            { text: "最近一周，你感到学习压力很大，难以放松", options: ["没有", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你对自己的学习成绩感到满意", options: ["非常满意", "基本满意", "不太满意", "很不满意"], scores: [0, 1, 2, 3] },
+            { text: "上课时你能集中注意力听讲", options: ["总是", "经常", "偶尔", "很少"], scores: [0, 1, 2, 3] },
+            { text: "你担心考试考不好", options: ["从不担心", "偶尔担心", "经常担心", "总是担心"], scores: [0, 1, 2, 3] },
+            { text: "你觉得自己被同学理解和接纳", options: ["总是", "经常", "偶尔", "很少"], scores: [0, 1, 2, 3] },
+            { text: "你感到孤独，没有朋友可以倾诉", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "遇到困难时，你愿意向老师或家长求助", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你对自己的未来感到迷茫", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你容易因为小事而情绪低落", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你能按时完成作业并保证质量", options: ["总是", "经常", "偶尔", "很少"], scores: [0, 1, 2, 3] },
+            { text: "你在课堂上敢于举手回答问题", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你觉得自己比不上其他同学", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你愿意参加班级集体活动", options: ["非常愿意", "愿意", "不太愿意", "完全不愿意"], scores: [0, 1, 2, 3] },
+            { text: "你经常感到紧张或焦虑", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你和父母的关系很融洽", options: ["非常融洽", "比较融洽", "一般", "不融洽"], scores: [0, 1, 2, 3] },
+            { text: "你对自己的外貌和性格感到满意", options: ["非常满意", "基本满意", "不太满意", "很不满意"], scores: [0, 1, 2, 3] },
+            { text: "你觉得学习是一件快乐的事", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你容易被别人的评价影响心情", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你有明确的学习目标", options: ["非常明确", "比较明确", "不太明确", "完全没有"], scores: [0, 1, 2, 3] },
+            { text: "你经常熬夜学习导致第二天没精神", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你和同学发生矛盾后能很快和解", options: ["总是", "经常", "偶尔", "很少"], scores: [0, 1, 2, 3] },
+            { text: "你害怕在公众场合发言", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你觉得老师对你有偏见", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你能合理安排学习和休息时间", options: ["总是", "经常", "偶尔", "很少"], scores: [0, 1, 2, 3] },
+            { text: "你经常感到身体疲惫、精力不足", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你相信努力会有回报", options: ["非常相信", "相信", "不太相信", "完全不信"], scores: [0, 1, 2, 3] },
+            { text: "你觉得父母对你的期望过高", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你愿意尝试新事物、接受挑战", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你经常回想过去的不愉快经历", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你有自己的兴趣爱好并坚持", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你觉得生活充满希望", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你容易发脾气，控制不住情绪", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你觉得自己是有价值的人", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你经常失眠或做噩梦", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你愿意帮助遇到困难的同学", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你觉得自己被父母理解", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你经常拖延作业或任务", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你对未来有自己的规划", options: ["非常清晰", "比较清晰", "模糊", "完全没有"], scores: [0, 1, 2, 3] },
+            { text: "你觉得自己比大多数人幸运", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你经常感到内心平静、满足", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] }
+        ],
+        // 家庭模式 - 40题（亲子关系、家庭氛围、教育方式）
+        family: [
+            { text: "你和家人经常有愉快的交流", options: ["总是", "经常", "偶尔", "很少"], scores: [0, 1, 2, 3] },
+            { text: "父母会在外人面前批评你", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你觉得家人尊重你的想法", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "父母经常拿你和别人比较", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你在家里感到放松和安全", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "父母会耐心听你说话", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你害怕和父母说心里话", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "父母对你的期望让你感到压力", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你和兄弟姐妹相处融洽", options: ["非常融洽", "比较融洽", "一般", "不融洽"], scores: [0, 1, 2, 3] },
+            { text: "父母会表扬你的进步", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你觉得父母理解你的困难", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "父母经常吵架或冷战", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你愿意和家人分享快乐", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "父母会用打骂的方式教育你", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你觉得家庭氛围温暖", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "父母会尊重你的隐私", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你因为家庭问题感到烦恼", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "父母会和你一起做决定", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你觉得父母偏心", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "家人会支持你的兴趣爱好", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你希望改变家庭相处方式", options: ["非常希望", "希望", "无所谓", "不希望"], scores: [0, 1, 2, 3] },
+            { text: "父母会向你倾诉他们的烦恼", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你觉得自己是家里的负担", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "家庭活动让你感到快乐", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "父母的教育方式一致", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你愿意为家庭承担责任", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "父母会强迫你做不喜欢的事", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你觉得父母是爱你的", options: ["非常确定", "比较确定", "不确定", "不太确定"], scores: [0, 1, 2, 3] },
+            { text: "你经常独自一人待着", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "父母会鼓励你尝试新事物", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你觉得家庭经济压力大", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你希望父母多陪陪你", options: ["非常希望", "希望", "无所谓", "不希望"], scores: [0, 1, 2, 3] },
+            { text: "父母会向你道歉", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你觉得家庭是你的避风港", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "父母对你的要求太严格", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你愿意向家人寻求帮助", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "父母会给你足够的自由", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你觉得家庭关系需要改善", options: ["非常需要", "需要", "无所谓", "不需要"], scores: [0, 1, 2, 3] },
+            { text: "你和父母有共同话题", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你觉得家人是你可以依靠的", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] }
+        ],
+        // 社会模式 - 40题（工作压力、人际关系、自我成长）
+        social: [
+            { text: "你对目前的工作/生活状态满意", options: ["非常满意", "基本满意", "不太满意", "很不满意"], scores: [0, 1, 2, 3] },
+            { text: "你经常感到工作/学习压力过大", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你能和同事/同学建立良好关系", options: ["总是", "经常", "偶尔", "很少"], scores: [0, 1, 2, 3] },
+            { text: "你害怕在社交场合表现自己", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你对自己的职业/学业有规划", options: ["非常清晰", "比较清晰", "模糊", "完全没有"], scores: [0, 1, 2, 3] },
+            { text: "你经常感到孤独", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你能处理好工作和生活的平衡", options: ["总是", "经常", "偶尔", "很少"], scores: [0, 1, 2, 3] },
+            { text: "你容易因为别人的评价而焦虑", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你有可以倾诉心事的密友", options: ["总是", "经常", "偶尔", "没有"], scores: [0, 1, 2, 3] },
+            { text: "你对未来感到迷茫和担忧", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你能接受自己的不完美", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你经常熬夜影响第二天状态", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你觉得自己被社会认可", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你容易产生消极情绪", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你能有效管理自己的时间", options: ["总是", "经常", "偶尔", "很少"], scores: [0, 1, 2, 3] },
+            { text: "你愿意尝试新挑战", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你经常感到身心疲惫", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你对人际关系感到困扰", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你有自己的兴趣爱好并坚持", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你能接受别人的批评和建议", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你经常比较自己和他人", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你对生活充满热情", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你能控制自己的情绪", options: ["总是", "经常", "偶尔", "很少"], scores: [0, 1, 2, 3] },
+            { text: "你觉得自己的能力被认可", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你经常感到不安或紧张", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你愿意帮助有困难的人", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你觉得生活有意义", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你容易与人发生冲突", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你有明确的个人目标", options: ["非常明确", "比较明确", "模糊", "没有"], scores: [0, 1, 2, 3] },
+            { text: "你经常失眠或睡眠质量差", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你能在压力下保持冷静", options: ["总是", "经常", "偶尔", "很少"], scores: [0, 1, 2, 3] },
+            { text: "你觉得自己的付出被看见", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你经常回忆过去不愉快的经历", options: ["从不", "偶尔", "经常", "总是"], scores: [0, 1, 2, 3] },
+            { text: "你相信自己的价值", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你愿意接受心理咨询", options: ["非常愿意", "愿意", "不确定", "不愿意"], scores: [0, 1, 2, 3] },
+            { text: "你觉得社会对你很公平", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你能从失败中吸取教训", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你经常感到内心平静", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] },
+            { text: "你对人际关系感到满意", options: ["非常满意", "基本满意", "不太满意", "很不满意"], scores: [0, 1, 2, 3] },
+            { text: "你相信明天会更好", options: ["总是", "经常", "偶尔", "从不"], scores: [0, 1, 2, 3] }
+        ]
+    };
+
+    // 结果解读模板（基于分数范围）
+    const resultLevels = {
+        student: [
+            { max: 40, level: "🌱 心灵晴空", message: "你的心理状态非常健康，像一片晴朗的天空！保持这份积极，继续用热情拥抱学习和生活。你有着良好的自我调节能力，请相信自己，你正在闪闪发光。" },
+            { max: 60, level: "🌿 偶尔阴天", message: "你偶尔会感到一些压力和困扰，但这完全正常。就像天空偶尔飘过云彩，很快就会散去。试着多给自己一些肯定，你已经做得很好了。" },
+            { max: 80, level: "🍃 需要阳光", message: "你最近可能承受了较多压力，情绪有些疲惫。请记得，寻求帮助不是软弱，而是勇敢的表现。和信任的人聊一聊，或拨打心理热线，星光永远在你身边。" },
+            { max: 120, level: "🌟 需要陪伴", message: "你正在经历一段不容易的时期。请不要独自承受，你值得被关心和帮助。心理援助热线 12355 24小时为你守候，专业的人愿意倾听你的声音。" }
+        ],
+        family: [
+            { max: 40, level: "🏡 温暖港湾", message: "你的家庭氛围温馨和谐，这是非常宝贵的财富。继续保持与家人的沟通，让爱流动起来。" },
+            { max: 60, level: "🌿 有些波澜", message: "你的家庭有时会有些小摩擦，这很正常。试着主动表达你的感受，家人比你想象的更愿意理解你。" },
+            { max: 80, level: "🍃 需要沟通", message: "家庭关系中可能存在一些需要改善的地方。建议找机会和家人坦诚交流，或寻求家庭咨询的帮助。" },
+            { max: 120, level: "🌟 需要支持", message: "你的家庭压力可能较大。请记得，你并不孤单。可以拨打 12355 热线，获得专业的家庭关系指导。" }
+        ],
+        social: [
+            { max: 40, level: "💼 从容前行", message: "你的社会适应能力很强，能很好地处理人际关系和工作压力。继续保持，你是自己生活的主角！" },
+            { max: 60, level: "🌿 偶有疲惫", message: "工作/生活中的压力偶尔会让你感到疲惫，这是正常的。记得给自己一些喘息的空间，你不需要完美。" },
+            { max: 80, level: "🍃 需要调节", message: "你可能长期处于高压状态。请开始关注自己的心理健康，适当降低期待，学会拒绝，星光会照亮你。" },
+            { max: 120, level: "🌟 需要关怀", message: "你承受了很大的压力，可能需要专业的心理支持。请勇敢拨打 12355，你不是一个人在战斗。" }
+        ]
+    };
+
+    // 基于选项的个性化鼓励（根据用户的具体选择生成建议）
+    function generatePersonalAdvice(answers, mode) {
+        const adviceList = [];
+        // 分析高频问题
+        if (mode === 'student') {
+            if (answers.some((a, i) => a >= 2 && [0,1,3,8,13,17,31].includes(i))) adviceList.push("✨ 情绪方面：你有时容易受到情绪困扰。试着每天记录三件开心的小事，培养积极视角。");
+            if (answers.some((a, i) => a >= 2 && [2,9,10,19,23,36].includes(i))) adviceList.push("📚 学习方面：你可能对学习有些焦虑。分解目标，一步步来，你已经很棒了。");
+            if (answers.some((a, i) => a >= 2 && [4,5,6,11,12,20,21].includes(i))) adviceList.push("👥 人际方面：你有时感到孤独或被误解。主动迈出一小步，你的善意会被看见。");
+        } else if (mode === 'family') {
+            if (answers.some((a, i) => a >= 2 && [0,1,2,3,4,5,6,7,9,10,12,14,15,17,19,21,24,27,29,31,33,35,36,38].includes(i))) adviceList.push("🏠 家庭沟通：试着和家人多一些开放、平等的对话，表达你的真实感受。");
+            if (answers.some((a, i) => a >= 2 && [8,11,13,16,18,20,22,23,25,26,28,30,32,34,37,39].includes(i))) adviceList.push("💕 家庭氛围：家庭温暖是疗愈的源泉。如果感到疲惫，请给自己一些独处的空间。");
+        } else {
+            if (answers.some((a, i) => a >= 2 && [0,1,2,3,4,5,6,7,8,9,10,12,13,15,17,20,22,24,27,29,31,33,35,37,38].includes(i))) adviceList.push("💼 工作/生活平衡：你可能长期处于高压状态。请学会设置边界，工作不是全部。");
+            if (answers.some((a, i) => a >= 2 && [11,14,16,18,19,21,23,25,26,28,30,32,34,36,39].includes(i))) adviceList.push("🌱 自我成长：你正在努力变得更好。请接纳自己的不完美，每一步都值得庆祝。");
+        }
+        if (adviceList.length === 0) adviceList.push("🌟 你做得非常好！请继续保持这份积极与温暖。");
+        return adviceList;
+    }
+
+    // 应用状态
+    let currentMode = 'student';
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(40).fill(null);
+    let quizStarted = false;
+    let quizFinished = false;
+
+    const quizContent = document.getElementById('quizContent');
+    const modeBtns = document.querySelectorAll('.mode-btn');
+    const modeSelectionDiv = document.getElementById('modeSelection');
+
+    function renderQuestion() {
+        const questions = questionsData[currentMode];
+        const currentQ = questions[currentQuestionIndex];
+        const selectedValue = userAnswers[currentQuestionIndex];
+        
+        let optionsHtml = '';
+        currentQ.options.forEach((opt, idx) => {
+            const isSelected = (selectedValue === idx);
+            optionsHtml += `<button class="option-btn ${isSelected ? 'selected' : ''}" data-opt-index="${idx}">${opt}</button>`;
+        });
+
+        const progressPercent = ((currentQuestionIndex + 1) / 40) * 100;
+        
+        quizContent.innerHTML = `
+            <div class="progress-area">
+                <div class="progress-bar"><div class="progress-fill" style="width: ${progressPercent}%"></div></div>
+                <div class="progress-text">第 ${currentQuestionIndex + 1} / 40 题</div>
+            </div>
+            <div class="question-area">
+                <div class="question-text">${currentQ.text}</div>
+                <div class="options-area" id="optionsArea">
+                    ${optionsHtml}
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prevBtn" ${currentQuestionIndex === 0 ? 'disabled' : ''}>← 上一题</button>
+                <button class="nav-btn" id="nextBtn">${currentQuestionIndex === 39 ? '完成测评' : '下一题 →'}</button>
+            </div>
+        `;
+
+        // 绑定选项事件
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(btn.dataset.optIndex);
+                userAnswers[currentQuestionIndex] = idx;
+                renderQuestion(); // 重新渲染以更新选中状态
+            });
+        });
+
+        // 绑定导航事件
+        document.getElementById('prevBtn')?.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        });
+        document.getElementById('nextBtn')?.addEventListener('click', () => {
+            if (userAnswers[currentQuestionIndex] === null) {
+                alert('✨ 请先选择一个选项，再继续下一题～');
+                return;
+            }
+            if (currentQuestionIndex === 39) {
+                finishQuiz();
+            } else {
+                currentQuestionIndex++;
+                renderQuestion();
+            }
+        });
+    }
+
+    function finishQuiz() {
+        // 计算总分
+        const questions = questionsData[currentMode];
+        let totalScore = 0;
+        for (let i = 0; i < 40; i++) {
+            const answer = userAnswers[i];
+            if (answer !== null) {
+                totalScore += questions[i].scores[answer];
+            }
+        }
+        
+        // 获取等级解读
+        const levels = resultLevels[currentMode];
+        let levelInfo = levels[levels.length - 1];
+        for (let i = 0; i < levels.length; i++) {
+            if (totalScore <= levels[i].max) {
+                levelInfo = levels[i];
+                break;
+            }
+        }
+        
+        // 生成个性化建议
+        const personalAdvice = generatePersonalAdvice(userAnswers, currentMode);
+        
+        // 渲染结果页面
+        quizContent.innerHTML = `
+            <div class="result-area">
+                <div class="result-score">你的总分：${totalScore} / 120</div>
+                <div class="result-level">${levelInfo.level}</div>
+                <div class="result-message">${levelInfo.message}</div>
+                <div class="result-advice">
+                    <strong>🌟 给你的温暖建议：</strong><br><br>
+                    ${personalAdvice.map(a => `• ${a}`).join('<br>')}
+                    <br><br>
+                    <strong>📞 如果需要倾诉：</strong><br>
+                    全国青少年心理援助热线：12355（24小时）<br>
+                    希望24热线：400-161-9995
+                </div>
+                <button class="restart-btn" id="restartBtn">重新测评</button>
+            </div>
+        `;
+        document.getElementById('restartBtn')?.addEventListener('click', () => {
+            resetQuiz();
+        });
+        quizFinished = true;
+    }
+
+    function resetQuiz() {
+        currentQuestionIndex = 0;
+        userAnswers = new Array(40).fill(null);
+        quizFinished = false;
+        startQuiz();
+    }
+
+    function startQuiz() {
+        quizStarted = true;
+        quizFinished = false;
+        renderQuestion();
+    }
+
+    function changeMode(mode) {
+        currentMode = mode;
+        currentQuestionIndex = 0;
+        userAnswers = new Array(40).fill(null);
+        quizStarted = false;
+        quizFinished = false;
+        startQuiz();
+    }
+
+    // 模式切换事件
+    modeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            modeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const mode = btn.dataset.mode;
+            changeMode(mode);
+        });
+    });
+
+    // 暗色模式
+    const themeToggle = document.getElementById('themeToggle');
+    let darkMode = localStorage.getItem('darkMode') === 'true';
+    if (darkMode) {
+        document.body.classList.add('dark');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    themeToggle.addEventListener('click', () => {
+        darkMode = !darkMode;
+        if (darkMode) {
+            document.body.classList.add('dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            document.body.classList.remove('dark');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+        localStorage.setItem('darkMode', darkMode);
+    });
+
+    // 初始化
+    startQuiz();
+</script>
+</body>
+</html>
