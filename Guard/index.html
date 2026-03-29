@@ -8,7 +8,7 @@
     <link rel="icon" type="image/x-icon" href="https://user-assets.sxlcdn.com/images/1138507/FgFRcBKLtlCQgTv7_h1E5hv5Ay2F.png?imageMogr2/strip/auto-orient/thumbnail/300x300%3E/quality/90!/format/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ========== 全局变量（支持暗色模式）========== */
+        /* ========== 全局变量（与官网一致，支持暗色模式）========== */
         :root {
             --bg-primary: #f5f7fc;
             --bg-card: #ffffff;
@@ -28,13 +28,11 @@
             --border-light: #2d3a4e;
             --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.3);
             --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.5);
-            background-image: radial-gradient(2px 2px at 15% 30%, rgba(255,255,255,0.6), rgba(0,0,0,0)),
-                              radial-gradient(3px 3px at 75% 60%, rgba(255,255,255,0.5), rgba(0,0,0,0)),
-                              radial-gradient(1px 1px at 40% 85%, rgba(255,255,255,0.7), rgba(0,0,0,0)),
-                              radial-gradient(2px 2px at 95% 15%, rgba(255,255,255,0.5), rgba(0,0,0,0)),
-                              radial-gradient(3px 3px at 5% 70%, rgba(255,255,255,0.6), rgba(0,0,0,0));
+            background-image: radial-gradient(2px 2px at 15% 30%, rgba(255,255,255,0.4), rgba(0,0,0,0)),
+                              radial-gradient(3px 3px at 75% 60%, rgba(255,255,255,0.3), rgba(0,0,0,0)),
+                              radial-gradient(1px 1px at 40% 85%, rgba(255,255,255,0.5), rgba(0,0,0,0));
             background-repeat: no-repeat;
-            background-size: 200px 200px, 300px 300px, 150px 150px, 250px 250px, 180px 180px;
+            background-size: 200px 200px, 300px 300px, 150px 150px;
             background-attachment: fixed;
         }
         * {
@@ -43,7 +41,7 @@
             box-sizing: border-box;
             cursor: default;
         }
-        a, button, .btn, .nav-link, .star-item, .theme-toggle, .hotline-card, .quiz-option, .save-motto-btn, .reset-game-btn, .mode-btn, .reset-quiz, .view-result-btn, .cure-link {
+        a, button, .btn, .nav-link, .star-item, .theme-toggle, .hotline-card, .save-motto-btn, .reset-game-btn, .modal-close {
             cursor: pointer;
         }
         body {
@@ -52,6 +50,7 @@
             color: var(--text-primary);
             transition: background 0.3s, color 0.3s;
             line-height: 1.5;
+            overflow-x: hidden;
         }
         .container {
             max-width: 1300px;
@@ -155,14 +154,32 @@
             margin-bottom: 2rem;
             box-shadow: var(--shadow-sm);
             transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s forwards;
         }
         .card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-hover);
             border-color: var(--accent);
         }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-        /* 主标题 */
+        /* 主标题渐显动画 */
+        .hero-section {
+            text-align: center;
+            margin: 2rem 0 3rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
         .hero-title {
             font-size: 3.5rem;
             font-weight: 700;
@@ -170,34 +187,24 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 1rem;
-            text-align: center;
+            animation: gradientShift 3s ease infinite;
+            background-size: 200% auto;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         .hero-sub {
-            text-align: center;
             font-size: 1.2rem;
             color: var(--text-secondary);
-            margin-bottom: 2rem;
+            margin-top: 0.5rem;
         }
         @media (max-width: 780px) {
-            .hero-title {
-                font-size: 2.2rem;
-            }
+            .hero-title { font-size: 2.2rem; }
         }
 
-        /* 温暖轮播语 */
-        .warm-phrase-box {
-            background: var(--bg-card);
-            border-left: 6px solid var(--accent);
-            padding: 1rem 1.5rem;
-            margin: 1.5rem 0;
-            text-align: center;
-            font-size: 1.2rem;
-            font-style: italic;
-            transition: 0.3s;
-        }
-
-        /* 热线卡片网格 */
+        /* 热线卡片网格（去除表情符号） */
         .hotline-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -256,78 +263,7 @@
             background: rgba(255,255,255,0.05);
         }
 
-        /* 心理测评板块 */
-        .quiz-section {
-            margin: 2rem 0;
-        }
-        .quiz-mode-selector {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .mode-btn {
-            background: none;
-            border: 1px solid var(--border-light);
-            padding: 0.5rem 1rem;
-            color: var(--text-primary);
-            transition: 0.2s;
-        }
-        .mode-btn.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-        .quiz-question {
-            margin: 1.5rem 0;
-            padding: 1rem;
-            background: var(--bg-primary);
-        }
-        .quiz-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 0.5rem;
-        }
-        .quiz-option {
-            background: none;
-            border: 1px solid var(--border-light);
-            padding: 0.3rem 0.8rem;
-            transition: 0.2s;
-            color: var(--text-primary);
-        }
-        .quiz-option.selected {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-        .quiz-result {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            text-align: center;
-            font-weight: bold;
-            background: var(--bg-primary);
-            border-left: 3px solid var(--accent);
-        }
-        .quiz-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-        .view-result-btn, .reset-quiz, .cure-link {
-            background: none;
-            border: 1px solid var(--accent);
-            padding: 0.3rem 1rem;
-            color: var(--accent);
-            transition: 0.2s;
-        }
-        .view-result-btn:hover, .reset-quiz:hover, .cure-link:hover {
-            background: var(--accent);
-            color: white;
-        }
-
-        /* 收集星光游戏 */
+        /* 点亮星愿游戏 */
         .game-area {
             text-align: center;
             margin: 2rem 0;
@@ -356,12 +292,11 @@
             transform: scale(1.2) translateY(-4px);
             filter: drop-shadow(0 0 12px gold);
         }
-        .star-item.collected {
-            opacity: 0;
-            transform: scale(0);
-            transition: 0.2s;
-            pointer-events: none;
+        .star-item.lit {
+            opacity: 0.3;
+            filter: grayscale(0.5);
             animation: none;
+            pointer-events: none;
         }
         .game-score {
             font-size: 1.2rem;
@@ -385,12 +320,51 @@
         .illustration {
             text-align: center;
             margin: 1rem 0;
+            opacity: 0;
+            animation: fadeInUp 0.6s 0.2s forwards;
         }
         .illustration img {
             max-width: 100%;
             max-height: 300px;
             border-radius: 12px;
             border: 1px solid var(--border-light);
+        }
+
+        /* 自定义弹窗（与官网风格一致） */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--accent);
+            padding: 2rem;
+            color: var(--text-primary);
+            max-width: 500px;
+            width: 85%;
+            position: relative;
+            animation: fadeUp 0.3s;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
         }
 
         /* 页脚 */
@@ -422,24 +396,26 @@
     <div class="nav-links">
         <a class="nav-link" href="https://mir-ch-ux.github.io/stellar/" target="_blank">官网</a>
         <a class="nav-link active" href="#">星愿守护</a>
+        <a class="nav-link" href="https://mir-ch-ux.github.io/stellar/Cure/" target="_blank">星愿治愈</a>
     </div>
     <button class="theme-toggle" id="themeToggle" aria-label="切换暗色模式"><i class="fas fa-moon"></i></button>
 </div>
 
 <div class="container">
-    <!-- 主标题 & 插图 -->
-    <div class="hero-title">你并不孤单，星光一直在你身边</div>
-    <div class="hero-sub">无论黑夜多么漫长，总有一颗星星为你而亮</div>
+    <!-- 渐显动态渐变主标题 -->
+    <div class="hero-section">
+        <div class="hero-title">你并不孤单，星光一直在你身边</div>
+        <div class="hero-sub">无论黑夜多么漫长，总有一颗星星为你而亮</div>
+    </div>
+
+    <!-- 插图（渐显） -->
     <div class="illustration">
         <img src="https://user-assets.sxlcdn.com/images/1138507/Fn4d5i0P-7771F9gtm98TB5DEH2_.jpg?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/interlace/1/format/jpeg" alt="星光守护" onerror="this.src='https://picsum.photos/id/104/800/400'">
     </div>
 
-    <!-- 温柔轮播语 -->
-    <div class="warm-phrase-box" id="warmPhraseBox">✨ 星光会找到每一个角落 ✨</div>
-
-    <!-- 24小时心理援助热线 -->
-    <div class="card">
-        <h2 style="text-align: center; margin-bottom: 1rem;">🌙 24小时心理援助热线</h2>
+    <!-- 24小时心理援助热线（去除表情符号） -->
+    <div class="card" style="animation-delay: 0.1s;">
+        <h2 style="text-align: center; margin-bottom: 1rem;">24小时心理援助热线</h2>
         <div class="hotline-grid">
             <div class="hotline-card"><div class="hotline-name">全国青少年心理援助热线</div><div class="hotline-number">12355</div><div class="hotline-desc">共青团运营 · 24小时</div></div>
             <div class="hotline-card"><div class="hotline-name">希望24热线</div><div class="hotline-number">400-161-9995</div><div class="hotline-desc">生命危机干预 · 全国</div></div>
@@ -450,8 +426,8 @@
         </div>
     </div>
 
-    <!-- 标签墙：给自己的一颗星星 -->
-    <div class="card">
+    <!-- 给自己的一颗星星（标签墙） -->
+    <div class="card" style="animation-delay: 0.2s;">
         <h3>✨ 给自己的一颗星星 ✨</h3>
         <div class="motto-area">
             <textarea id="mottoInput" class="motto-textarea" rows="2" placeholder="写一句温暖自己的话..."></textarea>
@@ -460,30 +436,15 @@
         </div>
     </div>
 
-    <!-- 心理测评板块（用户点击按钮后才显示结果） -->
-    <div class="card quiz-section">
-        <h3>🌱 心灵花园 · 轻轻问自己 🌱</h3>
-        <div class="quiz-mode-selector" id="quizModeSelector">
-            <button data-mode="student" class="mode-btn active">学生模式</button>
-            <button data-mode="family" class="mode-btn">家庭模式</button>
-            <button data-mode="social" class="mode-btn">社会模式</button>
+    <!-- 点亮星愿游戏（原收集星光） -->
+    <div class="card" style="animation-delay: 0.3s;">
+        <div class="game-area">
+            <div class="game-title">✨ 点亮星愿 ✨</div>
+            <div class="stars-wrapper" id="starsWrapper"></div>
+            <div class="game-score">⭐ 已点亮星愿：<span id="litCount">0</span> / <span id="totalStars">6</span></div>
+            <div class="game-message" id="gameMessage">点击星星，点亮你的星愿～</div>
+            <button id="resetGameBtn" class="reset-game-btn">重新点亮星愿</button>
         </div>
-        <div id="quizContainer"></div>
-        <div id="quizResult" class="quiz-result" style="display: none;"></div>
-        <div class="quiz-buttons">
-            <button id="viewResultBtn" class="view-result-btn">🌼 查看结果</button>
-            <button id="resetQuizBtn" class="reset-quiz">重新测评</button>
-            <a href="https://mir-ch-ux.github.io/stellar/Cure/" target="_blank" class="cure-link">✨ 正式版心理测评</a>
-        </div>
-    </div>
-
-    <!-- 收集星光游戏 -->
-    <div class="game-area">
-        <div class="game-title">✨ 收集星光 ✨</div>
-        <div class="stars-wrapper" id="starsWrapper"></div>
-        <div class="game-score">⭐ 已收集星光：<span id="collectedCount">0</span> / <span id="totalStarCount">6</span></div>
-        <div class="game-message" id="gameMessage">点击星星，收集温暖～</div>
-        <button id="resetGameBtn" class="reset-game-btn">重新点亮星光</button>
     </div>
 </div>
 
@@ -492,22 +453,20 @@
     <p><a href="https://mir-ch-ux.github.io/stellar/">返回官网</a> | 投稿邮箱: <a href="mailto:stellarCN2020@outlook.com">stellarCN2020@outlook.com</a></p>
 </div>
 
-<script>
-    // ---------- 温暖轮播语（每5秒）----------
-    const warmPhrases = [
-        "✨ 星光会找到每一个角落 ✨", "🌸 你已经做得很棒了", "🌙 慢慢来，会好的", 
-        "💖 你值得被温柔对待", "⭐ 今天也有好事在等你", "🍃 累了就歇一歇，星光陪你",
-        "🌟 你不是一个人，我在这里", "🌼 你的感受很重要", "💫 再小的星光也能照亮黑夜",
-        "🌈 风雨过后，总会天晴"
-    ];
-    let phraseIndex = 0;
-    const warmBox = document.getElementById('warmPhraseBox');
-    setInterval(() => {
-        phraseIndex = (phraseIndex + 1) % warmPhrases.length;
-        warmBox.textContent = warmPhrases[phraseIndex];
-    }, 5000);
+<!-- 自定义敏感词弹窗 -->
+<div id="suicideModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close" id="closeSuicideModal">&times;</button>
+        <h3 style="color: var(--accent);">🌟 你比想象中更坚强</h3>
+        <p style="margin: 1rem 0; line-height: 1.6;">星光永远在你身边，我们很关心你。<br>请拨打心理援助热线 <strong>12355</strong>，或者和信任的人聊一聊。<br>你值得被爱，也值得好好活下去。</p>
+        <div style="text-align: center;">
+            <button id="confirmSuicideBtn" class="save-motto-btn" style="background: var(--accent);">我记住了，谢谢星光</button>
+        </div>
+    </div>
+</div>
 
-    // ---------- 标签墙（独立弹窗敏感词）----------
+<script>
+    // ---------- 标签墙（敏感词自定义弹窗）----------
     const suicideKeywords = ['自杀', '自残', '轻生', '不想活了', '结束生命', '死了算了', '活不下去', '自我了断', '想死', '寻死'];
     function containsSuicide(text) {
         return suicideKeywords.some(kw => text.includes(kw));
@@ -518,6 +477,24 @@
     let savedMotto = localStorage.getItem('guardianMotto') || '';
     if (savedMotto) savedMottoSpan.textContent = savedMotto;
     else savedMottoSpan.textContent = '还没有留下星光，写一句温暖自己吧～';
+    
+    // 自定义弹窗元素
+    const suicideModal = document.getElementById('suicideModal');
+    const closeSuicideModal = document.getElementById('closeSuicideModal');
+    const confirmSuicideBtn = document.getElementById('confirmSuicideBtn');
+    function showSuicideModal() {
+        suicideModal.style.display = 'flex';
+    }
+    closeSuicideModal.addEventListener('click', () => {
+        suicideModal.style.display = 'none';
+    });
+    confirmSuicideBtn.addEventListener('click', () => {
+        suicideModal.style.display = 'none';
+    });
+    window.addEventListener('click', (e) => {
+        if (e.target === suicideModal) suicideModal.style.display = 'none';
+    });
+
     saveMottoBtn.addEventListener('click', () => {
         let text = mottoInput.value.trim();
         if (text === "") {
@@ -525,7 +502,7 @@
             return;
         }
         if (containsSuicide(text)) {
-            alert("🌟 你比想象中更坚强！\n\n星光永远在你身边，请拨打心理援助热线 12355，或者和信任的人聊一聊。\n你值得被爱，也值得好好活下去。🌟");
+            showSuicideModal();
             return;
         }
         if (text.length > 100) text = text.slice(0,97)+'…';
@@ -535,160 +512,39 @@
         alert("✨ 星光已保存，愿它每天陪伴你 ✨");
     });
 
-    // ---------- 心理测评（手动查看结果）----------
-    const quizData = {
-        student: {
-            title: "学生模式 · 校园心事",
-            questions: [
-                { text: "最近一周，你感到学习压力很大吗？", options: ["没有", "偶尔", "经常", "总是"], scores: [0,1,2,3] },
-                { text: "你是否觉得身边的人不理解你？", options: ["从不", "很少", "有时", "常常"], scores: [0,1,2,3] },
-                { text: "你对自己的未来感到迷茫吗？", options: ["很清晰", "有点模糊", "迷茫", "非常迷茫"], scores: [0,1,2,3] },
-                { text: "你是否容易因为小事而情绪低落？", options: ["不会", "偶尔", "经常", "总是"], scores: [0,1,2,3] }
-            ],
-            levels: [
-                { max: 3, message: "🌼 你的内心很平静，继续保持！每天记得给自己一个微笑。" },
-                { max: 6, message: "🌱 你有一些小烦恼，但没关系，星光会帮你慢慢消化。" },
-                { max: 9, message: "🌟 你最近可能有些累，请给自己一些休息的时间，也可以和信任的人聊聊。" },
-                { max: 12, message: "💖 你承受了很多，请记得你并不孤单，心理援助热线永远为你敞开。" }
-            ]
-        },
-        family: {
-            title: "家庭模式 · 温暖港湾",
-            questions: [
-                { text: "你在家里感到放松和安全吗？", options: ["总是", "经常", "偶尔", "从不"], scores: [0,1,2,3] },
-                { text: "你和家人争吵的频率？", options: ["几乎没有", "很少", "有时", "经常"], scores: [0,1,2,3] },
-                { text: "你是否觉得家人对你的期望过高？", options: ["完全不会", "有一点", "较高", "非常高"], scores: [0,1,2,3] },
-                { text: "你愿意和家人分享心事吗？", options: ["非常愿意", "愿意", "不太愿意", "完全不愿意"], scores: [0,1,2,3] }
-            ],
-            levels: [
-                { max: 3, message: "🏡 你的家庭氛围很温暖，好好珍惜这些爱。" },
-                { max: 6, message: "🌿 家庭中有些小摩擦，试着沟通，星光会照亮你们的路。" },
-                { max: 9, message: "⭐ 你可能需要一些家庭支持，可以拨打热线寻求建议。" },
-                { max: 12, message: "💫 你辛苦了，请记住你值得被爱，无论怎样都有星光陪着你。" }
-            ]
-        },
-        social: {
-            title: "社会模式 · 人际关系",
-            questions: [
-                { text: "你觉得自己在社交中受欢迎吗？", options: ["很受欢迎", "一般", "不太受欢迎", "完全不被接纳"], scores: [0,1,2,3] },
-                { text: "你是否经常感到孤独？", options: ["从不", "很少", "有时", "经常"], scores: [0,1,2,3] },
-                { text: "和朋友发生矛盾时，你能处理好情绪吗？", options: ["总是能", "经常能", "有时能", "很难"], scores: [0,1,2,3] },
-                { text: "你觉得自己被理解和尊重吗？", options: ["总是", "经常", "偶尔", "从不"], scores: [0,1,2,3] }
-            ],
-            levels: [
-                { max: 3, message: "🌻 你的人际关系很健康，继续保持你的真诚。" },
-                { max: 6, message: "🍃 偶尔会感到孤单，但星光会一直陪伴你。" },
-                { max: 9, message: "🌟 你可能需要一些社交支持，试着主动联系值得信赖的人。" },
-                { max: 12, message: "💖 你并不孤单，热线另一边有人愿意倾听，请别放弃。" }
-            ]
-        }
-    };
-    let currentMode = "student";
-    let userAnswers = {};
-    function renderQuiz() {
-        const data = quizData[currentMode];
-        const container = document.getElementById('quizContainer');
-        if (!container) return;
-        container.innerHTML = `<h4 style="margin-bottom: 1rem;">${data.title}</h4>`;
-        data.questions.forEach((q, idx) => {
-            const qDiv = document.createElement('div');
-            qDiv.className = 'quiz-question';
-            qDiv.innerHTML = `<div>${idx+1}. ${q.text}</div><div class="quiz-options" data-qidx="${idx}"></div>`;
-            const optsDiv = qDiv.querySelector('.quiz-options');
-            q.options.forEach((opt, optIdx) => {
-                const btn = document.createElement('button');
-                btn.className = 'quiz-option';
-                if (userAnswers[idx] === optIdx) btn.classList.add('selected');
-                btn.textContent = opt;
-                btn.addEventListener('click', () => {
-                    optsDiv.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
-                    btn.classList.add('selected');
-                    userAnswers[idx] = optIdx;
-                });
-                optsDiv.appendChild(btn);
-            });
-            container.appendChild(qDiv);
-        });
-        // 每次渲染后隐藏结果区域
-        const resultDiv = document.getElementById('quizResult');
-        if (resultDiv) resultDiv.style.display = 'none';
-    }
-    function computeAndShowResult() {
-        const data = quizData[currentMode];
-        let total = 0;
-        let allAnswered = true;
-        for (let i = 0; i < data.questions.length; i++) {
-            if (userAnswers[i] === undefined) {
-                allAnswered = false;
-                break;
-            }
-            total += data.questions[i].scores[userAnswers[i]];
-        }
-        if (!allAnswered) {
-            alert("🌟 请先完成所有题目，再查看结果～ 星光会陪着你慢慢来。");
-            return;
-        }
-        let levelMsg = "";
-        for (let level of data.levels) {
-            if (total <= level.max) {
-                levelMsg = level.message;
-                break;
-            }
-        }
-        const resultDiv = document.getElementById('quizResult');
-        resultDiv.innerHTML = `<div>📊 你的总分：${total} / ${data.questions.length*3}</div><div>${levelMsg}</div>`;
-        resultDiv.style.display = 'block';
-    }
-    function resetQuiz() {
-        userAnswers = {};
-        renderQuiz();
-    }
-    document.querySelectorAll('.mode-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentMode = btn.getAttribute('data-mode');
-            userAnswers = {};
-            renderQuiz();
-        });
-    });
-    document.getElementById('viewResultBtn').addEventListener('click', computeAndShowResult);
-    document.getElementById('resetQuizBtn').addEventListener('click', resetQuiz);
-    renderQuiz();
-
-    // ---------- 收集星光游戏 ----------
+    // ---------- 点亮星愿游戏 ----------
     const totalStars = 6;
-    let collected = 0;
-    let starsCollected = new Array(totalStars).fill(false);
+    let litCount = 0;
+    let starsLit = new Array(totalStars).fill(false);
     const starsWrapper = document.getElementById('starsWrapper');
-    const collectedSpan = document.getElementById('collectedCount');
-    const totalStarSpan = document.getElementById('totalStarCount');
+    const litSpan = document.getElementById('litCount');
+    const totalSpan = document.getElementById('totalStars');
     const gameMessageDiv = document.getElementById('gameMessage');
-    totalStarSpan.innerText = totalStars;
+    totalSpan.innerText = totalStars;
     function renderStarsGame() {
         starsWrapper.innerHTML = '';
         for (let i = 0; i < totalStars; i++) {
             const star = document.createElement('div');
             star.className = 'star-item';
-            if (starsCollected[i]) star.classList.add('collected');
+            if (starsLit[i]) star.classList.add('lit');
             star.innerHTML = '⭐';
             star.setAttribute('data-idx', i);
             star.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const idx = parseInt(star.getAttribute('data-idx'));
-                if (starsCollected[idx]) return;
-                starsCollected[idx] = true;
-                collected++;
-                collectedSpan.innerText = collected;
-                star.classList.add('collected');
+                if (starsLit[idx]) return;
+                starsLit[idx] = true;
+                litCount++;
+                litSpan.innerText = litCount;
+                star.classList.add('lit');
                 const encouragements = [
-                    "✨ 你真棒！", "🌟 你点亮了一颗星", "💖 星光因你而温暖", 
-                    "⭐ 继续收集~", "🌙 好温暖呀", "🌸 你做得很好", 
-                    "🌼 星星在对你微笑", "🍃 温柔的星光"
+                    "✨ 你点亮了一颗星愿！", "🌟 星愿因你而闪烁", "💖 愿你的心愿成真", 
+                    "⭐ 继续点亮~", "🌙 好温暖呀", "🌸 你做得很好", 
+                    "🌼 星光在对你微笑", "🍃 温柔的星愿"
                 ];
                 gameMessageDiv.innerText = encouragements[Math.floor(Math.random() * encouragements.length)];
-                if (collected === totalStars) {
-                    gameMessageDiv.innerText = "🎉 你收集了所有星光！世界因你而明亮 🎉";
+                if (litCount === totalStars) {
+                    gameMessageDiv.innerText = "🎉 你点亮了所有星愿！世界因你而明亮 🎉";
                 }
                 star.style.transform = 'scale(1.5)';
                 setTimeout(() => { star.style.transform = ''; }, 200);
@@ -697,16 +553,16 @@
         }
     }
     function resetGame() {
-        collected = 0;
-        starsCollected.fill(false);
-        collectedSpan.innerText = '0';
-        gameMessageDiv.innerText = '重新点亮星光，再次收集温暖～';
+        litCount = 0;
+        starsLit.fill(false);
+        litSpan.innerText = '0';
+        gameMessageDiv.innerText = '重新点亮星愿，每一颗星星都是希望～';
         renderStarsGame();
     }
     document.getElementById('resetGameBtn').addEventListener('click', resetGame);
     renderStarsGame();
 
-    // ---------- 暗色模式切换（无流星，背景星星已在CSS）----------
+    // ---------- 暗色模式切换 ----------
     const themeToggle = document.getElementById('themeToggle');
     let darkMode = localStorage.getItem('darkMode') === 'true';
     if (darkMode) {
