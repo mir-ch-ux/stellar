@@ -10,7 +10,6 @@
     <title>星能工作室 | 星光点缀黑暗</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ========== 全局变量（支持暗色模式）========== */
         :root {
             --bg-primary: #f5f7fc;
             --bg-card: #ffffff;
@@ -55,7 +54,6 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        /* 背景层 */
         .grid-bg {
             position: fixed;
             top: 0;
@@ -98,7 +96,6 @@
             z-index: 99;
         }
 
-        /* 全屏滑动容器 */
         .fullpage-container {
             height: 100vh;
             width: 100%;
@@ -142,7 +139,6 @@
             justify-content: center;
         }
 
-        /* 右下角滑动箭头 */
         .scroll-arrow {
             position: absolute;
             bottom: 30px;
@@ -170,7 +166,6 @@
             50% { transform: translateY(8px); }
         }
 
-        /* 导航栏 */
         .navbar {
             position: fixed;
             top: 0;
@@ -252,7 +247,6 @@
             color: var(--accent);
         }
 
-        /* 移动端菜单 */
         .menu-toggle {
             display: none;
             font-size: 1.8rem;
@@ -299,7 +293,6 @@
             }
         }
 
-        /* 卡片通用样式 */
         .card, .vision-card, .work-card {
             position: relative;
             overflow: hidden;
@@ -387,7 +380,6 @@
             color: white;
         }
 
-        /* 愿景流动文字 */
         .flowing-text {
             font-size: 1.8rem;
             font-weight: 700;
@@ -404,7 +396,6 @@
             100% { background-position: 200% 50%; }
         }
 
-        /* 板块标题 */
         .section-title {
             font-size: 2rem;
             font-weight: 700;
@@ -430,7 +421,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* 子板块渐显动画 */
         .animate-item {
             opacity: 0;
             transform: translateY(20px);
@@ -441,7 +431,6 @@
             transform: translateY(0);
         }
 
-        /* 按钮风格 */
         .mihoyo-btn {
             position: relative;
             display: inline-flex;
@@ -620,7 +609,6 @@
             }
         }
 
-        /* 网格布局 */
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -652,7 +640,6 @@
             border: none;
         }
 
-        /* 价值观卡片翻转 */
         .values-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -733,7 +720,6 @@
             100% { background-position: 200% center; }
         }
 
-        /* 左右布局 */
         .horizontal-layout {
             display: flex;
             gap: 2.5rem;
@@ -749,7 +735,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        /* 标签墙样式 */
         .tag-wall {
             background: var(--bg-card);
             border: 1px solid var(--border-light);
@@ -794,7 +779,6 @@
             margin-top: 0.5rem;
         }
 
-        /* 补给站样式（含装饰） */
         .daily-quote {
             background: var(--bg-card);
             border: 1px solid var(--border-light);
@@ -814,7 +798,6 @@
             color: transparent;
             animation: gradientFlow 3s linear infinite;
         }
-        /* 装饰元素 */
         .decoration {
             position: absolute;
             font-size: 1.5rem;
@@ -848,7 +831,6 @@
             50% { transform: translateY(-8px) rotate(5deg); opacity: 0.6; }
             100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
         }
-        /* 补给站标题流动效果 */
         .supply-title {
             display: inline-block;
             background: linear-gradient(90deg, var(--accent), var(--accent-glow), var(--accent));
@@ -863,7 +845,87 @@
             100% { background-position: 200% 50%; }
         }
 
-        /* 星小蓝寄语 */
+        .music-player {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .player-info i {
+            font-size: 1.8rem;
+            color: var(--accent);
+        }
+        .player-info span {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .play-btn {
+            background: var(--accent);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .play-btn:hover {
+            transform: scale(1.05);
+            background: var(--accent-glow);
+        }
+        .progress-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: var(--border-light);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--accent);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+        .time {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            min-width: 70px;
+            text-align: right;
+        }
+        @media (max-width: 780px) {
+            .player-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .progress-container {
+                width: 100%;
+            }
+        }
+
         .starblue-book {
             margin-top: 2rem;
             background: var(--bg-card);
@@ -998,7 +1060,6 @@
             color: var(--text-secondary);
         }
 
-        /* 壁纸站样式 */
         .wallpaper-station {
             background: var(--bg-card);
             border: 1px solid var(--border-light);
@@ -1016,7 +1077,6 @@
             color: var(--text-secondary);
         }
 
-        /* 口号页：简洁版（无底板，仅左侧蓝线+流动光波） */
         .slogan-page {
             display: flex;
             align-items: center;
@@ -1033,10 +1093,11 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: sloganFlow 5s linear infinite;
-            border-left: 4px solid var(--accent);
+            animation: sloganFlow 2s linear infinite;
+            border-left: 6px solid var(--accent);
             padding-left: 1.5rem;
             line-height: 1.2;
+            text-shadow: 0 0 8px rgba(95,127,255,0.3);
         }
         @keyframes sloganFlow {
             0% { background-position: 0% 50%; }
@@ -1047,10 +1108,10 @@
                 font-size: 1.8rem;
                 letter-spacing: 2px;
                 padding-left: 1rem;
+                border-left-width: 4px;
             }
         }
 
-        /* 页尾 */
         .footer-new {
             margin-top: 3rem;
             background: #0a0f2a;
@@ -1104,7 +1165,6 @@
             color: white;
         }
 
-        /* 主页样式 */
         .hero {
             min-height: 70vh;
             display: flex;
@@ -1148,7 +1208,6 @@
             transform: scale(1.3);
         }
 
-        /* 弹窗 */
         .modal {
             display: none;
             position: fixed;
@@ -1206,7 +1265,6 @@
             border: 2px solid var(--accent);
         }
 
-        /* Toast 提示 */
         .toast-message {
             position: fixed;
             bottom: 30px;
@@ -1305,7 +1363,6 @@
 
 <div class="fullpage-container">
     <div class="slides-wrapper" id="slidesWrapper">
-        <!-- 0: 主页 -->
         <div class="slide" data-slide="0">
             <div class="container-inner">
                 <div class="hero">
@@ -1325,11 +1382,10 @@
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 1: B站账号信息 -->
         <div class="slide" data-slide="1">
             <div class="container-inner">
                 <div class="section-title">
-                    <h2>B站账号</h2>
+                    <h2><i class="fab fa-bilibili" style="color: var(--accent); margin-right: 8px;"></i> B站账号</h2>
                     <span class="en">Bilibili Account</span>
                 </div>
                 <p style="margin-bottom: 1rem; color: var(--text-secondary);">创意火花 · 尽在B站</p>
@@ -1355,11 +1411,10 @@
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 2: 愿景 -->
         <div class="slide" data-slide="2">
             <div class="container-inner">
                 <div class="section-title">
-                    <h2>我们的愿景</h2>
+                    <h2><i class=></i> 我们的愿景</h2>
                     <span class="en">Our Vision</span>
                 </div>
                 <div class="vision-card animate-item">
@@ -1370,11 +1425,10 @@
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 3: 关于星能 -->
         <div class="slide" data-slide="3">
             <div class="container-inner">
                 <div class="section-title">
-                    <h2>关于星能</h2>
+                    <h2><i class=></i> 关于星能</h2>
                     <span class="en">About Us</span>
                 </div>
                 <div class="grid-2">
@@ -1396,11 +1450,10 @@
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 4: 星能价值观 -->
         <div class="slide" data-slide="4">
             <div class="container-inner">
                 <div class="section-title">
-                    <h2>星能价值观</h2>
+                    <h2><i class=></i> 星能价值观</h2>
                     <span class="en">Core Values</span>
                 </div>
                 <div class="values-grid">
@@ -1413,15 +1466,13 @@
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 5: 星能作品墙 -->
         <div class="slide" data-slide="5">
             <div class="container-inner">
                 <div class="section-title">
-                    <h2>星能作品墙</h2>
+                    <h2><i class="fas fa-palette" style="color: var(--accent); margin-right: 8px;"></i> 星能作品墙</h2>
                     <span class="en">Our Works</span>
                 </div>
                 <div class="work-grid">
-                    <!-- 星空之城 -->
                     <div class="work-card animate-item">
                         <img src="https://user-assets.sxlcdn.com/images/1138507/FncTPinEvV2yqZfGzx0SHdBcCj9f.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" alt="星空之城" onerror="this.src='https://via.placeholder.com/400x200?text=星空之城'">
                         <h3>星空之城</h3>
@@ -1431,7 +1482,6 @@
                             <button class="work-update" data-work="star_city">更新报告</button>
                         </div>
                     </div>
-                    <!-- 方特欢乐世界 -->
                     <div class="work-card animate-item">
                         <img src="https://user-assets.sxlcdn.com/images/1138507/FjsMCPV16-_I3QgohzgK3AynRZKL.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" alt="方特欢乐世界" onerror="this.src='https://via.placeholder.com/400x200?text=方特欢乐世界'">
                         <h3>方特欢乐世界</h3>
@@ -1441,20 +1491,27 @@
                             <button class="work-update" data-work="fangte">更新报告</button>
                         </div>
                     </div>
+                    <div class="work-card animate-item">
+                        <img src="https://user-assets.sxlcdn.com/images/1138507/FncTPinEvV2yqZfGzx0SHdBcCj9f.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" alt="星能工坊" onerror="this.src='https://via.placeholder.com/400x200?text=星能工坊'">
+                        <h3>星能工坊</h3>
+                        <p>助力创意实现。</p>
+                        <div class="work-buttons">
+                            <button class="goto-workshop" onclick="window.open('https://mir-ch-ux.github.io/stellar/xngf', '_blank')">前往站点</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="card animate-item" style="margin-top: 2rem;">
-                    <h3>📢 最新更新</h3>
-                    <p>预计7月开始全面整改，敬请期待更多内容！</p>
+                    <h3><i class="fas fa-sync-alt" style="margin-right: 6px;"></i> 最新更新</h3>
+                    <p>敬请期待更多内容！</p>
                 </div>
             </div>
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 6: 加入我们 -->
         <div class="slide" data-slide="6">
             <div class="container-inner">
                 <div class="section-title">
-                    <h2>加入我们</h2>
+                    <h2><i class=></i> 加入我们</h2>
                     <span class="en">Join Us</span>
                 </div>
                 <div class="card animate-item">
@@ -1492,7 +1549,6 @@
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 7: 星愿（补给站） -->
         <div class="slide" data-slide="7">
             <div class="container-inner">
                 <div class="section-title">
@@ -1504,41 +1560,53 @@
                     <div class="decoration star1"><i class="fas fa-star"></i></div>
                     <div class="decoration star2"><i class="fas fa-star"></i></div>
                     <div class="decoration star3"><i class="fas fa-star"></i></div>
-                    <div class="quote-text" id="dailyQuote">✨ 加载中...</div>
+                    <div class="quote-text" id="dailyQuote">加载中...</div>
                 </div>
-                <div class="card animate-item" style="margin-top: 1rem;">
-                    <i class="fas fa-music"></i> 今日音乐推荐：<br>
-                    <a href="https://music.163.com/#/song?id=1390475621" target="_blank" style="color:var(--accent);">起风了 - 买辣椒也用券</a>
+                <div class="card animate-item">
+                    <div class="music-player" id="musicPlayerCard">
+                        <div class="player-info">
+                            <i class="fas fa-headphones"></i>
+                            <span>花小楼 - 拾光赴约</span>
+                        </div>
+                        <audio id="audioPlayer" preload="metadata" style="display: none;"></audio>
+                        <div class="player-controls">
+                            <button class="play-btn" id="playPauseBtn"><i class="fas fa-play"></i></button>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progressBar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <span class="time" id="timeDisplay">00:00 / 00:00</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 8: 标签墙（温暖小记） -->
         <div class="slide" data-slide="8">
             <div class="container-inner">
                 <div class="section-title">
-                    <h2>标签墙 · 温暖小记</h2>
+                    <h2><i class="fas fa-tags" style="color: var(--accent); margin-right: 8px;"></i> 标签墙 · 温暖小记</h2>
                     <span class="en">Warm Notes</span>
                 </div>
                 <div class="tag-wall animate-item">
-                    <h3>✨ 给自己的一句话</h3>
+                    <h3>给自己的一句话</h3>
                     <div class="my-tag">
                         <textarea id="userTag" rows="3" placeholder="写一句温暖自己的话..."></textarea>
                         <div class="quick-tags" id="quickTags"></div>
                         <button class="mihoyo-btn-simple save-tag-btn" id="saveTagBtn"><span class="simple-bg"></span><span class="simple-text">保存</span></button>
                     </div>
-                    <p class="info-label" style="margin-top: 1rem;">💡 这句话只属于你，每天打开都能看见。</p>
+                    <p class="info-label" style="margin-top: 1rem;">这句话只属于你，每天打开都能看见。</p>
                 </div>
             </div>
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 9: 星小蓝寄语（更新后9条） -->
         <div class="slide" data-slide="9">
             <div class="container-inner">
                 <div class="section-title">
-                    <h2>星小蓝寄语</h2>
+                    <h2><i class=></i> 星小蓝寄语</h2>
                     <span class="en">Message from Starry Blue</span>
                 </div>
                 <div class="starblue-book animate-item">
@@ -1556,23 +1624,21 @@
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 10: 壁纸站 -->
         <div class="slide" data-slide="10">
             <div class="container-inner">
                 <div class="section-title">
-                    <h2>星能壁纸站</h2>
+                    <h2><i class="fas fa-images" style="color: var(--accent); margin-right: 8px;"></i> 星能壁纸站</h2>
                     <span class="en">Wallpaper Station</span>
                 </div>
                 <div class="wallpaper-station animate-item">
                     <img src="https://user-assets.sxlcdn.com/images/1138507/Fn4d5i0P-7771F9gtm98TB5DEH2_.jpg?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/interlace/1/format/jpeg" alt="今日壁纸" id="wallpaperImg" onerror="this.src='https://picsum.photos/id/104/800/400'">
-                    <div class="slogan" id="wallpaperSlogan">✨ 每一次抬头，都看见星光</div>
+                    <div class="slogan" id="wallpaperSlogan">每一次抬头，都看见星光</div>
                     <button class="mihoyo-btn-simple" id="gotoWallpaperBtn"><span class="simple-bg"></span><span class="simple-text">前往星愿壁纸站</span></button>
                 </div>
             </div>
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 11: IT'S GOING ON 简洁版（无底板，左侧蓝线+流动光波） -->
         <div class="slide" data-slide="11">
             <div class="container-inner">
                 <div class="slogan-page">
@@ -1582,11 +1648,10 @@
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
 
-        <!-- 12: 反馈 -->
         <div class="slide" data-slide="12">
             <div class="container-inner">
                 <div class="section-title">
-                    <h2>投稿与反馈</h2>
+                    <h2><i class="fas fa-paper-plane" style="color: var(--accent); margin-right: 8px;"></i> 投稿与反馈</h2>
                     <span class="en">Contact & Feedback</span>
                 </div>
                 <div class="card animate-item">
@@ -1602,7 +1667,6 @@
                     </div>
                 </div>
 
-                <!-- 页尾 -->
                 <div class="footer-new">
                     <div class="footer-container">
                         <div class="footer-col">
@@ -1620,19 +1684,17 @@
                             <p>频道号：pd90272831</p>
                             <p>青少年服务热线：12355（24小时心理支持）</p>
                             <div class="update-log-btn">
-                                <button id="updateLogBtn">📢 网站更新报告</button>
+                                <button id="updateLogBtn">网站更新报告</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- 最后一页不显示滚动箭头 -->
             <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
         </div>
     </div>
 </div>
 
-<!-- 弹窗：群聊 -->
 <div id="groupModal" class="modal">
     <div class="modal-content">
         <button class="modal-close" id="closeGroupModal">&times;</button>
@@ -1645,7 +1707,6 @@
     </div>
 </div>
 
-<!-- 弹窗：频道 -->
 <div id="channelModal" class="modal">
     <div class="modal-content">
         <button class="modal-close" id="closeChannelModal">&times;</button>
@@ -1658,7 +1719,6 @@
     </div>
 </div>
 
-<!-- 作品详情弹窗 -->
 <div id="workDetailModal" class="modal">
     <div class="modal-content">
         <button class="modal-close" id="closeWorkDetailModal">&times;</button>
@@ -1667,7 +1727,6 @@
     </div>
 </div>
 
-<!-- 更新报告弹窗 -->
 <div id="workUpdateModal" class="modal">
     <div class="modal-content">
         <button class="modal-close" id="closeWorkUpdateModal">&times;</button>
@@ -1676,17 +1735,17 @@
     </div>
 </div>
 
-<!-- 更新日志弹窗 -->
 <div id="updateLogModal" class="modal">
     <div class="modal-content">
         <button class="modal-close" id="closeUpdateLogModal">&times;</button>
-        <h3>✨ 网站更新报告</h3>
+        <h3>网站更新报告</h3>
         <div style="margin-top: 1rem;">
-            <p><strong>v2.7 (2026.03.29)</strong></p>
+            <p><strong>v2.9 (2026.04.04)</strong></p>
             <ul>
-                <li>修复导航栏高亮：索引7-11（补给站、标签墙、星小蓝寄语、壁纸站、口号页）统一高亮“星愿”，索引12高亮“反馈”</li>
-                <li>新增敏感词跳转：标签墙检测到自残/自杀相关词汇自动跳转至星愿守护页面</li>
-                <li>导航栏增加“守护”按钮，链接至子文件夹 Guard</li>
+                <li>星能补给站音乐推荐改为内置音乐播放器，支持播放/暂停、进度条控制</li>
+                <li>歌曲：花小楼 - 拾光赴约（迷你世界十周年主题曲）</li>
+                <li>修复部分交互细节，优化移动端适配</li>
+                <li>去除标题表情符号，统一纯色图标</li>
             </ul>
             <p style="margin-top: 1rem;">愿星光守护每一个你。</p>
         </div>
@@ -1694,7 +1753,6 @@
 </div>
 
 <script>
-    // ---------- 全局 DOM 缓存 ----------
     const slidesWrapper = document.getElementById('slidesWrapper');
     const slides = document.querySelectorAll('.slide');
     const total = slides.length;
@@ -1707,7 +1765,6 @@
     const navLinksEl = document.getElementById('navLinks');
     const exploreBtn = document.getElementById('exploreBtn');
 
-    // ---------- 辅助函数 ----------
     function showToast(message, duration = 2000) {
         let toast = document.querySelector('.toast-message');
         if (!toast) {
@@ -1722,14 +1779,12 @@
         }, duration);
     }
 
-    // 敏感词过滤（保留原基础词库）
     const bannedWords = [
         '傻逼', '弱智', '脑残', '煞笔', 'sb', 'SB', '贱人', '婊子', '废物', '垃圾', '白痴', '智障',
         '尼玛', '他妈', '操你', '艹', 'fuck', 'shit', '死全家', '去死', '变态', '恶心', '色情', '黄',
         '暴力', '砍人', '杀人', '吸毒', '毒品', '反动', '台独', '藏独', '疆独', '港独',
         '法轮功', '邪教', '诈骗', '赌博', '赌场', '嫖娼', '卖淫', '强奸', '轮奸', '幼女', '萝莉'
     ];
-    // 新增自残/自杀相关词汇（触发跳转守护页面）
     const selfHarmWords = ['自杀', '自残', '轻生', '不想活了', '结束生命', '死了算了', '活不下去', '自我了断', '想死', '寻死', '割腕', '跳楼', '上吊'];
 
     function containsBannedWord(text) {
@@ -1742,12 +1797,10 @@
         return selfHarmWords.some(word => lower.includes(word));
     }
 
-    // ---------- 标签墙 ----------
     const userTagTextarea = document.getElementById('userTag');
     const quickTagsContainer = document.getElementById('quickTags');
     const saveTagBtn = document.getElementById('saveTagBtn');
 
-    // 30条温暖短语（快捷按钮）
     const warmPhrases = [
         "今天也要加油呀！", "星光不问赶路人", "保持热爱，奔赴山海", "每一步都算数",
         "你是自己的光", "慢慢来，会好的", "勇敢做自己", "今天比昨天更好",
@@ -1774,40 +1827,37 @@
     }
     renderQuickTags();
 
-    // 加载保存的标签
     let savedTag = localStorage.getItem('userDailyTag') || '';
     userTagTextarea.value = savedTag;
 
     saveTagBtn.addEventListener('click', () => {
         let tag = userTagTextarea.value.trim();
         if (tag === "") {
-            showToast('写点什么吧，哪怕一句温暖自己的话 ✨');
+            showToast('写点什么吧，哪怕一句温暖自己的话');
             return;
         }
-        // 优先检测自残/自杀词汇，触发跳转
         if (containsSelfHarm(tag)) {
-            showToast('我们很关心你，星愿守护随时为你敞开 🌟');
+            showToast('我们很关心你，星愿守护随时为你敞开');
             setTimeout(() => {
                 window.location.href = 'https://mir-ch-ux.github.io/stellar/Guard/';
             }, 1500);
             return;
         }
         if (containsBannedWord(tag)) {
-            showToast('请使用文明用语，让标签墙充满温暖 ✨');
+            showToast('请使用文明用语，让标签墙充满温暖');
             return;
         }
         if (tag.length > 100) tag = tag.slice(0, 97) + '…';
         localStorage.setItem('userDailyTag', tag);
-        showToast('已保存，明天也要记得来看哦 🌟');
+        showToast('已保存，明天也要记得来看哦');
     });
 
-    // ---------- 补给站每日星语 ----------
     const dailyQuotes = [
-        "✨ 创意就像星星，你越抬头，越能看见。", "🌟 今天的你，比昨天更靠近梦想一步。", "🌙 即使乌云遮月，星光也从未熄灭。",
-        "💡 每一个触发器背后，都有一个好奇的灵魂。", "🌈 建造世界的人，内心都有一座城堡。", "⭐ 你的地图，是他人眼中的远方。",
-        "🍃 疲惫的时候，不妨抬头看看天空。", "🎨 灵感不在别处，就在你坚持的瞬间。", "🚀 每一次尝试，都是飞向星空的起点。",
-        "💬 当你迷茫时，记得还有星小蓝陪着你。", "🌱 慢慢来，你会长出属于自己的森林。", "🎵 创作是孤独的，但共鸣是温暖的。",
-        "📖 每一行代码，每一块砖，都是你的诗。", "🔭 望向远方，你的作品正在被看见。", "🕯️ 愿你的世界，永远有光。"
+        "创意就像星星，你越抬头，越能看见。", "今天的你，比昨天更靠近梦想一步。", "即使乌云遮月，星光也从未熄灭。",
+        "每一个触发器背后，都有一个好奇的灵魂。", "建造世界的人，内心都有一座城堡。", "你的地图，是他人眼中的远方。",
+        "疲惫的时候，不妨抬头看看天空。", "灵感不在别处，就在你坚持的瞬间。", "每一次尝试，都是飞向星空的起点。",
+        "当你迷茫时，记得还有星小蓝陪着你。", "慢慢来，你会长出属于自己的森林。", "创作是孤独的，但共鸣是温暖的。",
+        "每一行代码，每一块砖，都是你的诗。", "望向远方，你的作品正在被看见。", "愿你的世界，永远有光。"
     ];
     function getDailyQuote() {
         const today = new Date().toDateString();
@@ -1818,17 +1868,16 @@
     }
     document.getElementById('dailyQuote').innerHTML = `“${getDailyQuote()}”`;
 
-    // ---------- 星小蓝寄语（更新后9条） ----------
     const starblueData = [
         { img: "轻松拿捏.png", text: "放轻松，你能搞定。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FqoiDN34mTeNsqm7olt-4BM2_RCr.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
-        { img: "很好.png", text: "很好，你的地图让无数人露出了笑容。继续加油，我们为你骄傲。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FqHMoaRHNdZWl812ddSKC6FSVIPN.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
-        { img: "进步.png", text: "每一步，都在向上走。就像IT'S GOING ON一样。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/Fm_oKU6B_GV7fNJgTRT8zb7PmrAN.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
+        { img: "很好.png", text: "你的地图让无数人露出了笑容。继续加油，我们为你骄傲。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FqHMoaRHNdZWl812ddSKC6FSVIPN.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
+        { img: "进步.png", text: "每一步，都在向上走。勇往直前。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/Fm_oKU6B_GV7fNJgTRT8zb7PmrAN.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
         { img: "就你了.png", text: "就是你，那个独一无二的创作者。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FrUF2cW4mj0HhLrijDZYAtdBjNX7.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
         { img: "研究.png", text: "再深挖一点，你会遇见更棒的自己。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FosJHm9eu4pi4FftSQPER81KOfG3.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
         { img: "活力.png", text: "活力满满的一天，从相信自己开始。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FoG79QlixKn1zHndT_kfFgWlF96o.jpeg?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/interlace/1/format/jpg" },
         { img: "星空.png", text: "星空之所以美丽，是因为每一颗星星都在努力发光。你也是。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/lrJg-fzaawQsCMEK4HdvdvY1tOIq.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
         { img: "让我看看.png", text: "让我看看，谁又在偷偷进步？是你呀。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FsF-NhZmEdyfpt_4chU2GmDNcHfB.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" },
-        { img: "相信自己.png", text: "我么？相信自己！你比你想象的更强大。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FkHt04KxaSymsSpAD5cXTfdaI1fT.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" }
+        { img: "相信自己.png", text: "相信自己！你比你想象的更强大。\n\n—— 星小蓝", imgUrl: "https://user-assets.sxlcdn.com/images/1138507/FkHt04KxaSymsSpAD5cXTfdaI1fT.png?imageMogr2/strip/auto-orient/thumbnail/1200x9000%3E/quality/90!/format/png" }
     ];
     let currentStarbluePage = 0;
     const starbluePageDiv = document.getElementById('starbluePage');
@@ -1870,13 +1919,11 @@
     });
     updateStarbluePage();
 
-    // ---------- 壁纸站 ----------
     const gotoWallpaperBtn = document.getElementById('gotoWallpaperBtn');
     gotoWallpaperBtn.addEventListener('click', () => {
-        showToast('星愿壁纸站正在筹备中，敬请期待～ 🌠');
+        showToast('星愿壁纸站正在筹备中，敬请期待');
     });
 
-    // ---------- 作品墙弹窗 ----------
     const workDetailModal = document.getElementById('workDetailModal');
     const workUpdateModal = document.getElementById('workUpdateModal');
     const closeWorkDetail = document.getElementById('closeWorkDetailModal');
@@ -1890,12 +1937,12 @@
         star_city: {
             title: "星空之城",
             detail: "一座悬浮在云端的现代化城市，融合科技与幻想。玩家可以乘坐空中列车，探索隐藏的星空观测站，参与城市灯光秀。地图包含主线剧情与自由探索模式，策划进行中。",
-            update: "【更新报告】\n- 2026.03.29 完成城市规划草图，开始搭建核心建筑\n- 2026.03.28 确定玩法机制：收集星光碎片解锁区域\n- 预计7月开始全面整改，敬请期待更多内容！"
+            update: "【更新报告】\n- 2026.03.29 完成城市规划草图，开始搭建核心建筑\n- 2026.03.28 确定玩法机制：收集星光碎片解锁区域\n- 预计2026年11月开始施工，敬请期待更多内容！"
         },
         fangte: {
             title: "方特欢乐世界",
             detail: "还原方特主题乐园的欢乐氛围，包含过山车、旋转木马、烟花表演等互动设施。玩家可以体验多个游乐项目，收集欢乐币兑换限定装饰。",
-            update: "【更新报告】\n- 2026.03.29 已完成过山车轨道搭建，进入测试阶段\n- 2026.03.27 新增隐藏彩蛋：神秘小丑的礼物\n- 预计7月开始全面整改，将带来更多惊喜！"
+            update: "【更新报告】\n- 2026.03.29 已完成披萨迷宫，测试阶段\n- 2026.03.27 新增隐藏彩蛋：披萨迷宫\n- 预计2026年7月开始全面整改，将带来更多惊喜！"
         }
     };
 
@@ -1925,7 +1972,6 @@
         if (e.target === workUpdateModal) workUpdateModal.style.display = 'none';
     });
 
-    // ---------- 更新日志弹窗 ----------
     const updateLogModal = document.getElementById('updateLogModal');
     const closeUpdateLog = document.getElementById('closeUpdateLogModal');
     const updateLogBtn = document.getElementById('updateLogBtn');
@@ -1939,7 +1985,6 @@
         if (e.target === updateLogModal) updateLogModal.style.display = 'none';
     });
 
-    // ---------- 暗色模式 ----------
     const themeToggle = document.getElementById('themeToggle');
     let darkMode = localStorage.getItem('darkMode') === 'true';
     if (darkMode) {
@@ -1958,7 +2003,6 @@
         localStorage.setItem('darkMode', darkMode);
     });
 
-    // ---------- 全屏滑动逻辑（修正索引高亮） ----------
     let touchStartY = 0;
     let touchCurrentY = 0;
     let isSwiping = false;
@@ -2018,9 +2062,8 @@
         else if (currentIndex >= 2 && currentIndex <= 4) navLinks[2].classList.add('active');
         else if (currentIndex === 5) navLinks[3].classList.add('active');
         else if (currentIndex === 6) navLinks[4].classList.add('active');
-        else if (currentIndex >= 7 && currentIndex <= 11) navLinks[5].classList.add('active'); // 星愿及扩展（补给站、标签墙、星小蓝寄语、壁纸站、口号页）
+        else if (currentIndex >= 7 && currentIndex <= 11) navLinks[5].classList.add('active');
         else if (currentIndex === 12) navLinks[6].classList.add('active');
-        // 守护按钮（索引7）无高亮，且为外链
     }
 
     function canScrollUp(slide) {
@@ -2094,7 +2137,6 @@
     containerScroll.addEventListener('wheel', handleWheel, { passive: false });
 
     document.querySelectorAll('.nav-link').forEach(btn => {
-        // 只对有 data-target 的按钮添加点击事件（守护按钮没有 data-target）
         if (btn.hasAttribute('data-target')) {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -2184,6 +2226,54 @@
         items.forEach(item => item.classList.add('animate'));
     }
     triggerSlideAnimation(document.querySelector('.slide[data-slide="0"]'));
+
+    const audio = document.getElementById('audioPlayer');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const progressBar = document.getElementById('progressBar');
+    const progressFill = document.getElementById('progressFill');
+    const timeDisplay = document.getElementById('timeDisplay');
+    const songUrl = 'https://raw.githubusercontent.com/mir-ch-ux/stellar/main/%E8%8A%B1%E5%B0%8F%E6%A5%BC%20-%20%E6%8B%BE%E5%85%89%E8%B5%B4%E7%BA%A6-%20%E8%BF%B7%E4%BD%A0%E4%B8%96%E7%95%8C%E5%8D%81%E5%91%A8%E5%B9%B4%E4%B8%BB%E9%A2%98%E6%9B%B2.mp3';
+    audio.src = songUrl;
+    audio.load();
+
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return '00:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function updateTimeDisplay() {
+        timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = percent + '%';
+    }
+
+    audio.addEventListener('loadedmetadata', () => {
+        timeDisplay.textContent = `00:00 / ${formatTime(audio.duration)}`;
+    });
+    audio.addEventListener('timeupdate', updateTimeDisplay);
+    audio.addEventListener('ended', () => {
+        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+    });
+
+    playPauseBtn.addEventListener('click', () => {
+        if (audio.paused) {
+            audio.play();
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        } else {
+            audio.pause();
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        }
+    });
+
+    progressBar.addEventListener('click', (e) => {
+        const rect = progressBar.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        if (audio.duration) {
+            audio.currentTime = percent * audio.duration;
+        }
+    });
 </script>
 </body>
 </html>
